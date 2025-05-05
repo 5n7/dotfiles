@@ -11,6 +11,7 @@ mkdir -p "${XDG_CONFIG_HOME}"
 mkdir -p "${XDG_STATE_HOME}/zsh"
 
 create_symlink "${DOTFILES_DIR}/.Brewfile" "${HOME}/.Brewfile"
+create_symlink "${DOTFILES_DIR}/.config/borders" "${XDG_CONFIG_HOME}/borders"
 create_symlink "${DOTFILES_DIR}/.config/git" "${XDG_CONFIG_HOME}/git"
 create_symlink "${DOTFILES_DIR}/.config/mise" "${XDG_CONFIG_HOME}/mise"
 create_symlink "${DOTFILES_DIR}/.config/nvim" "${XDG_CONFIG_HOME}/nvim"
