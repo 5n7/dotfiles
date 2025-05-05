@@ -10,6 +10,7 @@ export XDG_STATE_HOME="$HOME/.local/state"
 # Homebrew
 export HOMEBREW_NO_INSTALL_FROM_API=1
 export PATH="/opt/homebrew/bin:$PATH"
+export PATH="/opt/homebrew/opt/libpq/bin:$PATH"
 
 # dotfiles
 export DOTFILES_DIR="$HOME/src/github.com/5n7/dotfiles"
