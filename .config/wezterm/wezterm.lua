@@ -11,6 +11,11 @@ return {
 	show_new_tab_button_in_tab_bar = false,
 	show_close_tab_button_in_tabs = false,
 
+	inactive_pane_hsb = {
+		saturation = 0.8,
+		brightness = 0.6,
+	},
+
 	colors = {
 		tab_bar = {
 			inactive_tab_edge = "none",
