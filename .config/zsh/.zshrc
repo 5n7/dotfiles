@@ -27,4 +27,6 @@ eval "$(mise activate zsh)"
 eval "$(sheldon source)"
 eval "$(starship init zsh)"
 
+source <(gwq completion zsh)
+
 zsh-defer eval "$(direnv hook zsh)"
