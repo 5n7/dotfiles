@@ -43,3 +43,4 @@ unset _starship_cache
 
 zsh-defer -c 'eval "$(direnv hook zsh)"'
 zsh-defer -c 'eval "$(mise activate zsh)"'
+zsh-defer -c 'eval "$(zoxide init zsh)"'
