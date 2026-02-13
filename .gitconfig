@@ -1,0 +1,15 @@
+[user]
+name = Shunta Komatsu
+email = iamshunta@gmail.com
+
+[core]
+pager = delta
+
+[delta]
+navigate = true
+
+[interactive]
+diffFilter = delta --color-only
+
+[merge]
+conflictStyle = zdiff3

@@ -1,0 +1,5 @@
+.claude/settings.local.json
+.cursor/
+.DS_Store
+.serena/
+.vscode/
