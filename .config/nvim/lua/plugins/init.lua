@@ -9,6 +9,7 @@ return require("lazy").setup({
 		{ import = "plugins.gitsigns" },
 		{ import = "plugins.lint" },
 		{ import = "plugins.lsp" },
+		{ import = "plugins.neogit" },
 		{ import = "plugins.lualine" },
 		{ import = "plugins.oil" },
 		{ import = "plugins.snacks" },
