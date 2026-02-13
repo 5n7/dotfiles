@@ -1,0 +1,36 @@
+(
+    // General UI
+    block_title_focused: Some("#7aa2f7"),
+    selected_tab: Some("#7aa2f7"),
+    selection_bg: Some("#283457"),
+    selection_fg: Some("#c0caf5"),
+    use_selection_fg: Some(true),
+    disabled_fg: Some("#565f89"),
+    line_break: Some("¶"),
+
+    // Command bar
+    command_fg: Some("#c0caf5"),
+    cmdbar_bg: Some("#292e42"),
+
+    // Diff
+    diff_line_add: Some("#9ece6a"),
+    diff_line_delete: Some("#f7768e"),
+    diff_file_added: Some("#9ece6a"),
+    diff_file_removed: Some("#f7768e"),
+    diff_file_moved: Some("#e0af68"),
+    diff_file_modified: Some("#7aa2f7"),
+
+    // Commit log
+    commit_hash: Some("#bb9af7"),
+    commit_time: Some("#7dcfff"),
+    commit_author: Some("#9ece6a"),
+
+    // Git references
+    branch_fg: Some("#7aa2f7"),
+    tag_fg: Some("#e0af68"),
+
+    // Actions
+    danger_fg: Some("#f7768e"),
+    push_gauge_bg: Some("#7aa2f7"),
+    push_gauge_fg: Some("#1a1b26"),
+)

@@ -1,0 +1,69 @@
+format = """
+[](#7aa2f7)\
+$username\
+[](bg:#7dcfff fg:#7aa2f7)\
+$directory\
+[](fg:#7dcfff bg:#bb9af7)\
+$git_branch\
+$git_status\
+[](fg:#bb9af7 bg:#9ece6a)\
+$golang\
+$nodejs\
+$rust\
+[](fg:#9ece6a bg:#e0af68)\
+$memory_usage\
+[](fg:#e0af68 bg:#292e42)\
+$time\
+[](fg:#292e42)\
+$line_break\
+$character\
+"""
+
+[username]
+style_root = "bg:#7aa2f7 fg:#1a1b26"
+style_user = "bg:#7aa2f7 fg:#1a1b26"
+format = '[ $user ]($style)'
+show_always = true
+disabled = false
+
+[directory]
+truncate_to_repo = false
+format = '[ $path ]($style)'
+style = "bg:#7dcfff fg:#1a1b26"
+truncation_symbol = "…/"
+
+[git_branch]
+format = '[ $symbol $branch ]($style)'
+symbol = ""
+style = "bg:#bb9af7 fg:#1a1b26"
+
+[git_status]
+format = '[$all_status$ahead_behind ]($style)'
+style = "bg:#bb9af7 fg:#1a1b26"
+
+[golang]
+format = '[ $symbol ($version) ]($style)'
+symbol = ""
+style = "bg:#9ece6a fg:#1a1b26"
+
+[nodejs]
+format = '[ $symbol ($version) ]($style)'
+symbol = ""
+style = "bg:#9ece6a fg:#1a1b26"
+
+[rust]
+format = '[ $symbol ($version) ]($style)'
+symbol = ""
+style = "bg:#9ece6a fg:#1a1b26"
+
+[memory_usage]
+threshold = 0
+format = '[ $symbol$ram ]($style)'
+style = "bg:#e0af68 fg:#1a1b26"
+disabled = false
+
+[time]
+format = '[ $time ]($style)'
+time_format = "%T"
+style = "bg:#292e42 fg:#c0caf5"
+disabled = false
