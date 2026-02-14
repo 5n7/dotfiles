@@ -18,6 +18,9 @@ export AQUA_ROOT_DIR="$XDG_DATA_HOME/aqua"
 export AQUA_GLOBAL_CONFIG="$XDG_CONFIG_HOME/aqua"
 export PATH="$AQUA_ROOT_DIR/bin:$PATH"
 
+# Claude Code
+export CLAUDE_CODE_MAX_OUTPUT_TOKENS=64000
+
 # dotfiles
 export DOTFILES_DIR="$HOME/src/github.com/5n7/dotfiles"
 export PATH="$DOTFILES_DIR/bin:$PATH"
