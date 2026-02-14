@@ -11,14 +11,14 @@ return {
 	keys = {
 		{ "<leader>fb", picker("buffers"), desc = "Buffers" },
 		{ "<leader>fd", picker("diagnostics"), desc = "Diagnostics" },
-		{ "<leader>ff", picker("files", { hidden = true, ignored = true }), desc = "Find files" },
+		{ "<leader>ff", picker("files"), desc = "Find files" },
 		{ "<leader>fh", picker("help"), desc = "Help" },
 		{ "<leader>fr", picker("recent"), desc = "Recent files" },
 		{ "<leader>fR", picker("resume"), desc = "Resume picker" },
 		{ "<leader>fw", picker("grep_word"), desc = "Search word under cursor" },
 		{ "<leader>gl", picker("git_log"), desc = "Git log" },
 		{ "<leader>gs", picker("git_status"), desc = "Git status" },
-		{ "<leader>lg", picker("grep", { hidden = true, ignored = true }), desc = "Live grep" },
+		{ "<leader>lg", picker("grep"), desc = "Live grep" },
 		{
 			"<c-b>",
 			function()
@@ -48,6 +48,16 @@ return {
 							},
 						},
 					},
+				},
+				files = {
+					hidden = true,
+					ignored = true,
+					exclude = { ".git", ".next", "node_modules" },
+				},
+				grep = {
+					hidden = true,
+					ignored = true,
+					exclude = { ".git", ".next", "node_modules" },
 				},
 			},
 		},
