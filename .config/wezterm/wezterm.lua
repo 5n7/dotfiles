@@ -10,7 +10,7 @@ config.animation_fps = 60
 
 -- Appearance
 config.color_scheme = "Tokyo Night Storm"
-config.font = wez.font("Hack Nerd Font")
+config.font = wez.font("0xProto Nerd Font")
 config.font_size = 13
 config.line_height = 1.1
 config.audible_bell = "Disabled"
