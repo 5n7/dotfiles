@@ -100,6 +100,8 @@ config.keys = {
 	{ key = "c", mods = "LEADER", action = act.SpawnTab("CurrentPaneDomain") },
 	{ key = "w", mods = "LEADER", action = act.ShowTabNavigator },
 	{ key = "Tab", mods = "LEADER", action = act.ActivateLastTab },
+	{ key = "[", mods = "LEADER", action = act.MoveTabRelative(-1) },
+	{ key = "]", mods = "LEADER", action = act.MoveTabRelative(1) },
 	{ key = "1", mods = "LEADER", action = act.ActivateTab(0) },
 	{ key = "2", mods = "LEADER", action = act.ActivateTab(1) },
 	{ key = "3", mods = "LEADER", action = act.ActivateTab(2) },
