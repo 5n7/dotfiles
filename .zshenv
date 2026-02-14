@@ -20,6 +20,7 @@ export PATH="$AQUA_ROOT_DIR/bin:$PATH"
 
 # dotfiles
 export DOTFILES_DIR="$HOME/src/github.com/5n7/dotfiles"
+export PATH="$DOTFILES_DIR/bin:$PATH"
 
 # ghq
 export GHQ_ROOT="$HOME/src"

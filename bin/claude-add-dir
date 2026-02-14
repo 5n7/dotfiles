@@ -1,0 +1,54 @@
+#!/bin/bash
+# claude-add-dir - Add directories to Claude Code's additionalDirectories
+# Run from any git repository to configure .claude/settings.local.json
+
+set -euo pipefail
+
+for cmd in fzf git ghq jq; do
+  if ! command -v "$cmd" &>/dev/null; then
+    echo "error: $cmd is not installed" >&2
+    exit 1
+  fi
+done
+
+git_root=$(git rev-parse --show-toplevel 2>/dev/null) || {
+  echo "error: not inside a git repository" >&2
+  exit 1
+}
+
+SETTINGS_FILE="$git_root/.claude/settings.local.json"
+
+echo "Git root: $git_root"
+echo "Select repositories to add (Tab to multi-select, Enter to confirm):"
+selected=$(ghq list --full-path | fzf --multi --prompt="repos> " || true)
+
+if [ -z "$selected" ]; then
+  echo "No repositories selected."
+  exit 0
+fi
+
+mkdir -p "$git_root/.claude"
+
+# Read existing settings or start with empty object
+if [ -f "$SETTINGS_FILE" ]; then
+  existing=$(cat "$SETTINGS_FILE")
+  if ! echo "$existing" | jq empty 2>/dev/null; then
+    echo "error: $SETTINGS_FILE contains invalid JSON" >&2
+    exit 1
+  fi
+else
+  existing='{}'
+fi
+
+# Merge selected repos into additionalDirectories (deduplicated)
+dirs_json=$(echo "$selected" | jq -R -s 'split("\n") | map(select(. != ""))')
+updated=$(echo "$existing" | jq --argjson new "$dirs_json" '
+  .permissions.additionalDirectories = (
+    (.permissions.additionalDirectories // []) + $new | unique
+  )
+')
+
+echo "$updated" | jq . > "$SETTINGS_FILE"
+echo ""
+echo "Updated $SETTINGS_FILE:"
+jq '.permissions.additionalDirectories' "$SETTINGS_FILE"
