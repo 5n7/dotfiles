@@ -40,6 +40,7 @@ return {
 				explorer = {
 					hidden = true,
 					ignored = true,
+					exclude = { ".git", ".next", "node_modules" },
 					win = {
 						list = {
 							keys = {
