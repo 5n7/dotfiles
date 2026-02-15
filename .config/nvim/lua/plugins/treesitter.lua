@@ -12,6 +12,7 @@ local ensure = {
 	"markdown",
 	"markdown_inline",
 	"nix",
+	"proto",
 	"regex",
 	"toml",
 	"tsx",
