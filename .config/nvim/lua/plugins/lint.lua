@@ -8,6 +8,7 @@ return {
 			go = { "golangcilint" },
 			javascript = { "eslint" },
 			javascriptreact = { "eslint" },
+			proto = { "buf_lint" },
 			typescript = { "eslint" },
 			typescriptreact = { "eslint" },
 		}
