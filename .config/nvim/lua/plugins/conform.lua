@@ -19,6 +19,7 @@ return {
 			javascriptreact = { "prettier" },
 			json = { "prettier" },
 			lua = { "stylua" },
+			proto = { "buf" },
 			typescript = { "prettier" },
 			typescriptreact = { "prettier" },
 			yaml = { "prettier" },

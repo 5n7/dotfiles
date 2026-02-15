@@ -20,7 +20,7 @@ return {
 		},
 		cmd = { "LspInstall", "LspUninstall" },
 		opts = {
-			ensure_installed = { "gopls", "lua_ls", "vtsls" },
+			ensure_installed = { "bufls", "gopls", "lua_ls", "vtsls" },
 		},
 	},
 }
