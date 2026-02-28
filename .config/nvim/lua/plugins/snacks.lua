@@ -20,6 +20,18 @@ return {
 		{ "<leader>gs", picker("git_status"), desc = "Git status" },
 		{ "<leader>lg", picker("grep"), desc = "Live grep" },
 		{
+			"<leader>gy",
+			function()
+				Snacks.gitbrowse({
+					open = function(url)
+						vim.fn.setreg("+", url)
+					end,
+				})
+			end,
+			desc = "Copy GitHub link",
+			mode = { "n", "v" },
+		},
+		{
 			"<c-b>",
 			function()
 				Snacks.explorer()
