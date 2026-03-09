@@ -220,10 +220,13 @@ config.keys = {
 		mods = "LEADER",
 		action = act.QuickSelectArgs({
 			label = "open",
-			patterns = { "https?://\\S+" },
+			patterns = { "https?://[^%s%)<>%]%[\"'`|,;]+" },
 			skip_action_on_paste = true,
 			action = wez.action_callback(function(window, pane)
-				wez.open_with(window:get_selection_text_for_pane(pane))
+				local url = window:get_selection_text_for_pane(pane)
+				url = url:gsub("^%s+", ""):gsub("%s+$", "")
+				url = url:gsub("[%.,:;!?]+$", "")
+				wez.open_with(url)
 			end),
 		}),
 	},
