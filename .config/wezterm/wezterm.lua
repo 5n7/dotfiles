@@ -202,7 +202,9 @@ config.keys = {
 		mods = "LEADER",
 		action = wez.action_callback(function(window, pane)
 			local cwd = pane:get_current_working_dir().file_path
-			window:perform_action(act.SpawnCommandInNewTab({ args = { "/bin/zsh", "-lc", "gitui" }, cwd = cwd }), pane)
+			pane:split({ args = { "/bin/zsh", "-lc", "gitui" }, cwd = cwd, direction = "Bottom" })
+			local new_pane = window:active_tab():active_pane()
+			window:perform_action(act.TogglePaneZoomState, new_pane)
 		end),
 	},
 	{
@@ -210,7 +212,9 @@ config.keys = {
 		mods = "LEADER",
 		action = wez.action_callback(function(window, pane)
 			local cwd = pane:get_current_working_dir().file_path
-			window:perform_action(act.SpawnCommandInNewTab({ args = { "/bin/zsh", "-lc", "yazi" }, cwd = cwd }), pane)
+			pane:split({ args = { "/bin/zsh", "-lc", "yazi" }, cwd = cwd, direction = "Bottom" })
+			local new_pane = window:active_tab():active_pane()
+			window:perform_action(act.TogglePaneZoomState, new_pane)
 		end),
 	},
 
