@@ -34,6 +34,7 @@ alias untargz="tar -xvzf $1.tar.gz"
 # development
 
 alias c="cursor ."
+alias ca="cursor-agent --yolo"
 alias cc="claude --dangerously-skip-permissions"
 alias cch="claude --dangerously-skip-permissions --model haiku"
 alias ccs="claude --dangerously-skip-permissions --model sonnet"
