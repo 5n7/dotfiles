@@ -11,6 +11,10 @@ apply = ["defer"]
 github = "Aloxaf/fzf-tab"
 apply = ["defer"]
 
+[plugins.zsh-abbr]
+github = "olets/zsh-abbr"
+apply = ["defer"]
+
 [plugins.zsh-autosuggestions]
 github = "zsh-users/zsh-autosuggestions"
 apply = ["defer"]

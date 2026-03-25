@@ -1,0 +1,56 @@
+abbr ..="cd .."
+abbr ...="cd ../.."
+abbr ....="cd ../../.."
+abbr .....="cd ../../../.."
+abbr ......="cd ../../../../.."
+abbr dl="cd ~/Downloads"
+abbr sb="cd ~/sandbox"
+
+abbr c="cursor ."
+abbr ca="cursor-agent --yolo"
+abbr cc="claude --dangerously-skip-permissions"
+abbr cch="claude --dangerously-skip-permissions --model haiku"
+abbr ccs="claude --dangerously-skip-permissions --model sonnet"
+abbr cx="codex --dangerously-bypass-approvals-and-sandbox"
+abbr v=nvim
+abbr y=yazi
+
+abbr d=docker
+abbr dc="docker compose"
+abbr dim="docker images"
+abbr dps="docker ps"
+abbr dpsa="docker ps -a"
+
+abbr l="eza -l --icons=always --git-repos"
+abbr la="eza -la --icons=always --git-repos"
+abbr tree="eza -Ta --icons=always --git-ignore"
+
+abbr g=git
+abbr ga="git add"
+abbr gb="git branch"
+abbr gco="git checkout"
+abbr gcp="git cherry-pick"
+abbr gd="git diff"
+abbr gf="git fetch"
+abbr gl="git log"
+abbr gm="git merge"
+abbr gp="git push"
+abbr gpl="git pull"
+abbr gplo="git pull origin"
+abbr gpo="git push origin"
+abbr gr="git rebase"
+abbr gs="git status"
+abbr gst="git stash"
+abbr gsw="git switch"
+abbr gu=gitui
+
+abbr gmt="go mod tidy"
+
+abbr k=kubectl
+abbr kubectx=kubectl-ctx
+abbr tf=terraform
+
+abbr -g G="| rg"
+abbr -g H="| head"
+abbr -g L="| less"
+abbr -g T="| tail"

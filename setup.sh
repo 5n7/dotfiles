@@ -21,6 +21,7 @@ create_symlink "${DOTFILES_DIR}/.config/sheldon" "${XDG_CONFIG_HOME}/sheldon"
 create_symlink "${DOTFILES_DIR}/.config/tmux" "${XDG_CONFIG_HOME}/tmux"
 create_symlink "${DOTFILES_DIR}/.config/wezterm" "${XDG_CONFIG_HOME}/wezterm"
 create_symlink "${DOTFILES_DIR}/.config/zsh" "${XDG_CONFIG_HOME}/zsh"
+create_symlink "${DOTFILES_DIR}/.config/zsh-abbr" "${XDG_CONFIG_HOME}/zsh-abbr"
 create_symlink "${DOTFILES_DIR}/.gitconfig" "${HOME}/.gitconfig"
 create_symlink "${DOTFILES_DIR}/.zshenv" "${HOME}/.zshenv"
 
