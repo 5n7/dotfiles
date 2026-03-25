@@ -10,7 +10,6 @@ return {
 	},
 	{
 		"mason-org/mason.nvim",
-		cmd = { "Mason", "MasonInstall", "MasonUpdate" },
 		opts = {},
 	},
 	{
@@ -18,7 +17,6 @@ return {
 		dependencies = {
 			"mason-org/mason.nvim",
 		},
-		cmd = { "LspInstall", "LspUninstall" },
 		opts = {
 			ensure_installed = { "bufls", "gopls", "lua_ls", "vtsls" },
 		},
