@@ -43,5 +43,6 @@ source "$_omp_cache"
 unset _omp_cache _omp_config
 
 zsh-defer -c 'eval "$(direnv hook zsh)"'
+zsh-defer -c 'eval "$(git wt --init zsh)"'
 zsh-defer -c 'eval "$(mise activate zsh)"'
 zsh-defer -c 'eval "$(zoxide init zsh)"'
