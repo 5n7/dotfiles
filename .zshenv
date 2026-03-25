@@ -33,6 +33,9 @@ export GOPATH="$XDG_DATA_HOME/go"
 export PATH="$GOPATH/bin:$PATH"
 export GOPRIVATE="github.com/5n7,github.com/mansion-friends"
 
+# OrbStack
+source "$HOME/.orbstack/shell/init.zsh" 2>/dev/null || :
+
 # Zsh
 export ZDOTDIR="$XDG_CONFIG_HOME/zsh"
 

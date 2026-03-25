@@ -1,0 +1,15 @@
+[*.{bash,sh,zsh}]
+indent_style = space
+indent_size = 4
+
+[.config/zsh/.zshrc]
+indent_style = space
+indent_size = 4
+
+[.zshenv]
+indent_style = space
+indent_size = 4
+
+[bin/*]
+indent_style = space
+indent_size = 4
