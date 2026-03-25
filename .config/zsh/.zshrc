@@ -33,13 +33,14 @@ source "$ZDOTDIR/homebrew.zsh"
 source "$ZDOTDIR/hooks.zsh"
 source "$ZDOTDIR/keymaps.zsh"
 
-# starship (cached)
-_starship_cache="$ZDOTDIR/.starship.cache.zsh"
-if [[ ! -f "$_starship_cache" ]]; then
-    starship init zsh > "$_starship_cache"
+# oh-my-posh (cached)
+_omp_cache="$ZDOTDIR/.oh-my-posh.cache.zsh"
+_omp_config="$XDG_CONFIG_HOME/oh-my-posh/config.toml"
+if [[ ! -f "$_omp_cache" || "$_omp_config" -nt "$_omp_cache" ]]; then
+    oh-my-posh init zsh --config "$_omp_config" > "$_omp_cache"
 fi
-source "$_starship_cache"
-unset _starship_cache
+source "$_omp_cache"
+unset _omp_cache _omp_config
 
 zsh-defer -c 'eval "$(direnv hook zsh)"'
 zsh-defer -c 'eval "$(mise activate zsh)"'
