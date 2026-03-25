@@ -5,3 +5,4 @@ registries:
 packages:
   - name: dprint/dprint@0.51.1
   - name: JohnnyMorganz/StyLua@v2.3.1
+  - name: mvdan/sh@v3.13.0
