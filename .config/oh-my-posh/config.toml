@@ -1,0 +1,66 @@
+"$schema" = "https://raw.githubusercontent.com/JanDeDobbeleer/oh-my-posh/main/themes/schema.json"
+version = 3
+final_space = true
+streaming = 50
+
+[[blocks]]
+type = "prompt"
+alignment = "left"
+newline = true
+
+[[blocks.segments]]
+type = "path"
+style = "powerline"
+powerline_symbol = ""
+foreground = "#1a1b26"
+background = "#7dcfff"
+template = ' {{ regexReplaceAll ".+/(.+/.+)$" .Path "${1}" }} '
+properties = { style = "full" }
+
+[[blocks.segments]]
+type = "git"
+style = "powerline"
+powerline_symbol = ""
+foreground = "#1a1b26"
+background = "#bb9af7"
+template = " {{ .HEAD }}{{ if or (.Working.Changed) (.Staging.Changed) }} {{ end }}{{ if .Working.Changed }}${{ end }}{{ if .Staging.Changed }}!{{ end }}{{ if gt .Behind 0 }}⇣{{ end }}{{ if gt .Ahead 0 }}⇡{{ end }} "
+
+[blocks.segments.properties]
+fetch_status = true
+branch_icon = " "
+
+[[blocks.segments]]
+type = "go"
+style = "powerline"
+powerline_symbol = ""
+foreground = "#1a1b26"
+background = "#9ece6a"
+template = " v{{ .Full }} "
+
+[[blocks.segments]]
+type = "node"
+style = "powerline"
+powerline_symbol = ""
+foreground = "#1a1b26"
+background = "#9ece6a"
+template = " v{{ .Full }} "
+
+[[blocks.segments]]
+type = "time"
+style = "powerline"
+powerline_symbol = ""
+foreground = "#c0caf5"
+background = "#000000"
+template = " {{ .CurrentDate | date \"15:04:05\" }} "
+
+[[blocks]]
+type = "prompt"
+alignment = "left"
+newline = true
+
+[[blocks.segments]]
+type = "text"
+style = "plain"
+foreground = "#9ece6a"
+foreground_templates = ['{{ if gt .Code 0 }}#f7768e{{ end }}']
+template = "❯"
