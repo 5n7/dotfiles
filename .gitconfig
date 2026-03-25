@@ -13,3 +13,6 @@ navigate = true
 
 [interactive]
 diffFilter = delta --color-only
+
+[wt]
+copyignored = true
