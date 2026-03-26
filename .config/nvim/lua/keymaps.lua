@@ -29,10 +29,6 @@ map("n", "<m-L>", "<cmd>vertical resize +10<cr>", { desc = "Increase width" })
 map({ "n", "v" }, "<leader>d", '"_d', { desc = "Delete without yank" })
 map({ "n", "v" }, "<leader>x", '"_x', { desc = "Remove char without yank" })
 
--- Buffer navigation
-map("n", "<m-h>", "<cmd>BufferLineCyclePrev<cr>", { desc = "Previous buffer" })
-map("n", "<m-l>", "<cmd>BufferLineCycleNext<cr>", { desc = "Next buffer" })
-
 -- Save / Quit
 map("n", "<leader>q", "<cmd>q!<cr>", { desc = "Force quit" })
 map("n", "<leader>w", "<cmd>wa<cr>", { desc = "Save all" })
