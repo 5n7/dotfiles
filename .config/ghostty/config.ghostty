@@ -1,0 +1,52 @@
+# Font
+font-family = "0xProto Nerd Font"
+font-size = 13
+font-codepoint-map = U+3000-U+303F=Hiragino Sans W4
+font-codepoint-map = U+3040-U+309F=Hiragino Sans W4
+font-codepoint-map = U+30A0-U+30FF=Hiragino Sans W4
+font-codepoint-map = U+3400-U+4DBF=Hiragino Sans W4
+font-codepoint-map = U+4E00-U+9FFF=Hiragino Sans W4
+font-codepoint-map = U+F900-U+FAFF=Hiragino Sans W4
+font-codepoint-map = U+FF00-U+FFEF=Hiragino Sans W4
+
+# Theme
+theme = "TokyoNight Storm"
+
+# Background and Opacity
+unfocused-split-opacity = 0.8
+
+# Command
+notify-on-command-finish = always
+notify-on-command-finish-action = notify
+notify-on-command-finish-after = 10s
+
+# Scrollback
+scrollback-limit = 100000
+
+# Window
+working-directory = ~/src
+
+# Keybind
+keybind = alt+h=goto_split:left
+keybind = alt+j=goto_split:down
+keybind = alt+k=goto_split:up
+keybind = alt+l=goto_split:right
+
+# Window Layout
+window-padding-x = 8
+window-padding-y = 4
+window-inherit-working-directory = true
+tab-inherit-working-directory = true
+split-inherit-working-directory = true
+window-save-state = always
+
+# Clipboard
+copy-on-select = clipboard
+
+# Shell Integration
+shell-integration = zsh
+shell-integration-features = cursor,sudo,title
+
+# macOS
+macos-titlebar-style = tabs
+macos-option-as-alt = true
