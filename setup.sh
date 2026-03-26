@@ -12,6 +12,7 @@ mkdir -p "${XDG_STATE_HOME}/zsh"
 
 create_symlink "${DOTFILES_DIR}/.Brewfile" "${HOME}/.Brewfile"
 create_symlink "${DOTFILES_DIR}/.config/borders" "${XDG_CONFIG_HOME}/borders"
+create_symlink "${DOTFILES_DIR}/.config/ghostty" "${XDG_CONFIG_HOME}/ghostty"
 create_symlink "${DOTFILES_DIR}/.config/git" "${XDG_CONFIG_HOME}/git"
 create_symlink "${DOTFILES_DIR}/.config/gitui" "${XDG_CONFIG_HOME}/gitui"
 create_symlink "${DOTFILES_DIR}/.config/mise" "${XDG_CONFIG_HOME}/mise"
