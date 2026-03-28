@@ -21,9 +21,9 @@ abbr dim="docker images"
 abbr dps="docker ps"
 abbr dpsa="docker ps -a"
 
-abbr l="eza -l --icons=always --git-repos"
-abbr la="eza -la --icons=always --git-repos"
-abbr tree="eza -Ta --icons=always --git-ignore"
+abbr l="eza -l --icons=always"
+abbr la="eza -la --icons=always"
+abbr tree="eza -Ta --icons=always"
 
 abbr g=git
 abbr ga="git add"
