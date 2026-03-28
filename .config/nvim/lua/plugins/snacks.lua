@@ -9,6 +9,7 @@ return {
 	lazy = false,
 	priority = 900,
 	keys = {
+		{ "<leader><leader>", picker("buffers"), desc = "Select buffer" },
 		{ "<leader>fb", picker("buffers"), desc = "Buffers" },
 		{ "<leader>fd", picker("diagnostics"), desc = "Diagnostics" },
 		{ "<leader>ff", picker("files"), desc = "Find files" },
