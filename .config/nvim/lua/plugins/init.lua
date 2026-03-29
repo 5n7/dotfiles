@@ -6,6 +6,7 @@ return require("lazy").setup({
 		{ import = "plugins.completion" },
 		{ import = "plugins.conform" },
 		{ import = "plugins.flash" },
+		{ import = "plugins.diffview" },
 		{ import = "plugins.gitsigns" },
 		{ import = "plugins.lint" },
 		{ import = "plugins.lsp" },
