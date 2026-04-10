@@ -20,6 +20,7 @@ export PATH="$AQUA_ROOT_DIR/bin:$PATH"
 
 # Claude Code
 export CLAUDE_CODE_MAX_OUTPUT_TOKENS=64000
+export CLAUDE_CODE_NO_FLICKER=1
 
 # dotfiles
 export DOTFILES_DIR="$HOME/src/github.com/5n7/dotfiles"
