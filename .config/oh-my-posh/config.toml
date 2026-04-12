@@ -14,8 +14,8 @@ style = "powerline"
 powerline_symbol = ""
 foreground = "#1a1b26"
 background = "#7dcfff"
-template = ' {{ regexReplaceAll ".+/(.+/.+)$" .Path "${1}" }} '
-properties = { style = "full" }
+template = ' {{ .Path }} '
+properties = { style = "agnoster_short", max_depth = 3 }
 
 [[blocks.segments]]
 type = "git"
