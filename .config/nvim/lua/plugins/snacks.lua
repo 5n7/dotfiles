@@ -70,7 +70,7 @@ return {
 				grep = {
 					hidden = true,
 					ignored = true,
-					exclude = { ".git", ".next", "node_modules" },
+					exclude = { ".git", ".next", "node_modules", ".wt" },
 				},
 			},
 		},
