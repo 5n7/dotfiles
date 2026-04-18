@@ -15,7 +15,7 @@ powerline_symbol = ""
 foreground = "#1a1b26"
 background = "#7dcfff"
 template = ' {{ .Path }} '
-properties = { style = "agnoster_short", max_depth = 3 }
+properties = { style = "agnoster_short", max_depth = 3, mapped_locations_enabled = true, mapped_locations = { "~/src/github.com" = "gh:" } }
 
 [[blocks.segments]]
 type = "git"
