@@ -26,7 +26,7 @@ Present the plan **and the staffing** to the user. Wait for approval. If the use
 
 ### 2. Team setup
 
-Once approved, create (or reuse) an agent team named `ship-team`. Spawn `implementer` and `tester` teammates per the approved staffing — these are long-lived workers you will iterate with via `SendMessage`. Do not over-staff: if the task is small, one of each is correct.
+Once approved, create a fresh agent team named `ship-<short task slug>` (e.g. `ship-add-login`, `ship-fix-race`). Each run gets its own team — never reuse a previous team or `rm -rf` its directory. Spawn `implementer` and `tester` teammates per the approved staffing — these are long-lived workers you will iterate with via `SendMessage`. Do not over-staff: if the task is small, one of each is correct.
 
 ### 3. Implement
 
@@ -43,16 +43,27 @@ These run concurrently. Wait for all results.
 
 ### 5. Iterate
 
-If `/code-review` returns **Critical** findings, or any `tester` reports failures, `SendMessage` the relevant `implementer` with the specific issues. Repeat from step 4 until both signal clean.
+For every finding `/code-review` returns and every `tester` failure, decide one of:
+
+- **Fix**: `SendMessage` the relevant `implementer` with the specific issue.
+- **Skip with reason**: state explicitly why (false positive, out-of-scope for this task, intentional design decision, deferred to a follow-up, etc.). Never silently ignore.
+
+Default disposition by severity:
+
+- **Critical**: fix unless demonstrably a false positive.
+- **Major**: fix unless there is a concrete reason to skip.
+- **Minor**: fix when the change is cheap and the value is clear; otherwise skip with reason.
+
+Repeat from step 4 until every finding is either resolved or has a recorded skip rationale, and all testers pass.
 
 If scope expands mid-flight (new risk surfaces, a track splits further), revise staffing: spawn additional implementers or testers as needed. Note the change to the user in the next update.
 
 ### 6. Report
 
-Summarize to the user in 3–5 lines:
+Summarize to the user concisely:
 
 - **Changed**: files touched, with a one-line rationale each.
-- **Review**: outcome from `/code-review`.
+- **Review**: outcome from `/code-review` — count of fixed findings and a list of any skipped findings with their reason.
 - **Tests**: outcome across all testers.
 - **Open questions**: anything the user needs to decide.
 
