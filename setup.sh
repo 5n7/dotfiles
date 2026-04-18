@@ -7,10 +7,13 @@ source "$(dirname $0)/lib/symlink.sh"
 print_info "Setting up dotfiles..."
 
 source "$(dirname $0)/.zshenv"
+mkdir -p "${HOME}/.claude"
 mkdir -p "${XDG_CONFIG_HOME}"
 mkdir -p "${XDG_STATE_HOME}/zsh"
 
 create_symlink "${DOTFILES_DIR}/.Brewfile" "${HOME}/.Brewfile"
+create_symlink "${DOTFILES_DIR}/.claude/CLAUDE.md" "${HOME}/.claude/CLAUDE.md"
+create_symlink "${DOTFILES_DIR}/.claude/skills" "${HOME}/.claude/skills"
 create_symlink "${DOTFILES_DIR}/.config/borders" "${XDG_CONFIG_HOME}/borders"
 create_symlink "${DOTFILES_DIR}/.config/ghostty" "${XDG_CONFIG_HOME}/ghostty"
 create_symlink "${DOTFILES_DIR}/.config/git" "${XDG_CONFIG_HOME}/git"
