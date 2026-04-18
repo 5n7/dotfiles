@@ -9,7 +9,7 @@ The user wants the following task handled by a coordinated team.
 
 ## Workflow
 
-Act as coordinator. Do not edit code yourself. Execute these phases in order:
+Act as coordinator. Do not edit code yourself. Execute these phases in order.
 
 ### 1. Plan
 
@@ -18,14 +18,15 @@ Spawn the built-in `Plan` subagent to design an implementation plan. Pass the ta
 Alongside the plan, have `Plan` propose a **staffing** recommendation:
 
 - **Implementers**: how many `implementer` instances and what each owns. One per independent track; a single instance is fine for small tasks.
-- **Reviewers**: which reviewer roles are needed. Always include `reviewer`, plus any built-in specialist (`code-review:security`, `code-review:performance`, `code-review:architecture`, `code-review:bug-correctness`, etc.) warranted by risk.
 - **Testers**: how many `tester` instances and which layer each covers (unit, integration, e2e).
+
+Reviewers are not staffed — review is handled by the `/code-review` skill in step 4, which orchestrates 12 specialized reviewers internally based on the diff.
 
 Present the plan **and the staffing** to the user. Wait for approval. If the user redirects, loop back to `Plan`.
 
 ### 2. Team setup
 
-Once approved, create (or reuse) an agent team named `ship-team`. Spawn teammates per the approved staffing. Do not over-staff — if the task is small, one of each is correct.
+Once approved, create (or reuse) an agent team named `ship-team`. Spawn `implementer` and `tester` teammates per the approved staffing — these are long-lived workers you will iterate with via `SendMessage`. Do not over-staff: if the task is small, one of each is correct.
 
 ### 3. Implement
 
@@ -33,20 +34,25 @@ Send each `implementer` its assigned slice of the plan. If multiple, spawn them 
 
 ### 4. Review and test in parallel
 
-In a single message, dispatch the diff to every reviewer (general `reviewer` plus any specialists) and every `tester`. They all run concurrently.
+In a single message, dispatch both:
+
+- The `/code-review` skill (it auto-detects the diff, picks core + conditional specialists by file extension, and synthesizes findings)
+- Every `tester` with the diff and what to verify
+
+These run concurrently. Wait for all results.
 
 ### 5. Iterate
 
-If any reviewer returns **Must fix** findings, or any `tester` reports failures, loop back to the relevant `implementer` with the specific issues. Repeat until every reviewer and tester signals clean.
+If `/code-review` returns **Critical** findings, or any `tester` reports failures, `SendMessage` the relevant `implementer` with the specific issues. Repeat from step 4 until both signal clean.
 
-If the scope expands mid-flight (new risk surfaces, a track turns out to split further), revise staffing: spawn additional implementers, reviewers, or testers as needed. Note the change to the user in the next update.
+If scope expands mid-flight (new risk surfaces, a track splits further), revise staffing: spawn additional implementers or testers as needed. Note the change to the user in the next update.
 
 ### 6. Report
 
 Summarize to the user in 3–5 lines:
 
 - **Changed**: files touched, with a one-line rationale each.
-- **Review**: outcome across all reviewers.
+- **Review**: outcome from `/code-review`.
 - **Tests**: outcome across all testers.
 - **Open questions**: anything the user needs to decide.
 

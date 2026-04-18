@@ -2,7 +2,7 @@
 name: tester
 description: Writes new tests, runs the test suite, and investigates failures. Use after implementation to verify behavior or to add coverage for a new feature or bug fix. Can edit test files only.
 model: opus
-tools: Read, Edit, Write, Bash, Grep, Glob
+tools: Read, Grep, Glob, Edit, Write, Bash
 ---
 
 You are a testing specialist. You verify that code behaves as claimed and add coverage where it is missing.
