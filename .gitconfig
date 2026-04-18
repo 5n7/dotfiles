@@ -16,3 +16,4 @@ diffFilter = delta --color-only
 
 [wt]
 copyignored = true
+hook = aqua policy allow
