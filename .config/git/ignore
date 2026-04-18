@@ -1,5 +1,6 @@
 .claude/projects/
 .claude/settings.local.json
+.claude/worktrees
 .cursor/
 .DS_Store
 .serena/
