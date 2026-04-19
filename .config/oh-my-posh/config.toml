@@ -29,30 +29,6 @@ template = " {{ .HEAD }}{{ if or (.Working.Changed) (.Staging.Changed) }} {{ end
 fetch_status = true
 branch_icon = " "
 
-[[blocks.segments]]
-type = "go"
-style = "powerline"
-powerline_symbol = ""
-foreground = "#1a1b26"
-background = "#9ece6a"
-template = " v{{ .Full }} "
-
-[[blocks.segments]]
-type = "node"
-style = "powerline"
-powerline_symbol = ""
-foreground = "#1a1b26"
-background = "#9ece6a"
-template = " v{{ .Full }} "
-
-[[blocks.segments]]
-type = "time"
-style = "powerline"
-powerline_symbol = ""
-foreground = "#c0caf5"
-background = "#000000"
-template = " {{ .CurrentDate | date \"15:04:05\" }} "
-
 [[blocks]]
 type = "prompt"
 alignment = "left"
