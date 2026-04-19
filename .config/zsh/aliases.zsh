@@ -6,5 +6,4 @@ alias rm="gomi"
 alias targz="tar -cvzf $1.tar.gz $1"
 alias untargz="tar -xvzf $1.tar.gz"
 
-alias gc="claude --dangerously-skip-permissions --model haiku -p '/git-commit' > /dev/null 2>&1 && git log -1"
 alias gmi="go mod init $(pwd | sed -e 's/.*github.com/github.com/g')"
