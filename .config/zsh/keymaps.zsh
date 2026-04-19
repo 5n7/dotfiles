@@ -24,6 +24,15 @@ fzf::cd-ghq() {
 zle -N fzf::cd-ghq
 bindkey "^G" fzf::cd-ghq
 
+fzf::cd-wt() {
+    local dir=$(git wt | fzf --header-lines=1 --preview 'p={1}; [[ "$p" == "*" ]] && p={2}; git -C "$p" log --color=always --date=relative --graph --pretty=format:"%C(auto)%h %s%d %C(green)(%cr) %C(bold blue)<%an>"' | awk '{if ($1 == "*") print $2; else print $1}')
+    [[ -n "$dir" ]] || return
+    BUFFER="cd $dir"
+    zle accept-line
+}
+zle -N fzf::cd-wt
+bindkey "^W" fzf::cd-wt
+
 fzf::git-switch-branch() {
     local branch=$(git branch --format='%(refname:short)' | fzf --preview "git log --color=always --date=relative --graph --pretty=format:'%C(auto)%h %s%d %C(green)(%cr) %C(bold blue)<%an>' {}")
     [[ -n "$branch" ]] || return
