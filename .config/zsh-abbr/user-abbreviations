@@ -28,6 +28,7 @@ abbr tree="eza -Ta --icons=always"
 abbr g=git
 abbr ga="git add"
 abbr gb="git branch"
+abbr gc="git commit"
 abbr gco="git checkout"
 abbr gcp="git cherry-pick"
 abbr gd="git diff"
@@ -43,6 +44,7 @@ abbr gs="git status"
 abbr gst="git stash"
 abbr gsw="git switch"
 abbr gu=gitui
+abbr gwt="git worktree"
 
 abbr gmt="go mod tidy"
 
