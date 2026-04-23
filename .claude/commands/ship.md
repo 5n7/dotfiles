@@ -21,7 +21,7 @@ Use plan mode via `EnterPlanMode`. Build the plan **and** a **staffing** recomme
 
 ### 2. Worktree
 
-Once approved, create a worktree for the task with `git wt add ship-<short task slug>` and `cd` into it. All subsequent steps run there so implementers and testers share one workspace.
+Once approved, ensure the task runs in its own worktree. First check whether the current directory is already inside a worktree by inspecting `git rev-parse --git-dir` — if the path contains `.git/worktrees/`, reuse it and skip creation. Otherwise, create one with `git wt add ship-<short task slug>` and `cd` into it. All subsequent steps run there so implementers and testers share one workspace.
 
 ### 3. Team setup
 
