@@ -9,7 +9,7 @@
 
 - Follow Conventional Commits for commit messages.
 - Do not run `git push` until I explicitly approve it.
-- Manage branches as worktrees with [git-wt](https://github.com/k1LoW/git-wt); use `git wt add <branch>` to start work on a new branch.
+- Manage branches as worktrees with [git-wt](https://github.com/k1LoW/git-wt); when starting work on a new branch, first check whether the current directory is already inside a worktree (e.g. `git rev-parse --git-dir` contains `.git/worktrees/`). If so, reuse it; otherwise run `git wt add <branch>`.
 
 ## Delegation
 
