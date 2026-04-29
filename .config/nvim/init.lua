@@ -63,4 +63,4 @@ require("keymaps")
 require("plugins")
 
 -- Nvim 0.11+ native LSP
-vim.lsp.enable({ "gopls", "lua_ls", "vtsls" })
+vim.lsp.enable({ "buf_ls", "gopls", "lua_ls", "vtsls" })
