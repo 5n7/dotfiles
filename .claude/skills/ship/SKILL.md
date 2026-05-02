@@ -1,6 +1,8 @@
 ---
-description: Spawn a coordinated team (plan → implement → review → test) for a task
+name: ship
+description: Spawn a coordinated team (plan -> implement -> review -> test) for a task
 argument-hint: [task description]
+disable-model-invocation: true
 ---
 
 The user wants the following task handled by a coordinated team.
@@ -17,7 +19,7 @@ Use plan mode via `EnterPlanMode`. Build the plan **and** a **staffing** recomme
 
 - **Implementers**: how many `implementer` instances and what each owns. One per independent track; a single instance is fine for small tasks.
 - **Testers**: how many `tester` instances and which layer each covers (unit, integration, e2e).
-- Reviewers are not staffed — review is handled by the `/code-review` skill in step 4, which orchestrates 12 specialized reviewers internally based on the diff.
+- Reviewers are not staffed - review is handled by the `/code-review` skill in step 4, which orchestrates 12 specialized reviewers internally based on the diff.
 
 ### 2. Worktree
 
@@ -25,7 +27,7 @@ Once approved, ensure the task runs in its own worktree (per the global worktree
 
 ### 3. Team setup
 
-Create a fresh agent team named `ship-<short task slug>` matching the worktree. Each run gets its own team. Spawn `implementer` and `tester` teammates per the approved staffing — these are long-lived workers you will iterate with via `SendMessage`. Do not over-staff: if the task is small, one of each is correct.
+Create a fresh agent team named `ship-<short task slug>` matching the worktree. Each run gets its own team. Spawn `implementer` and `tester` teammates per the approved staffing - these are long-lived workers you will iterate with via `SendMessage`. Do not over-staff: if the task is small, one of each is correct.
 
 ### 4. Implement
 
@@ -35,9 +37,9 @@ Send each `implementer` its assigned slice of the plan. If multiple, spawn them 
 
 Dispatch the `/code-review` skill. It auto-detects the diff, picks core + conditional specialists by file extension, and synthesizes findings. Wait for results.
 
-Note: `implementer` already runs fast build/lint/type-check and any quick existing tests after each edit — no separate tester invocation is needed during this loop.
+Note: `implementer` already runs fast build/lint/type-check and any quick existing tests after each edit - no separate tester invocation is needed during this loop.
 
-### 6. Iterate (implement → review loop)
+### 6. Iterate (implement -> review loop)
 
 For every finding `/code-review` returns, decide one of:
 
@@ -58,14 +60,14 @@ If scope expands mid-flight (new risk surfaces, a track splits further), revise 
 
 Once the review loop is clean, dispatch every `tester` with the diff and what behavioral coverage to add or verify. Wait for all results.
 
-If a tester fails or reports missing coverage, `SendMessage` the relevant `implementer` with the specific issue, then re-run `/code-review` and return to the tester — repeat until all testers pass.
+If a tester fails or reports missing coverage, `SendMessage` the relevant `implementer` with the specific issue, then re-run `/code-review` and return to the tester - repeat until all testers pass.
 
 ### 8. Report
 
 Summarize to the user concisely:
 
 - **Changed**: files touched, with a one-line rationale each.
-- **Review**: outcome from `/code-review` — count of fixed findings and a list of any skipped findings with their reason.
+- **Review**: outcome from `/code-review` - count of fixed findings and a list of any skipped findings with their reason.
 - **Tests**: outcome across all testers.
 - **Open questions**: anything the user needs to decide.
 
