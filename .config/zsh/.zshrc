@@ -33,15 +33,8 @@ source "$ZDOTDIR/homebrew.zsh"
 source "$ZDOTDIR/hooks.zsh"
 source "$ZDOTDIR/keymaps.zsh"
 
-# oh-my-posh (cached)
-_omp_cache="$ZDOTDIR/.oh-my-posh.cache.zsh"
-_omp_config="$XDG_CONFIG_HOME/oh-my-posh/config.toml"
-_omp_bin="$(command -v oh-my-posh)"
-if [[ ! -f "$_omp_cache" || "$_omp_config" -nt "$_omp_cache" || "$_omp_bin" -nt "$_omp_cache" ]]; then
-    oh-my-posh init zsh --config "$_omp_config" >"$_omp_cache"
-fi
-source "$_omp_cache"
-unset _omp_cache _omp_config _omp_bin
+# oh-my-posh
+eval "$(oh-my-posh init zsh --config "$XDG_CONFIG_HOME/oh-my-posh/config.toml")"
 
 zsh-defer -c 'eval "$(direnv hook zsh)"'
 zsh-defer -c 'eval "$(git wt --init zsh)"'
