@@ -31,18 +31,15 @@ Create a fresh agent team named `ship-<short task slug>` matching the worktree. 
 
 Send each `implementer` its assigned slice of the plan. If multiple, spawn them in a single message so they run in parallel. Wait for all reports.
 
-### 5. Review and test in parallel
+### 5. Review
 
-In a single message, dispatch both:
+Dispatch the `/code-review` skill. It auto-detects the diff, picks core + conditional specialists by file extension, and synthesizes findings. Wait for results.
 
-- The `/code-review` skill (it auto-detects the diff, picks core + conditional specialists by file extension, and synthesizes findings)
-- Every `tester` with the diff and what to verify
+Note: `implementer` already runs fast build/lint/type-check and any quick existing tests after each edit — no separate tester invocation is needed during this loop.
 
-These run concurrently. Wait for all results.
+### 6. Iterate (implement → review loop)
 
-### 6. Iterate
-
-For every finding `/code-review` returns and every `tester` failure, decide one of:
+For every finding `/code-review` returns, decide one of:
 
 - **Fix**: `SendMessage` the relevant `implementer` with the specific issue.
 - **Skip with reason**: state explicitly why (false positive, out-of-scope for this task, intentional design decision, deferred to a follow-up, etc.). Never silently ignore.
@@ -53,11 +50,17 @@ Default disposition by severity:
 - **Major**: fix unless there is a concrete reason to skip.
 - **Minor**: fix when the change is cheap and the value is clear; otherwise skip with reason.
 
-Repeat from step 5 until every finding is either resolved or has a recorded skip rationale, and all testers pass. Run **at least 3 review/test rounds** even if earlier rounds come back clean — fixes can introduce new findings, and a quiet round is not proof of quality.
+After fixes, re-dispatch `/code-review` and repeat. Exit this loop when **no Critical or Major findings remain** (all either fixed or have a recorded skip rationale with a concrete reason).
 
-If scope expands mid-flight (new risk surfaces, a track splits further), revise staffing: spawn additional implementers or testers as needed. Note the change to the user in the next update.
+If scope expands mid-flight (new risk surfaces, a track splits further), revise staffing: spawn additional implementers as needed. Note the change to the user in the next update.
 
-### 7. Report
+### 7. Test
+
+Once the review loop is clean, dispatch every `tester` with the diff and what behavioral coverage to add or verify. Wait for all results.
+
+If a tester fails or reports missing coverage, `SendMessage` the relevant `implementer` with the specific issue, then re-run `/code-review` and return to the tester — repeat until all testers pass.
+
+### 8. Report
 
 Summarize to the user concisely:
 
