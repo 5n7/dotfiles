@@ -1,0 +1,21 @@
+# zsh options. Loaded from programs.zsh.initContent.
+setopt auto_list
+setopt auto_menu
+setopt auto_param_keys
+setopt auto_pushd
+setopt auto_remove_slash
+setopt auto_resume
+setopt correct
+setopt extended_glob
+setopt hist_reduce_blanks
+setopt ignore_eof
+setopt inc_append_history
+setopt interactive_comments
+setopt magic_equal_subst
+setopt mark_dirs
+setopt no_beep
+setopt no_flow_control
+setopt no_list_beep
+setopt nonomatch
+setopt numeric_glob_sort
+setopt pushd_ignore_dups

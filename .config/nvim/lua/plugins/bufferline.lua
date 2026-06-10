@@ -6,12 +6,8 @@ return {
 	event = "VeryLazy",
 	opts = {
 		options = {
-			style_preset = { 2, 4 }, -- minimal, no_italic
-			separator_style = "slant",
-			indicator = { style = "underline" },
 			diagnostics = "nvim_lsp",
-			show_buffer_close_icons = false,
-			show_close_icon = false,
+			indicator = { style = "underline" },
 			offsets = {
 				{
 					filetype = "snacks_layout_box",
@@ -19,6 +15,10 @@ return {
 					highlight = "Directory",
 				},
 			},
+			separator_style = "slant",
+			show_buffer_close_icons = false,
+			show_close_icon = false,
+			style_preset = { 2, 4 }, -- minimal, no_italic
 		},
 	},
 }
