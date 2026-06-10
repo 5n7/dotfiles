@@ -1,0 +1,74 @@
+{
+  "version": 3,
+  "lines": [
+    [
+      {
+        "id": "1",
+        "type": "custom-command",
+        "commandPath": "@configHome@/ccstatusline/model-color.sh",
+        "preserveColors": true,
+        "timeout": 2000
+      },
+      {
+        "id": "2",
+        "type": "custom-command",
+        "commandPath": "@configHome@/ccstatusline/context-bar.sh",
+        "preserveColors": true,
+        "timeout": 2000
+      },
+      {
+        "id": "4",
+        "type": "session-cost",
+        "color": "hex:565f89"
+      },
+      {
+        "id": "8",
+        "type": "custom-command",
+        "commandPath": "@configHome@/ccstatusline/status-claude.sh",
+        "preserveColors": true,
+        "timeout": 2000
+      }
+    ],
+    [
+      {
+        "id": "5",
+        "type": "custom-command",
+        "commandPath": "@configHome@/ccstatusline/cwd-path.sh",
+        "preserveColors": true,
+        "timeout": 2000
+      },
+      {
+        "id": "6",
+        "type": "git-branch",
+        "color": "hex:bb9af7"
+      },
+      {
+        "id": "7",
+        "type": "git-changes",
+        "color": "hex:e0af68"
+      }
+    ],
+    []
+  ],
+  "flexMode": "full-minus-40",
+  "compactThreshold": 60,
+  "colorLevel": 3,
+  "defaultSeparator": "\u001b[38;2;65;72;104m · \u001b[0m",
+  "inheritSeparatorColors": false,
+  "globalBold": false,
+  "gitCacheTtlSeconds": 5,
+  "minimalistMode": false,
+  "powerline": {
+    "enabled": false,
+    "separators": [
+      ""
+    ],
+    "separatorInvertBackground": [
+      false
+    ],
+    "startCaps": [],
+    "endCaps": [],
+    "autoAlign": false,
+    "continueThemeAcrossLines": false
+  }
+}
