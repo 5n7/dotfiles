@@ -3,3 +3,6 @@
 .zcompdump*
 .zsh_history
 .zsh_sessions/
+
+# home-manager writes this through the ~/.config/mise symlink; source of truth is modules/home/mise.nix
+.config/mise/settings.toml
