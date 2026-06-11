@@ -48,6 +48,11 @@
     # ghostty is installed via Homebrew cask, so do not pull the nixpkgs
     # package; only manage the config file.
     package = null;
+    # ghostty injects shell integration automatically via the
+    # `shell-integration = "zsh"` setting below, so HM's manual `source` block
+    # is redundant. It also breaks under cmux, which sets GHOSTTY_RESOURCES_DIR
+    # to a bundle that ships no shell-integration scripts.
+    enableZshIntegration = false;
     settings = {
       copy-on-select = "clipboard";
       # Repeated keys are expressed as lists (listsAsDuplicateKeys).
