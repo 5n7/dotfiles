@@ -6,6 +6,9 @@
     enable = true;
     package = pkgs.claude-code-minimal;
     settings = {
+      enabledPlugins = {
+        "skill-creator@claude-plugins-official" = true;
+      };
       skipDangerousModePermissionPrompt = true;
       statusLine = {
         type = "command";
