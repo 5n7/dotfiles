@@ -16,6 +16,7 @@
     taps = [
       "k1low/tap"
       "manaflow-ai/cmux"
+      "stablyai/orca"
     ];
 
     brews = [

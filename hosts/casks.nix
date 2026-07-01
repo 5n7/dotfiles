@@ -26,6 +26,7 @@ let
       "rectangle"
       "scroll-reverser"
       "slack"
+      "stablyai/orca/orca"
       "thebrowsercompany-dia"
     ];
     personal = [
