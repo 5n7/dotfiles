@@ -13,6 +13,7 @@ let
       "cursor"
       "cursor-cli"
       "gcloud-cli"
+      "ghostty"
       "google-chrome"
       "jordanbaird-ice@beta"
       "karabiner-elements"
@@ -25,7 +26,6 @@ let
       "scroll-reverser"
       "slack"
       "thebrowsercompany-dia"
-      "warp"
     ];
     personal = [
       "adobe-creative-cloud"
