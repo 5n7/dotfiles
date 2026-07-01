@@ -12,6 +12,7 @@ let
       "codex-app"
       "cursor"
       "cursor-cli"
+      "dockdoor"
       "gcloud-cli"
       "ghostty"
       "google-chrome"
