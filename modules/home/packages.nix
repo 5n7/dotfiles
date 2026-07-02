@@ -35,6 +35,7 @@ let
       kubectl
       libpq
       mmv-go
+      pup
       ripgrep
       skaffold
       tree-sitter
