@@ -5,7 +5,6 @@ let
     common = [
       "1password"
       "1password-cli"
-      "alt-tab"
       "chatgpt"
       "claude"
       "cmux"
