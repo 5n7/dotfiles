@@ -7,6 +7,7 @@
     package = pkgs.claude-code-minimal;
     settings = {
       enabledPlugins = {
+        "linear@claude-plugins-official" = true;
         "skill-creator@claude-plugins-official" = true;
       };
       skipDangerousModePermissionPrompt = true;
