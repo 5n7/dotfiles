@@ -42,5 +42,16 @@
       RunCat = 1429033973;
       Xcode = 497799835;
     };
+
+    # Homebrew 6.0 requires non-official taps to be explicitly trusted before
+    # `brew bundle` will load formulae/casks from them. nix-darwin's homebrew
+    # module doesn't expose a `trusted` option yet, so declare trust for the
+    # specific items we use (not the whole tap) via raw Brewfile syntax.
+    # https://docs.brew.sh/Tap-Trust
+    extraConfig = ''
+      tap "k1low/tap", trusted: { formula: "mo" }
+      tap "manaflow-ai/cmux", trusted: { cask: "cmux" }
+      tap "stablyai/orca", trusted: { cask: "orca" }
+    '';
   };
 }
