@@ -7,7 +7,7 @@ end
 return {
 	"folke/snacks.nvim",
 	lazy = false,
-	priority = 900,
+	priority = 1000,
 	keys = {
 		{ "<leader><leader>", picker("buffers"), desc = "Select buffer" },
 		{ "<leader>fb", picker("buffers"), desc = "Buffers" },
@@ -46,6 +46,7 @@ return {
 		explorer = { enabled = true },
 		indent = { enabled = true },
 		input = { enabled = true },
+		lazygit = { enabled = false },
 		notifier = { enabled = true },
 		picker = {
 			enabled = true,
@@ -79,4 +80,15 @@ return {
 		statuscolumn = { enabled = true },
 		words = { enabled = true, debounce = 300 },
 	},
+	config = function(_, opts)
+		require("snacks").setup(opts)
+		-- Guard against broken treesitter queries crashing the picker
+		-- (https://github.com/folke/snacks.nvim/issues/2694)
+		local highlight = require("snacks.picker.util.highlight")
+		local get_highlights = highlight.get_highlights
+		highlight.get_highlights = function(...)
+			local ok, ret = pcall(get_highlights, ...)
+			return ok and ret or {}
+		end
+	end,
 }
