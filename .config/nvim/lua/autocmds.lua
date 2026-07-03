@@ -43,9 +43,6 @@ local function set_treesitter_folds(buf)
 	end
 
 	local wins = vim.fn.win_findbuf(buf)
-	if #wins == 0 and vim.api.nvim_get_current_buf() == buf then
-		wins = { vim.api.nvim_get_current_win() }
-	end
 
 	for _, win in ipairs(wins) do
 		vim.api.nvim_win_call(win, function()
@@ -74,7 +71,7 @@ vim.api.nvim_create_autocmd("FileType", {
 vim.api.nvim_create_autocmd("TextYankPost", {
 	group = group,
 	callback = function()
-		vim.highlight.on_yank({ higroup = "IncSearch", timeout = 180 })
+		vim.hl.on_yank({ higroup = "IncSearch", timeout = 180 })
 	end,
 })
 
@@ -103,7 +100,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
 		map({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, "Code action")
 		map("n", "<leader>e", vim.diagnostic.open_float, "Line diagnostics")
 		map("n", "<leader>rn", vim.lsp.buf.rename, "Rename")
-		map("n", "]d", vim.diagnostic.goto_next, "Next diagnostic")
-		map("n", "[d", vim.diagnostic.goto_prev, "Previous diagnostic")
+		map("n", "]d", function() vim.diagnostic.jump({ count = 1 }) end, "Next diagnostic")
+		map("n", "[d", function() vim.diagnostic.jump({ count = -1 }) end, "Previous diagnostic")
 	end,
 })
