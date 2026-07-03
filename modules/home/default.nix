@@ -23,7 +23,6 @@ in
     ./packages.nix
     ./shell.nix
     ./terminal.nix
-    ./wm.nix
   ];
 
   # Single source for the live dotfiles checkout, consumed here (DOTFILES_DIR) and
