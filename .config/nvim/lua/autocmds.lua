@@ -100,7 +100,11 @@ vim.api.nvim_create_autocmd("LspAttach", {
 		map({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, "Code action")
 		map("n", "<leader>e", vim.diagnostic.open_float, "Line diagnostics")
 		map("n", "<leader>rn", vim.lsp.buf.rename, "Rename")
-		map("n", "]d", function() vim.diagnostic.jump({ count = 1 }) end, "Next diagnostic")
-		map("n", "[d", function() vim.diagnostic.jump({ count = -1 }) end, "Previous diagnostic")
+		map("n", "]d", function()
+			vim.diagnostic.jump({ count = 1 })
+		end, "Next diagnostic")
+		map("n", "[d", function()
+			vim.diagnostic.jump({ count = -1 })
+		end, "Previous diagnostic")
 	end,
 })
