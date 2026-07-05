@@ -8,9 +8,9 @@ abbr sb="cd ~/sandbox"
 
 abbr c="cursor ."
 abbr ca="cursor-agent --yolo"
-abbr cc="claude --dangerously-skip-permissions --model opus"
-abbr cch="claude --dangerously-skip-permissions --model haiku"
-abbr ccs="claude --dangerously-skip-permissions --model sonnet"
+abbr cc="claude --model opus"
+abbr cch="claude --model haiku"
+abbr ccs="claude --model sonnet"
 abbr cx="codex --dangerously-bypass-approvals-and-sandbox"
 abbr v=nvim
 abbr y=yazi
