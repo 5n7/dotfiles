@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, pkgs-unstable, ... }:
 {
   projectRootFile = "flake.nix";
 
@@ -11,7 +11,7 @@
   # Shell. With no indent flags, shfmt respects .editorconfig (shell = 4 spaces).
   # compinit.zsh uses zsh glob qualifiers that shfmt cannot parse, so skip it.
   settings.formatter.shfmt = {
-    command = "${pkgs.shfmt}/bin/shfmt";
+    command = "${pkgs-unstable.shfmt}/bin/shfmt";
     options = [ "-w" ];
     includes = [
       "*.sh"

@@ -3,6 +3,7 @@
   host,
   lib,
   pkgs,
+  pkgs-unstable,
   ...
 }:
 {
@@ -13,7 +14,7 @@
 
   programs.gh = {
     enable = true;
-    extensions = [ pkgs.gh-poi ];
+    extensions = [ pkgs-unstable.gh-poi ];
     settings.aliases.co = "pr checkout";
   };
 

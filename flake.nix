@@ -40,7 +40,10 @@
     let
       system = "aarch64-darwin";
       pkgs = nixpkgs.legacyPackages.${system};
-      treefmtEval = treefmt-nix.lib.evalModule pkgs ./treefmt.nix;
+      treefmtEval = treefmt-nix.lib.evalModule pkgs {
+        imports = [ ./treefmt.nix ];
+        _module.args.pkgs-unstable = import nixpkgs-unstable { inherit system; };
+      };
 
       # Per-host identity: everything that differs between profiles lives here and
       # is passed through as a single `host` record.
