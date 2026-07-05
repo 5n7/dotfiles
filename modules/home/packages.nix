@@ -11,40 +11,42 @@ let
   packages = with pkgs; {
     common = [
       bat
-      buf
+      pkgs-unstable.buf
       pkgs-unstable.codex
       colima
       docker-client
       docker-compose
-      dua
+      pkgs-unstable.dua
       eza
-      fd
+      pkgs-unstable.fd
       ffmpeg
-      gawk
+      pkgs-unstable.gawk
       ghostscript
-      ghq
+      pkgs-unstable.ghq
       pkgs-unstable.git-wt
-      glow
+      pkgs-unstable.glow
       gnused
-      gomi
+      pkgs-unstable.gomi
       imagemagick
-      jnv
+      pkgs-unstable.jnv
       jq
-      ko
-      krew
-      kubectl
+      pkgs-unstable.ko
+      pkgs-unstable.krew
+      pkgs-unstable.kubectl
       libpq
       mmv-go
       pup
       ripgrep
-      skaffold
-      tree-sitter
+      pkgs-unstable.skaffold
+      pkgs-unstable.tree-sitter
       wget
       xcodegen
-      yazi
+      pkgs-unstable.yazi
       yq
     ];
     personal = [
+      # unstable's wrangler 4.93.0 fails to build (flaky EBADF during its DTS build),
+      # so keep it on stable until nixpkgs-unstable ships a buildable revision.
       wrangler
     ];
     work = [
