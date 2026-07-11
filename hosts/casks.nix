@@ -17,6 +17,7 @@ let
       "google-chrome"
       "jordanbaird-ice@beta"
       "karabiner-elements"
+      "keyboardcleantool"
       "linear"
       "meetingbar"
       "ngrok"
