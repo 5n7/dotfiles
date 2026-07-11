@@ -9,7 +9,7 @@
 {
   programs.delta = {
     enable = true;
-    enableGitIntegration = true;
+    enableGitIntegration = false;
   };
 
   programs.gh = {
@@ -31,7 +31,6 @@
       ".vscode/"
     ];
     settings = {
-      delta.navigate = true;
       init.defaultBranch = "main";
       merge.conflictStyle = "zdiff3";
       user = {
