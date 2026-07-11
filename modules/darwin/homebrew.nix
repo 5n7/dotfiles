@@ -14,6 +14,7 @@
     };
 
     taps = [
+      "datadog-labs/pack"
       "k1low/tap"
       "manaflow-ai/cmux"
       "stablyai/orca"
@@ -21,6 +22,7 @@
 
     brews = [
       "aqua"
+      "datadog-labs/pack/pup"
       "googleworkspace-cli"
       "k1low/tap/mo"
       "mas"
@@ -49,6 +51,7 @@
     # specific items we use (not the whole tap) via raw Brewfile syntax.
     # https://docs.brew.sh/Tap-Trust
     extraConfig = ''
+      tap "datadog-labs/pack", trusted: { formula: "pup" }
       tap "k1low/tap", trusted: { formula: "mo" }
       tap "manaflow-ai/cmux", trusted: { cask: "cmux" }
       tap "stablyai/orca", trusted: { cask: "orca" }

@@ -35,7 +35,6 @@ let
       pkgs-unstable.kubectl
       libpq
       mmv-go
-      pup
       ripgrep
       pkgs-unstable.skaffold
       pkgs-unstable.tree-sitter
