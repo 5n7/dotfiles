@@ -18,6 +18,7 @@ in
     ./editor.nix
     ./git.nix
     ./gpg.nix
+    ./hunk.nix
     ./karabiner.nix
     ./mise.nix
     ./packages.nix
