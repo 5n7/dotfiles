@@ -41,7 +41,7 @@
     casks = import ../../hosts/casks.nix { inherit host; };
 
     masApps = {
-      RunCat = 1429033973;
+      "RunCat Neo" = 6757801838;
       Xcode = 497799835;
     };
 
