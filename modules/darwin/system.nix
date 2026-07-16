@@ -87,6 +87,4 @@ in
   };
 
   fonts.packages = [ pkgs.nerd-fonts._0xproto ];
-
-  services.tailscale.enable = true;
 }
