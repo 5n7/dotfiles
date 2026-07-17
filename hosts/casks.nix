@@ -15,6 +15,7 @@ let
       "gcloud-cli"
       "ghostty"
       "google-chrome"
+      "google-gemini"
       "jordanbaird-ice@beta"
       "karabiner-elements"
       "keyboardcleantool"
