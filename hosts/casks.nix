@@ -34,6 +34,7 @@ let
     personal = [
       "adobe-creative-cloud"
       "brave-browser"
+      "raspberry-pi-imager"
       "vlc"
       "voiceink"
     ];
