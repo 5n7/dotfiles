@@ -6,6 +6,10 @@
   ...
 }:
 {
+  # Runs weekly on Sunday at 03:15 by default.
+  nix.gc.automatic = true;
+  nix.gc.options = "--delete-older-than 7d";
+
   nix.optimise.automatic = true;
 
   nix.settings.experimental-features = [
