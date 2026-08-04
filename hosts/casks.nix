@@ -15,7 +15,6 @@ let
       "gcloud-cli"
       "ghostty"
       "google-chrome"
-      "grok-build"
       "jordanbaird-ice@beta"
       "karabiner-elements"
       "keyboardcleantool"
@@ -34,6 +33,7 @@ let
     personal = [
       "adobe-creative-cloud"
       "brave-browser"
+      "grok-build"
       "raspberry-pi-imager"
       "vlc"
       "voiceink"
