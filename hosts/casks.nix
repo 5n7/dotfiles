@@ -34,6 +34,7 @@ let
       "adobe-creative-cloud"
       "brave-browser"
       "grok-build"
+      "hermes-desktop"
       "raspberry-pi-imager"
       "vlc"
       "voiceink"
