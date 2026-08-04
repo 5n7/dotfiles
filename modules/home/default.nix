@@ -13,6 +13,7 @@ let
 in
 {
   imports = [
+    ./agents.nix
     ./ccstatusline.nix
     ./claude-code.nix
     ./editor.nix
