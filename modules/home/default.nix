@@ -46,7 +46,7 @@ in
   ];
 
   home.sessionVariables = {
-    AQUA_GLOBAL_CONFIG = "${config.xdg.configHome}/aqua";
+    AQUA_GLOBAL_CONFIG = "${dotfilesDir}/aqua.yaml";
     AQUA_ROOT_DIR = aquaRoot;
     CLAUDE_CODE_MAX_OUTPUT_TOKENS = "64000";
     CLAUDE_CODE_NO_FLICKER = "1";
