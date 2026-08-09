@@ -17,26 +17,11 @@
       "datadog-labs/pack"
       "k1low/tap"
       "manaflow-ai/cmux"
+      "MikkoParkkola/tap"
       "stablyai/orca"
     ];
 
-    brews = [
-      "aqua"
-      "datadog-labs/pack/pup"
-      "googleworkspace-cli"
-      "k1low/tap/mo"
-      "mas"
-
-      # Formula deps of the gcloud-cli cask. `brew bundle` cleanup ignores cask
-      # dependencies, so without these it tries (and fails) to uninstall them on
-      # every activation.
-      "ca-certificates"
-      "mpdecimal"
-      "openssl@3"
-      "readline"
-      "sqlite"
-      "xz"
-    ];
+    brews = import ../../hosts/brews.nix { inherit host; };
 
     casks = import ../../hosts/casks.nix { inherit host; };
 
@@ -50,10 +35,14 @@
     # module doesn't expose a `trusted` option yet, so declare trust for the
     # specific items we use (not the whole tap) via raw Brewfile syntax.
     # https://docs.brew.sh/Tap-Trust
+    # Taps and their trust declarations stay unconditional; only the formulae
+    # and casks themselves are scoped per host profile (e.g. mcp-gateway is
+    # installed on the personal profile only).
     extraConfig = ''
       tap "datadog-labs/pack", trusted: { formula: "pup" }
       tap "k1low/tap", trusted: { formula: "mo" }
       tap "manaflow-ai/cmux", trusted: { cask: "cmux" }
+      tap "MikkoParkkola/tap", trusted: { formula: "mcp-gateway" }
       tap "stablyai/orca", trusted: { cask: "orca" }
     '';
   };
