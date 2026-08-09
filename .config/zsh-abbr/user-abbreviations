@@ -8,7 +8,7 @@ abbr sb="cd ~/sandbox"
 
 abbr c="cursor ."
 abbr ca="cursor-agent --yolo"
-abbr cc="claude --model opus"
+abbr cc="claude --model opus[1m]"
 abbr cch="claude --model haiku"
 abbr ccs="claude --model sonnet"
 abbr cx="codex --dangerously-bypass-approvals-and-sandbox"
