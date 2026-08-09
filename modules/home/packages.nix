@@ -37,6 +37,7 @@ let
       mmv-go
       ripgrep
       pkgs-unstable.skaffold
+      stylua
       pkgs-unstable.tree-sitter
       wget
       xcodegen
