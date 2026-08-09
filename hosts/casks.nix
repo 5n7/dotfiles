@@ -33,6 +33,7 @@ let
     personal = [
       "adobe-creative-cloud"
       "brave-browser"
+      "elecom-mouse-util"
       "grok-build"
       "hermes-desktop"
       "raspberry-pi-imager"
