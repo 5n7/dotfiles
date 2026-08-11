@@ -9,7 +9,6 @@ let
       "claude"
       "codex-app"
       "cursor"
-      "cursor-cli"
       "dockdoor"
       "gcloud-cli"
       "ghostty"
@@ -31,6 +30,7 @@ let
     personal = [
       "adobe-creative-cloud"
       "brave-browser"
+      "cursor-cli"
       "elecom-mouse-util"
       "grok-build"
       "hermes-desktop"
