@@ -25,6 +25,13 @@ in
       _FXShowPosixPathInTitle = true;
     };
 
+    # Share one space across all displays instead of giving each display its own.
+    # AeroSpace needs this: with per-display spaces, moving a window between
+    # monitors desyncs macOS' space bookkeeping and focus lands on the wrong
+    # window. The cost is losing native fullscreen on secondary displays, which
+    # AeroSpace's own `fullscreen` replaces anyway. Takes effect after a logout.
+    spaces.spans-displays = true;
+
     trackpad.Clicking = true;
 
     # Show battery percentage in the menu bar.
