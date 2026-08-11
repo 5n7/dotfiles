@@ -26,7 +26,19 @@
       background-opacity = 0.9;
       background-blur = true;
 
-      font-family = "0xProto Nerd Font";
+      # Primary is Latin/Nerd only; without an explicit CJK fallback CoreText
+      # often picks a mincho face for Japanese and it looks wrong.
+      # Bare "Hiragino Sans" resolves to W3 (lighter than 0xProto's Regular).
+      # W4 is the same weight class (5) as 0xProto Regular on CoreText.
+      font-family = [
+        "0xProto Nerd Font"
+        "Hiragino Sans W4"
+      ];
+      # W7 matches 0xProto Bold's weight class (9); W4 would stay thin when bold.
+      font-family-bold = [
+        "0xProto Nerd Font"
+        "Hiragino Sans W7"
+      ];
 
       # herdr draws its own status line, so the titlebar only shows a title
       # nothing sets. "hidden" keeps the native frame and rounded corners that
