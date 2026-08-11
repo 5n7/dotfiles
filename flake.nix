@@ -5,6 +5,11 @@
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-25.11-darwin";
     nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
 
+    herdr = {
+      url = "github:ogulcancelik/herdr";
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
+    };
+
     home-manager = {
       url = "github:nix-community/home-manager/release-25.11";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -98,7 +103,11 @@
               home-manager.sharedModules = [ inputs.hunk.homeManagerModules.default ];
               home-manager.extraSpecialArgs = {
                 pkgs-unstable = import nixpkgs-unstable { inherit system; };
-                inherit host;
+                inherit
+                  host
+                  inputs
+                  system
+                  ;
               };
               home-manager.users.${host.username} = import ./modules/home;
             }

@@ -1,12 +1,15 @@
 # User packages grouped by host: common packages plus the active profile's own group.
 {
   host,
+  inputs,
   pkgs,
   pkgs-unstable,
+  system,
   ...
 }:
 let
   docker-client = pkgs.docker_29.override { clientOnly = true; };
+  herdr = inputs.herdr.packages.${system}.default;
 
   packages = with pkgs; {
     common = [
@@ -27,6 +30,7 @@ let
       pkgs-unstable.glow
       gnused
       pkgs-unstable.gomi
+      herdr
       imagemagick
       pkgs-unstable.jnv
       jq

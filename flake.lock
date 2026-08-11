@@ -46,6 +46,27 @@
         "type": "github"
       }
     },
+    "herdr": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs-unstable"
+        ],
+        "rust-overlay": "rust-overlay"
+      },
+      "locked": {
+        "lastModified": 1786409643,
+        "narHash": "sha256-KimA+tm1I/frwYH+rRcKuVp57+A12YmcQ7/wAMomVUQ=",
+        "owner": "ogulcancelik",
+        "repo": "herdr",
+        "rev": "ddffb6e1d79efb517a92034ed18b75c388a36e55",
+        "type": "github"
+      },
+      "original": {
+        "owner": "ogulcancelik",
+        "repo": "herdr",
+        "type": "github"
+      }
+    },
     "home-manager": {
       "inputs": {
         "nixpkgs": [
@@ -76,11 +97,11 @@
         "systems": "systems"
       },
       "locked": {
-        "lastModified": 1786240379,
-        "narHash": "sha256-lVxvgV4QDi6pgnx21NyjWPbJTm/bwmQDRorhnomr+VY=",
+        "lastModified": 1786413341,
+        "narHash": "sha256-3NBRtcb0R4V45DqCUqQro+JEqnH683nFJMosCHb+tsI=",
         "owner": "modem-dev",
         "repo": "hunk",
-        "rev": "505d9d373aec50b7c855e536dbab477560e5168d",
+        "rev": "c8ba80a5218e63714686ee48e20444fd501491b6",
         "type": "github"
       },
       "original": {
@@ -111,11 +132,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1786156568,
-        "narHash": "sha256-7S1cjG9H24HLUegeBozEG2Wr+JjMfdyboAczoVLvbFw=",
+        "lastModified": 1786396455,
+        "narHash": "sha256-wFWxULzDHUewnKmT6he0B3H85ltDbslINxvqEk92j/0=",
         "owner": "ryoppippi",
         "repo": "nix-claude-code",
-        "rev": "8687230115961d8404176a5c0a1a06ee4e321cce",
+        "rev": "d8cfaf97f360f39e8dd131c821a6e4a7cae89de5",
         "type": "github"
       },
       "original": {
@@ -178,11 +199,11 @@
     },
     "nixpkgs-unstable": {
       "locked": {
-        "lastModified": 1785975029,
-        "narHash": "sha256-X44cn5rzytELc3NNoQsh0aLkjWA/QzPfc6HPQmsG3sU=",
+        "lastModified": 1786098110,
+        "narHash": "sha256-shi1tjDhCGGd0kIgVPNY03V8NBWSTzhMSFDb7IqSoec=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "70ce234312134a463ba7728e94da2486a1d237ac",
+        "rev": "afb4584a80bbf779ce0f691509ff902d188c2b3d",
         "type": "github"
       },
       "original": {
@@ -194,6 +215,7 @@
     },
     "root": {
       "inputs": {
+        "herdr": "herdr",
         "home-manager": "home-manager",
         "hunk": "hunk",
         "nix-claude-code": "nix-claude-code",
@@ -201,6 +223,27 @@
         "nixpkgs": "nixpkgs",
         "nixpkgs-unstable": "nixpkgs-unstable",
         "treefmt-nix": "treefmt-nix_2"
+      }
+    },
+    "rust-overlay": {
+      "inputs": {
+        "nixpkgs": [
+          "herdr",
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1783577481,
+        "narHash": "sha256-EWMxOWrJ031f8f/lrcEmhTRs4npw1/5N3Hcjin846c8=",
+        "owner": "oxalica",
+        "repo": "rust-overlay",
+        "rev": "4cdea398dc491b082dccdce0fad1ed0b75fa3394",
+        "type": "github"
+      },
+      "original": {
+        "owner": "oxalica",
+        "repo": "rust-overlay",
+        "type": "github"
       }
     },
     "systems": {
