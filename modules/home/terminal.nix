@@ -1,48 +1,6 @@
-# Terminal emulator (ghostty) and multiplexer (cmux) configuration.
+# Terminal emulator (ghostty) configuration.
 { ... }:
 {
-  # cmux config, serialized to JSON from a Nix attrset.
-  xdg.configFile."cmux/cmux.json".text = builtins.toJSON {
-    actions = {
-      claude = {
-        type = "agent";
-        command = "claude";
-      };
-      dev = {
-        type = "workspaceCommand";
-        command = "dev";
-      };
-      "new-terminal" = {
-        type = "builtin";
-        action = "cmux.newTerminal";
-      };
-    };
-    commands = {
-      dev = {
-        layout = {
-          direction = "horizontal";
-          ratio = 0.7;
-          surfaces = [
-            { type = "terminal"; }
-            {
-              type = "terminal";
-              command = "claude";
-            }
-          ];
-        };
-      };
-    };
-    ui = {
-      surfaceTabBar = {
-        buttons = [
-          "new-terminal"
-          "claude"
-          "dev"
-        ];
-      };
-    };
-  };
-
   programs.ghostty = {
     enable = true;
     # ghostty is installed via Homebrew cask, so do not pull the nixpkgs
@@ -50,8 +8,7 @@
     package = null;
     # ghostty injects shell integration automatically via the
     # `shell-integration = "zsh"` setting below, so HM's manual `source` block
-    # is redundant. It also breaks under cmux, which sets GHOSTTY_RESOURCES_DIR
-    # to a bundle that ships no shell-integration scripts.
+    # is redundant.
     enableZshIntegration = false;
     settings = {
       copy-on-select = "clipboard";

@@ -7,7 +7,6 @@ let
       "1password-cli"
       "chatgpt"
       "claude"
-      "cmux"
       "codex-app"
       "cursor"
       "cursor-cli"
