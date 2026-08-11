@@ -28,6 +28,17 @@
 
       font-family = "0xProto Nerd Font";
 
+      # herdr draws its own status line, so the titlebar only shows a title
+      # nothing sets. "hidden" keeps the native frame and rounded corners that
+      # `window-decoration = none` would strip; the window buttons go with it.
+      # Dragging by the titlebar is gone, but rectangle moves windows by
+      # keyboard anyway.
+      macos-titlebar-style = "hidden";
+
+      # "top,bottom" in points. Without a titlebar the first row sits flush
+      # against the window edge, so the top gets more room than the default 2.
+      window-padding-y = "8,2";
+
       # Launch herdr instead of a shell. Reopening a window re-attaches to the
       # running server rather than starting fresh. There is no shell to fall
       # back to, so if herdr fails to start the window closes immediately.
