@@ -26,6 +26,8 @@ return {
 	{
 		"nvim-treesitter/nvim-treesitter",
 		lazy = false,
+		-- The main branch requires Nvim 0.12+; pinned until this machine runs it.
+		pin = true,
 		build = ":TSUpdate",
 		opts = {
 			install_dir = vim.fn.stdpath("data") .. "/site",
@@ -62,6 +64,8 @@ return {
 	{
 		"nvim-treesitter/nvim-treesitter-textobjects",
 		dependencies = { "nvim-treesitter/nvim-treesitter" },
+		-- Pinned alongside nvim-treesitter: the main branch tracks it closely.
+		pin = true,
 		event = "BufReadPost",
 		config = function()
 			require("nvim-treesitter-textobjects").setup({
@@ -102,11 +106,20 @@ return {
 			vim.keymap.set({ "n", "x", "o" }, "[f", function()
 				goto_prev("@function.outer", "textobjects")
 			end, { desc = "Prev function" })
+			-- ]c / [c stay on diff navigation inside diff windows (diffview, :diffthis).
 			vim.keymap.set({ "n", "x", "o" }, "]c", function()
-				goto_next("@class.outer", "textobjects")
+				if vim.wo.diff then
+					vim.cmd.normal({ "]c", bang = true })
+				else
+					goto_next("@class.outer", "textobjects")
+				end
 			end, { desc = "Next class" })
 			vim.keymap.set({ "n", "x", "o" }, "[c", function()
-				goto_prev("@class.outer", "textobjects")
+				if vim.wo.diff then
+					vim.cmd.normal({ "[c", bang = true })
+				else
+					goto_prev("@class.outer", "textobjects")
+				end
 			end, { desc = "Prev class" })
 			vim.keymap.set({ "n", "x", "o" }, "]a", function()
 				goto_next("@parameter.outer", "textobjects")
