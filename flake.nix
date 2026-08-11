@@ -16,6 +16,11 @@
       flake = false;
     };
 
+    herdr-pluck = {
+      url = "github:rmarganti/herdr-pluck/v0.3.1";
+      flake = false;
+    };
+
     home-manager = {
       url = "github:nix-community/home-manager/release-25.11";
       inputs.nixpkgs.follows = "nixpkgs";
