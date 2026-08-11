@@ -8,6 +8,7 @@
     ./homebrew.nix
     ./nix.nix
     ./security.nix
+    ./shell.nix
     ./system.nix
   ];
 }
