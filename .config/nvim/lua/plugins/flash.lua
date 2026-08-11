@@ -15,6 +15,7 @@ return {
 			function()
 				require("flash").treesitter()
 			end,
+			-- Takes precedence over nvim-surround's visual S, which is intentional.
 			mode = { "n", "x", "o" },
 			desc = "Flash treesitter",
 		},

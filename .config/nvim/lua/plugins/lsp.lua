@@ -19,6 +19,10 @@ return {
 		},
 		opts = {
 			ensure_installed = { "gopls", "lua_ls", "vtsls" },
+			-- Server configs live in ./lsp/*.lua and are enabled from init.lua.
+			-- Auto-enabling would also enable leftover Mason packages that have no
+			-- config here, since nvim-lspconfig is not installed.
+			automatic_enable = false,
 		},
 	},
 }

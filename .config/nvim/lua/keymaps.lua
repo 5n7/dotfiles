@@ -10,6 +10,7 @@ map({ "n", "v" }, "gj", "j", { desc = "Move down (real line)" })
 map({ "n", "v" }, "gk", "k", { desc = "Move up (real line)" })
 
 -- Window split
+-- Ambiguous with flash's s, which therefore waits for timeoutlen before jumping.
 map("n", "sh", "<c-w>s", { desc = "Split horizontal" })
 map("n", "sv", "<c-w>v", { desc = "Split vertical" })
 
@@ -27,6 +28,7 @@ map("n", "<m-L>", "<cmd>vertical resize +10<cr>", { desc = "Increase width" })
 
 -- Black hole delete
 map({ "n", "v" }, "<leader>d", '"_d', { desc = "Delete without yank" })
+-- Shares a prefix with Trouble's <leader>x*, so this waits for timeoutlen.
 map({ "n", "v" }, "<leader>x", '"_x', { desc = "Remove char without yank" })
 
 -- Save / Quit
