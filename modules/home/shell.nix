@@ -12,7 +12,11 @@
     nix-direnv.enable = true;
   };
 
-  programs.fzf.enable = true;
+  programs.fzf = {
+    enable = true;
+    # Pre-rendered via home.activation and sourced from ./zsh/fzf.zsh.
+    enableZshIntegration = false;
+  };
 
   programs.oh-my-posh = {
     enable = true;
@@ -90,7 +94,9 @@
       ./zsh/fpath.zsh
       ./zsh/compinit.zsh
       ./zsh/sheldon.zsh
+      ./zsh/env-cache.zsh
       ./zsh/functions.zsh
+      ./zsh/fzf.zsh
       ./zsh/homebrew.zsh
       ./zsh/keymaps.zsh
       ./zsh/omp.zsh
@@ -116,6 +122,7 @@
   home.activation.precomputeShellInit = lib.hm.dag.entryAfter [ "sheldonLock" ] ''
     run mkdir -p \
       ${config.xdg.cacheHome}/direnv \
+      ${config.xdg.cacheHome}/fzf \
       ${config.xdg.cacheHome}/git-wt \
       ${config.xdg.cacheHome}/mise \
       ${config.xdg.cacheHome}/oh-my-posh \
@@ -123,6 +130,8 @@
       ${config.xdg.cacheHome}/zoxide
     run ${config.programs.direnv.package}/bin/direnv hook zsh \
       > ${config.xdg.cacheHome}/direnv/hook.zsh
+    run ${config.programs.fzf.package}/bin/fzf --zsh \
+      > ${config.xdg.cacheHome}/fzf/init.zsh
     run ${pkgs-unstable.git-wt}/bin/git-wt --init zsh \
       > ${config.xdg.cacheHome}/git-wt/init.zsh
     run ${config.programs.mise.package}/bin/mise activate zsh \
@@ -136,11 +145,21 @@
       > ${config.xdg.cacheHome}/zoxide/init.zsh
     run ${config.programs.zsh.package}/bin/zsh -c \
       'zcompile -R ${config.xdg.cacheHome}/direnv/hook.zsh
+       zcompile -R ${config.xdg.cacheHome}/fzf/init.zsh
        zcompile -R ${config.xdg.cacheHome}/git-wt/init.zsh
        zcompile -R ${config.xdg.cacheHome}/mise/activate.zsh
        zcompile -R ${config.xdg.cacheHome}/oh-my-posh/init.zsh
        zcompile -R ${config.xdg.cacheHome}/sheldon/source.zsh
        zcompile -R ${config.xdg.cacheHome}/zoxide/init.zsh'
+  '';
+
+  # zcompile the generated rc files; parsing .zshrc is ~12ms. The .zwc lands in
+  # the writable ZDOTDIR while the rc file is a store symlink with an epoch
+  # mtime, so zsh's staleness check never fires: it must be rebuilt every switch.
+  home.activation.zcompileZshrc = lib.hm.dag.entryAfter [ "precomputeShellInit" ] ''
+    run ${config.programs.zsh.package}/bin/zsh -c \
+      'zcompile -R ${config.programs.zsh.dotDir}/.zshenv
+       zcompile -R ${config.programs.zsh.dotDir}/.zshrc'
   '';
 
   xdg.configFile."zsh-abbr/user-abbreviations".source = ../../.config/zsh-abbr/user-abbreviations;
