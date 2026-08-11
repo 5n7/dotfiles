@@ -19,6 +19,7 @@ in
     ./editor.nix
     ./git.nix
     ./gpg.nix
+    ./herdr.nix
     ./hunk.nix
     ./karabiner.nix
     ./mise.nix

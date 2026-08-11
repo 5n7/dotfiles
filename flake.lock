@@ -67,6 +67,23 @@
         "type": "github"
       }
     },
+    "herdr-navigator": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1785648024,
+        "narHash": "sha256-TOAURrMM2UnFaVBFC+ElRaFqYZVx3GtpAx3PuRlc5Nc=",
+        "owner": "thanhdat77",
+        "repo": "herdr-navigator",
+        "rev": "745019ebdc38f9752629c93d2ca56d1ce638cf98",
+        "type": "github"
+      },
+      "original": {
+        "owner": "thanhdat77",
+        "ref": "v0.3.5",
+        "repo": "herdr-navigator",
+        "type": "github"
+      }
+    },
     "home-manager": {
       "inputs": {
         "nixpkgs": [
@@ -216,6 +233,7 @@
     "root": {
       "inputs": {
         "herdr": "herdr",
+        "herdr-navigator": "herdr-navigator",
         "home-manager": "home-manager",
         "hunk": "hunk",
         "nix-claude-code": "nix-claude-code",
