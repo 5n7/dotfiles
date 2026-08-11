@@ -41,11 +41,11 @@ let
       # and pairs with the stacked split already on prefix+minus.
       split_vertical = "prefix+backslash";
 
-      # A throwaway shell that leaves the tiled layout alone: no extra split, no
-      # extra tab. `exec` replaces the wrapper shell so exiting once closes the
-      # popup. Popups are a singleton, and opening one while Settings or Copy
-      # mode is active returns ui_busy.
       command = [
+        # A throwaway shell that leaves the tiled layout alone: no extra split,
+        # no extra tab. `exec` replaces the wrapper shell so exiting once closes
+        # the popup. Popups are a singleton, and opening one while Settings or
+        # Copy mode is active returns ui_busy.
         {
           key = "prefix+t";
           type = "popup";
@@ -147,6 +147,40 @@ let
     };
   };
 
+  # herdr-pluck is left on its defaults, so only navigator has a plugin config.
+  navigatorConfig = (pkgs.formats.toml { }).generate "navigator-config.toml" {
+    picker = {
+      # The binary is pinned by the flake, so the daily release check can only
+      # report a version Nix will not install.
+      check_updates = false;
+      # Drop the two herdr-plus sources from the ranking; they are disabled below.
+      source_order = [
+        "workspace"
+        "agent"
+        "session"
+        "zoxide"
+        "root"
+        "server"
+      ];
+    };
+
+    sources = {
+      # herdr-plus is not installed, so both of its sources would always be empty.
+      herdr_plus_projects = false;
+      herdr_plus_quick_actions = false;
+    };
+
+    # ghq keeps every checkout at $GHQ_ROOT/<host>/<owner>/<repo>, so depth 3 is
+    # exactly one repository and no deeper. Replaces the ~/workspace and
+    # ~/projects defaults, which do not exist here.
+    roots = [
+      {
+        path = "~/src";
+        max_depth = 3;
+      }
+    ];
+  };
+
   herdrCompletion =
     pkgs.runCommand "herdr-zsh-completion" { }
       "${pkgs.herdr}/bin/herdr completion zsh > $out";
@@ -237,38 +271,6 @@ let
     };
   };
 
-  navigatorConfig = (pkgs.formats.toml { }).generate "navigator-config.toml" {
-    picker = {
-      # The binary is pinned by the flake, so the daily release check can only
-      # report a version Nix will not install.
-      check_updates = false;
-      # Drop the two herdr-plus sources from the ranking; they are disabled below.
-      source_order = [
-        "workspace"
-        "agent"
-        "session"
-        "zoxide"
-        "root"
-        "server"
-      ];
-    };
-
-    sources = {
-      # herdr-plus is not installed, so both of its sources would always be empty.
-      herdr_plus_projects = false;
-      herdr_plus_quick_actions = false;
-    };
-
-    # ghq keeps every checkout at $GHQ_ROOT/<host>/<owner>/<repo>, so depth 3 is
-    # exactly one repository and no deeper. Replaces the ~/workspace and
-    # ~/projects defaults, which do not exist here.
-    roots = [
-      {
-        path = "~/src";
-        max_depth = 3;
-      }
-    ];
-  };
 in
 {
   home.packages = [ pkgs.herdr ];
