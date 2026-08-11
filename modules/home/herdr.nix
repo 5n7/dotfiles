@@ -63,6 +63,22 @@ let
           command = "herdr-navigator.open";
           description = "navigator";
         }
+        # Both pluck actions hint the tokens visible in the focused pane; the
+        # general one copies whatever is picked, the narrow one takes URLs only
+        # and hands them to the browser. prefix+y reads as yank, and prefix+u as
+        # url, because herdr already spends prefix+o on open_notification_target.
+        {
+          key = "prefix+y";
+          type = "plugin_action";
+          command = "rmarganti.herdr-pluck.pluck";
+          description = "pluck visible token";
+        }
+        {
+          key = "prefix+u";
+          type = "plugin_action";
+          command = "rmarganti.herdr-pluck.open-url";
+          description = "open visible URL";
+        }
       ];
     };
 
@@ -147,26 +163,28 @@ let
   # with nothing, or that download a prebuilt binary, install the imperative way
   # on this machine.
   #
-  # The plugin is Rust, but it is not compiled here: upstream publishes a
-  # code-signed aarch64-darwin binary per release, which is exactly what its own
-  # fetch-or-build.sh downloads. Taking the same binary keeps a version bump to a
-  # hash change instead of a cargo build.
+  # These plugins are Rust, but they are not compiled here: upstream publishes a
+  # code-signed aarch64-darwin binary per release, which is exactly what their own
+  # build steps download. Taking the same binary keeps a version bump to a hash
+  # change instead of a cargo build.
   #
   # The flake input still supplies the manifest and any scripts the manifest runs;
-  # only the executable comes from the release. Every command in the manifest is
-  # written relative to the plugin root as ./target/release/<pname>, so that path
-  # is what the binary is installed to.
+  # only the executable comes from the release. Manifest commands are written
+  # relative to the plugin root, but the path they use differs per plugin
+  # (./target/release/<pname> for navigator, ./bin/<pname> for pluck), so
+  # binaryPath names where the binary has to land.
   mkPlugin =
     {
       pname,
       version,
       src,
       binary,
+      binaryPath,
     }:
     pkgs.runCommand "${pname}-${version}" { } ''
       cp -R ${src} $out
       chmod -R u+w $out
-      install -Dm555 ${binary} $out/target/release/${pname}
+      install -Dm555 ${binary} $out/${binaryPath}
     '';
 
   # Attribute names are the plugin ids from each herdr-plugin.toml; the reconcile
@@ -176,6 +194,7 @@ let
       pname = "herdr-navigator";
       version = "0.3.5";
       src = inputs.herdr-navigator;
+      binaryPath = "target/release/herdr-navigator";
       # Released as a tarball rather than a bare binary, so unwrap it first.
       binary = pkgs.runCommand "herdr-navigator-binary" { } ''
         tar -xzOf ${
@@ -184,6 +203,25 @@ let
             hash = "sha256-0LQE2/tp9M9RhVIadLnkOchIs6tnxueskwLog7fwzBM=";
           }
         } herdr-navigator/herdr-navigator > $out
+      '';
+    };
+
+    # The manifest's own [[build]] step (./scripts/install-binary.sh) only
+    # downloads this release tarball, so it is skipped and the binary installed
+    # here instead.
+    "rmarganti.herdr-pluck" = mkPlugin {
+      pname = "herdr-pluck";
+      version = "0.3.1";
+      src = inputs.herdr-pluck;
+      binaryPath = "bin/herdr-pluck";
+      # Tarball again, with the executable at the archive root this time.
+      binary = pkgs.runCommand "herdr-pluck-binary" { } ''
+        tar -xzOf ${
+          pkgs.fetchurl {
+            url = "https://github.com/rmarganti/herdr-pluck/releases/download/v0.3.1/herdr-pluck-v0.3.1-aarch64-apple-darwin.tar.gz";
+            hash = "sha256-TNg86ZPjYF+ddarrK3oV9QPoDvTI+AQW55vqdyzmnH4=";
+          }
+        } herdr-pluck > $out
       '';
     };
   };

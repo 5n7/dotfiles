@@ -84,6 +84,23 @@
         "type": "github"
       }
     },
+    "herdr-pluck": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1786121512,
+        "narHash": "sha256-QFHjKbNPuK4pNd9T1S6IlHyFfXBRik93js+1mlXZDT4=",
+        "owner": "rmarganti",
+        "repo": "herdr-pluck",
+        "rev": "d1eacb80956c3a23ab6f7428a9e83961fb86ba28",
+        "type": "github"
+      },
+      "original": {
+        "owner": "rmarganti",
+        "ref": "v0.3.1",
+        "repo": "herdr-pluck",
+        "type": "github"
+      }
+    },
     "home-manager": {
       "inputs": {
         "nixpkgs": [
@@ -234,6 +251,7 @@
       "inputs": {
         "herdr": "herdr",
         "herdr-navigator": "herdr-navigator",
+        "herdr-pluck": "herdr-pluck",
         "home-manager": "home-manager",
         "hunk": "hunk",
         "nix-claude-code": "nix-claude-code",
