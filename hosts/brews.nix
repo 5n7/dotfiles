@@ -20,7 +20,6 @@ let
       "xz"
     ];
     personal = [
-      "MikkoParkkola/tap/mcp-gateway"
     ];
     work = [
     ];

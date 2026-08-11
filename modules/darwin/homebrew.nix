@@ -16,7 +16,6 @@
     taps = [
       "datadog-labs/pack"
       "k1low/tap"
-      "MikkoParkkola/tap"
       "stablyai/orca"
     ];
 
@@ -35,12 +34,10 @@
     # specific items we use (not the whole tap) via raw Brewfile syntax.
     # https://docs.brew.sh/Tap-Trust
     # Taps and their trust declarations stay unconditional; only the formulae
-    # and casks themselves are scoped per host profile (e.g. mcp-gateway is
-    # installed on the personal profile only).
+    # and casks themselves are scoped per host profile.
     extraConfig = ''
       tap "datadog-labs/pack", trusted: { formula: "pup" }
       tap "k1low/tap", trusted: { formula: "mo" }
-      tap "MikkoParkkola/tap", trusted: { formula: "mcp-gateway" }
       tap "stablyai/orca", trusted: { cask: "orca" }
     '';
   };
