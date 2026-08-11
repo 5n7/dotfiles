@@ -24,7 +24,13 @@
     "lima-full-1.2.2"
   ];
   nixpkgs.hostPlatform = system;
-  nixpkgs.overlays = [ inputs.nix-claude-code.overlays.default ];
+  nixpkgs.overlays = [
+    inputs.nix-claude-code.overlays.default
+    # herdr is not in nixpkgs, so surface its flake package as `pkgs.herdr` for
+    # any module that needs it. Its own overlay is not used because that one
+    # composes rust-overlay into the global package set.
+    (_: _: { herdr = inputs.herdr.packages.${system}.default; })
+  ];
 
   system.stateVersion = 5;
 }
