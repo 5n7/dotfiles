@@ -16,7 +16,6 @@
     taps = [
       "datadog-labs/pack"
       "k1low/tap"
-      "manaflow-ai/cmux"
       "MikkoParkkola/tap"
       "stablyai/orca"
     ];
@@ -41,7 +40,6 @@
     extraConfig = ''
       tap "datadog-labs/pack", trusted: { formula: "pup" }
       tap "k1low/tap", trusted: { formula: "mo" }
-      tap "manaflow-ai/cmux", trusted: { cask: "cmux" }
       tap "MikkoParkkola/tap", trusted: { formula: "mcp-gateway" }
       tap "stablyai/orca", trusted: { cask: "orca" }
     '';
