@@ -1,52 +1,53 @@
-# Terminal emulator (ghostty) configuration.
-{ ... }:
+# Terminal emulator (ghostty). It launches herdr directly, so ghostty is a
+# single-surface host: herdr owns tabs, splits, scrollback, mouse, and the
+# window title. ghostty's equivalents are dead weight here, because herdr
+# emulates each pane's terminal and those escape sequences never reach ghostty.
+{ lib, pkgs, ... }:
 {
   programs.ghostty = {
     enable = true;
-    # ghostty is installed via Homebrew cask, so do not pull the nixpkgs
-    # package; only manage the config file.
+    # nixpkgs' ghostty is Linux-only (meta.platforms lists no darwin, and it
+    # evaluates as unsupported), so the cask stays and Nix manages only the
+    # config file.
     package = null;
-    # ghostty injects shell integration automatically via the
-    # `shell-integration = "zsh"` setting below, so HM's manual `source` block
-    # is redundant.
+    # Shell integration is off below, so HM's manual `source` block would inject
+    # what ghostty is being told not to.
     enableZshIntegration = false;
+    # Grouped by what each setting governs: appearance, then what the window
+    # runs, then input. Related keys stay adjacent so a comment can refer to the
+    # line above it.
     settings = {
-      copy-on-select = "clipboard";
-      # Repeated keys are expressed as lists (listsAsDuplicateKeys).
-      font-codepoint-map = [
-        "U+3000-U+303F=Hiragino Sans W4"
-        "U+3040-U+309F=Hiragino Sans W4"
-        "U+30A0-U+30FF=Hiragino Sans W4"
-        "U+3400-U+4DBF=Hiragino Sans W4"
-        "U+4E00-U+9FFF=Hiragino Sans W4"
-        "U+F900-U+FAFF=Hiragino Sans W4"
-        "U+FF00-U+FFEF=Hiragino Sans W4"
-      ];
-      font-family = "0xProto Nerd Font";
-      font-size = 13;
-      keybind = [
-        "alt+h=goto_split:left"
-        "alt+j=goto_split:down"
-        "alt+k=goto_split:up"
-        "alt+l=goto_split:right"
-      ];
-      macos-option-as-alt = true;
-      macos-titlebar-style = "tabs";
-      notify-on-command-finish = "always";
-      notify-on-command-finish-action = "notify";
-      notify-on-command-finish-after = "10s";
-      scrollback-limit = 100000;
-      shell-integration = "zsh";
-      shell-integration-features = "cursor,sudo,title";
-      split-inherit-working-directory = true;
-      tab-inherit-working-directory = true;
+      # Sets the ANSI palette and the background colour that pane contents
+      # inherit. herdr's own theme is tokyo-night to match.
       theme = "TokyoNight Storm";
-      unfocused-split-opacity = "0.8";
-      window-inherit-working-directory = true;
-      window-padding-x = 8;
-      window-padding-y = 4;
-      window-save-state = "always";
-      working-directory = "~/src";
+
+      # Applies to the theme background above. herdr's panels are painted with
+      # "reset" so they inherit it instead of covering it.
+      background-opacity = 0.9;
+      background-blur = true;
+
+      font-family = "0xProto Nerd Font";
+
+      # Launch herdr instead of a shell. Reopening a window re-attaches to the
+      # running server rather than starting fresh. There is no shell to fall
+      # back to, so if herdr fails to start the window closes immediately.
+      # The store path is required: ghostty runs this through
+      # `bash --noprofile --norc`, and ghostty itself is started by launchd, so
+      # the only PATH available is /usr/bin:/bin:/usr/sbin:/sbin.
+      command = lib.getExe pkgs.herdr;
+
+      # The command above is not a shell, and zsh injection would leak ghostty's
+      # ZDOTDIR into the shells herdr spawns inside panes. Nothing is lost:
+      # prompt marks and titles written in a pane stop at herdr anyway.
+      shell-integration = "none";
+
+      # Closing the window only detaches: the herdr server keeps the panes
+      # running, so the prompt asks about nothing.
+      confirm-close-surface = false;
+
+      # herdr can bind alt chords, so option must arrive as alt rather than
+      # composing into a special character.
+      macos-option-as-alt = true;
     };
   };
 }
