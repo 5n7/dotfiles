@@ -11,6 +11,7 @@ let
   packages = with pkgs; {
     common = [
       bat
+      btop
       pkgs-unstable.buf
       pkgs-unstable.codex
       colima
