@@ -22,7 +22,6 @@ let
       "ngrok"
       "notion"
       "raycast"
-      "rectangle"
       "scroll-reverser"
       "slack"
       "stablyai/orca/orca"

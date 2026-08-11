@@ -3,10 +3,6 @@
   pkgs,
   ...
 }:
-let
-  # Control + Option (NSControlKeyMask | NSAlternateKeyMask).
-  ctrlOpt = 786432;
-in
 {
   system.defaults = {
     dock = {
@@ -63,32 +59,6 @@ in
         JIMPrefCharacterForYenKey = 1; # ¥ key inputs backslash (\) instead of ¥
         JIMPrefFullWidthNumeralCharactersKey = 0; # numerals are half-width
         JIMPrefAutocorrectionKey = 0; # disable IME autocorrection
-      };
-
-      "com.knollsoft.Rectangle" = {
-        launchOnLogin = 1;
-        gapSize = 10;
-
-        leftHalf = {
-          keyCode = 4; # H
-          modifierFlags = ctrlOpt;
-        };
-        rightHalf = {
-          keyCode = 37; # L
-          modifierFlags = ctrlOpt;
-        };
-        topHalf = {
-          keyCode = 40; # K
-          modifierFlags = ctrlOpt;
-        };
-        bottomHalf = {
-          keyCode = 38; # J
-          modifierFlags = ctrlOpt;
-        };
-        maximize = {
-          keyCode = 36; # Return
-          modifierFlags = ctrlOpt;
-        };
       };
     };
   };
