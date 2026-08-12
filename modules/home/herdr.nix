@@ -147,7 +147,27 @@ let
     };
   };
 
-  # herdr-pluck is left on its defaults, so only navigator has a plugin config.
+  # herdr-focus-notify reads plain KEY=VALUE lines from .env in its config
+  # directory (src/config.rs); a real environment variable of the same name wins,
+  # but the server hands plugins no such variables.
+  focusNotifyConfig = pkgs.writeText "focus-notify.env" ''
+    # The terminal this config runs herdr in. The plugin turns the app name into
+    # a bundle id and compares it with the frontmost application, so an agent
+    # sitting in the pane already on screen stays quiet.
+    HERDR_FOCUS_NOTIFY_ACTIVATE_APP=ghostty
+
+    # Which notifier binary to shell out to. Auto-detection would search $PATH
+    # and then both Homebrew prefixes, but the server inherits ghostty's launchd
+    # PATH, so naming the path avoids depending on that search.
+    HERDR_FOCUS_NOTIFY_NOTIFIER=/opt/homebrew/bin/alerter
+
+    # The click handler runs `herdr agent focus <pane>`, and the plugin's own
+    # lookup ends at ~/.local/bin, /opt/homebrew/bin, and /usr/local/bin. A Nix
+    # herdr is in none of them and not on the server's PATH either.
+    HERDR_BIN_PATH=${lib.getExe pkgs.herdr}
+  '';
+
+  # herdr-pluck is the only plugin left on its defaults, so it has no config here.
   navigatorConfig = (pkgs.formats.toml { }).generate "navigator-config.toml" {
     picker = {
       # The binary is pinned by the flake, so the daily release check can only
@@ -197,10 +217,10 @@ let
   # with nothing, or that download a prebuilt binary, install the imperative way
   # on this machine.
   #
-  # These plugins are Rust, but they are not compiled here: upstream publishes a
-  # code-signed aarch64-darwin binary per release, which is exactly what their own
-  # build steps download. Taking the same binary keeps a version bump to a hash
-  # change instead of a cargo build.
+  # These plugins are all Rust, but most are not compiled here: upstream
+  # publishes a code-signed aarch64-darwin binary per release, which is exactly
+  # what their own build steps download. Taking the same binary keeps a version
+  # bump to a hash change instead of a cargo build.
   #
   # The flake input still supplies the manifest and any scripts the manifest runs;
   # only the executable comes from the release. Manifest commands are written
@@ -224,6 +244,27 @@ let
   # Attribute names are the plugin ids from each herdr-plugin.toml; the reconcile
   # script below matches on them.
   plugins = {
+    # The only plugin actually compiled here: its release carries source alone,
+    # so there is no prebuilt binary to reuse and the manifest's `cargo build
+    # --release` has to happen somewhere. Deps are serde and serde_json with a
+    # committed Cargo.lock, so buildRustPackage needs no vendor hash.
+    "herdr-focus-notify" = mkPlugin {
+      pname = "herdr-focus-notify";
+      version = "0.3.8";
+      src = inputs.herdr-focus-notify;
+      binaryPath = "target/release/herdr-focus-notify";
+      binary =
+        let
+          package = pkgs.rustPlatform.buildRustPackage {
+            pname = "herdr-focus-notify";
+            version = "0.3.8";
+            src = inputs.herdr-focus-notify;
+            cargoLock.lockFile = "${inputs.herdr-focus-notify}/Cargo.lock";
+          };
+        in
+        lib.getExe' package "herdr-focus-notify";
+    };
+
     herdr-navigator = mkPlugin {
       pname = "herdr-navigator";
       version = "0.3.5";
@@ -266,9 +307,13 @@ in
 
   xdg.configFile."herdr/config.toml".source = herdrConfig;
 
-  # herdr derives this directory from the plugin id (src/plugin_paths.rs). Only
-  # config.toml is symlinked: the plugin keeps its jump-back and pinned-entry
-  # state as sibling files and needs the directory itself writable.
+  # herdr derives these directories from the plugin id (src/plugin_paths.rs).
+  # Only the config file itself is symlinked, so the directory stays writable for
+  # whatever a plugin drops beside it.
+  xdg.configFile."herdr/plugins/config/herdr-focus-notify/.env".source = focusNotifyConfig;
+
+  # navigator needs that writable directory: it keeps its jump-back and
+  # pinned-entry state as siblings of config.toml.
   xdg.configFile."herdr/plugins/config/herdr-navigator/config.toml".source = navigatorConfig;
 
   # ZDOTDIR/completions is added to fpath by ./zsh/fpath.zsh.

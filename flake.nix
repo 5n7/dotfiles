@@ -11,6 +11,11 @@
     };
 
     # Plugin sources are pinned as non-flake inputs and built in modules/home/herdr.nix.
+    herdr-focus-notify = {
+      url = "github:yankewei/herdr-focus-notify/v0.3.8";
+      flake = false;
+    };
+
     herdr-navigator = {
       url = "github:thanhdat77/herdr-navigator/v0.3.5";
       flake = false;
