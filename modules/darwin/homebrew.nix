@@ -17,6 +17,7 @@
       "datadog-labs/pack"
       "k1low/tap"
       "stablyai/orca"
+      "vjeantet/tap"
     ];
 
     brews = import ../../hosts/brews.nix { inherit host; };
@@ -39,6 +40,7 @@
       tap "datadog-labs/pack", trusted: { formula: "pup" }
       tap "k1low/tap", trusted: { formula: "mo" }
       tap "stablyai/orca", trusted: { cask: "orca" }
+      tap "vjeantet/tap", trusted: { formula: "alerter" }
     '';
   };
 }
