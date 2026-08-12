@@ -31,11 +31,11 @@ let
       next_tab = "prefix+tab";
       previous_tab = "prefix+shift+tab";
 
-      # prefix+n/p are herdr's tab keys; freed above, they walk the Agent panel
-      # instead. With agent_panel_sort = "priority" that panel is the attention
-      # queue, so this steps through whatever needs a decision next.
-      next_agent = "prefix+n";
-      previous_agent = "prefix+p";
+      # prefix+n/p are herdr's tab keys; freed by the move to prefix+tab, they
+      # step between workspaces instead, which herdr leaves unbound. Workspaces
+      # are the outer ring, so they get the plain keys and tabs the modified one.
+      next_workspace = "prefix+n";
+      previous_workspace = "prefix+p";
 
       # Side-by-side split on prefix+\, so the key mirrors the divider it draws
       # and pairs with the stacked split already on prefix+minus.
