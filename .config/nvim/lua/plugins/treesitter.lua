@@ -1,6 +1,7 @@
 local ensure = {
 	"bash",
 	"css",
+	"cue",
 	"diff",
 	"go",
 	"gomod",
