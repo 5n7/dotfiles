@@ -27,8 +27,6 @@ return {
 	{
 		"nvim-treesitter/nvim-treesitter",
 		lazy = false,
-		-- The main branch requires Nvim 0.12+; pinned until this machine runs it.
-		pin = true,
 		build = ":TSUpdate",
 		opts = {
 			install_dir = vim.fn.stdpath("data") .. "/site",
@@ -65,8 +63,6 @@ return {
 	{
 		"nvim-treesitter/nvim-treesitter-textobjects",
 		dependencies = { "nvim-treesitter/nvim-treesitter" },
-		-- Pinned alongside nvim-treesitter: the main branch tracks it closely.
-		pin = true,
 		event = "BufReadPost",
 		config = function()
 			require("nvim-treesitter-textobjects").setup({
