@@ -13,7 +13,7 @@ let
   # Every workspace is reached with alt-<its own name, lowercased> and receives
   # the focused window with alt-shift-<same>, so the list below is the single
   # source of truth for both the bindings and persistent-workspaces. Lettered
-  # ones are the permanent home of one app; numbered ones are scratch space.
+  # ones are the permanent home of one app; U/I/O/P are scratch space.
   # Linear would want L, but alt-l is `focus right`, so it took X instead.
   workspaces = [
     "A" # Claude
@@ -22,11 +22,10 @@ let
     "S" # Slack
     "T" # Ghostty
     "X" # Linear
-    "1"
-    "2"
-    "3"
-    "4"
-    "5"
+    "U"
+    "I"
+    "O"
+    "P"
   ];
 
   # --focus-follows-window keeps focus on the window that was just moved, so
@@ -116,21 +115,18 @@ in
         alt-f = "fullscreen --no-outer-gaps";
         alt-shift-f = "layout floating tiling";
 
-        # Focus, then the same keys with shift to drag the window along.
-        alt-h = "focus left";
-        alt-j = "focus down";
-        alt-k = "focus up";
-        alt-l = "focus right";
-        alt-shift-h = "move left";
-        alt-shift-j = "move down";
-        alt-shift-k = "move up";
-        alt-shift-l = "move right";
-
-        # Same idea one level up: ctrl means monitor rather than window.
-        alt-ctrl-h = "focus-monitor --wrap-around prev";
-        alt-ctrl-l = "focus-monitor --wrap-around next";
-        alt-ctrl-shift-h = "move-node-to-monitor --focus-follows-window --wrap-around prev";
-        alt-ctrl-shift-l = "move-node-to-monitor --focus-follows-window --wrap-around next";
+        # Focus, then the same keys with shift to drag the window along. Both
+        # cross monitors so neither dead-ends at a screen edge. Neither wraps
+        # past the last one; move nests there instead, so alt-shift still
+        # splits a row.
+        alt-h = "focus left --boundaries all-monitors-outer-frame";
+        alt-j = "focus down --boundaries all-monitors-outer-frame";
+        alt-k = "focus up --boundaries all-monitors-outer-frame";
+        alt-l = "focus right --boundaries all-monitors-outer-frame";
+        alt-shift-h = "move left --boundaries all-monitors-outer-frame --boundaries-action create-implicit-container";
+        alt-shift-j = "move down --boundaries all-monitors-outer-frame --boundaries-action create-implicit-container";
+        alt-shift-k = "move up --boundaries all-monitors-outer-frame --boundaries-action create-implicit-container";
+        alt-shift-l = "move right --boundaries all-monitors-outer-frame --boundaries-action create-implicit-container";
 
         # `smart` resizes along the parent container's own orientation.
         alt-minus = "resize smart -50";
