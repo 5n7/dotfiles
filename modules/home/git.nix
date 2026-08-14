@@ -32,6 +32,18 @@
       ".wt/"
     ];
     settings = {
+      core = {
+        # Status without stat-ing the whole worktree; the prompt runs one every
+        # command (fetch_status in omp.toml). 70ms -> 20ms on a 12k-file tree.
+        # Costs one daemon per worktree.
+        fsmonitor = true;
+        # Only pays off next to fsmonitor, which already skips the scan.
+        untrackedCache = true;
+      };
+      # History walks read the commit-graph instead of parsing commits: 8x on a
+      # 16k commit repo. Incremental on fetch, unlike `git maintenance start`,
+      # which installs a launchd job.
+      fetch.writeCommitGraph = true;
       init.defaultBranch = "main";
       merge.conflictStyle = "zdiff3";
       user = {
