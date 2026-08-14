@@ -98,12 +98,22 @@ vim.api.nvim_create_autocmd("BufWipeout", {
 	end,
 })
 
--- LSP keymaps
+-- LSP keymaps and inlay hints
 vim.api.nvim_create_autocmd("LspAttach", {
 	group = group,
 	callback = function(args)
 		local map = function(mode, lhs, rhs, desc)
 			vim.keymap.set(mode, lhs, rhs, { buffer = args.buf, desc = desc })
+		end
+
+		-- Enabling hints on a client without the capability errors, and buf_ls has none.
+		-- Which servers actually emit hints is decided in lsp/*.lua; only gopls opts in.
+		local client = vim.lsp.get_client_by_id(args.data.client_id)
+		if client and client:supports_method("textDocument/inlayHint") then
+			vim.lsp.inlay_hint.enable(true, { bufnr = args.buf })
+			map("n", "<leader>ch", function()
+				vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled({ bufnr = args.buf }), { bufnr = args.buf })
+			end, "Toggle inlay hints")
 		end
 
 		map("n", "gd", lsp_picker("lsp_definitions", vim.lsp.buf.definition), "Go to definition")
