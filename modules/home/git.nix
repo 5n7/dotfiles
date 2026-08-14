@@ -29,6 +29,7 @@
       ".DS_Store"
       ".serena/"
       ".vscode/"
+      ".wt/"
     ];
     settings = {
       init.defaultBranch = "main";
