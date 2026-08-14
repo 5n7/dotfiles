@@ -1,6 +1,26 @@
-# mise tool version manager. Binary + mise's own settings are managed here;
-# per-project tool versions stay dynamic via mise CLI and per-repo `.mise.toml`.
-{ pkgs-unstable, ... }:
+# mise tool version manager. The global `[tools]` table is written at runtime by
+# `mise use -g` / `mise upgrade --bump`, so config.toml is an out-of-store symlink
+# into the checkout and its changes can be committed. mise's own `[settings]` stay
+# declarative in conf.d, which mise reads with precedence over config.toml, so
+# nothing here fights for config.toml. Per-project tool versions stay dynamic via
+# per-repo `.mise.toml`.
+{
+  config,
+  dotfilesDir,
+  pkgs,
+  pkgs-unstable,
+  ...
+}:
+let
+  # A conf.d entry is a full mise config file, hence the `settings` table wrapper.
+  settingsConfig = (pkgs.formats.toml { }).generate "00-settings.toml" {
+    settings = {
+      experimental = true;
+      python.uv_venv_auto = true;
+      status.missing_tools = "always";
+    };
+  };
+in
 {
   programs.mise = {
     enable = true;
@@ -9,10 +29,10 @@
     # keep interactive shell startup fast; HM's default eager integration
     # would duplicate it.
     enableZshIntegration = false;
-    globalConfig.settings = {
-      experimental = true;
-      python.uv_venv_auto = true;
-      status.missing_tools = "always";
-    };
   };
+
+  xdg.configFile."mise/config.toml".source =
+    config.lib.file.mkOutOfStoreSymlink "${dotfilesDir}/.config/mise/config.toml";
+
+  xdg.configFile."mise/conf.d/00-settings.toml".source = settingsConfig;
 }
