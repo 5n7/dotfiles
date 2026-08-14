@@ -9,7 +9,7 @@
     # keep interactive shell startup fast; HM's default eager integration
     # would duplicate it.
     enableZshIntegration = false;
-    settings = {
+    globalConfig.settings = {
       experimental = true;
       python.uv_venv_auto = true;
       status.missing_tools = "always";

@@ -12,28 +12,28 @@ let
     common = [
       bat
       btop
-      pkgs-unstable.buf
+      buf
       pkgs-unstable.codex
       colima
       docker-client
       docker-compose
       pkgs-unstable.dua
       eza
-      pkgs-unstable.fd
+      fd
       ffmpeg
-      pkgs-unstable.gawk
+      gawk
       ghostscript
       pkgs-unstable.ghq
       pkgs-unstable.git-wt
-      pkgs-unstable.glow
+      glow
       gnused
-      pkgs-unstable.gomi
+      gomi
       imagemagick
-      pkgs-unstable.jnv
+      jnv
       jq
       pkgs-unstable.ko
-      pkgs-unstable.krew
-      pkgs-unstable.kubectl
+      krew
+      kubectl
       libpq
       mmv-go
       ripgrep
@@ -42,7 +42,7 @@ let
       pkgs-unstable.tree-sitter
       wget
       xcodegen
-      pkgs-unstable.yazi
+      yazi
       yq
     ];
     personal = [
