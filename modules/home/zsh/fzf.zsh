@@ -1,8 +1,8 @@
 # Pre-rendered fzf shell integration; HM's emits `source <(fzf --zsh)`, forking
 # fzf every shell. Falls back to live `fzf --zsh` if the cache is missing.
-# The widgets below must stay after it: they override fzf's own ^T. They bind
-# into viins explicitly because this file loads before keymaps.zsh runs
-# `bindkey -v`, which relinks `main`.
+# The widgets below must stay after it: they override fzf's own ^T and ^R.
+# They bind into viins explicitly because this file loads before keymaps.zsh
+# runs `bindkey -v`, which relinks `main`.
 if [[ -f "${XDG_CACHE_HOME:-$HOME/.cache}/fzf/init.zsh" ]]; then
     source "${XDG_CACHE_HOME:-$HOME/.cache}/fzf/init.zsh"
 else
@@ -67,6 +67,9 @@ fzf::history() {
 }
 zle -N fzf::history
 bindkey -M viins "^H" fzf::history
+# ^R too, replacing fzf-history-widget from the sourced integration: one widget
+# behind both keys instead of two pickers that behave differently.
+bindkey -M viins "^R" fzf::history
 
 fzf::kill() {
     local pid=$(ps -fu "$UID" | sed 1d | fzf -m | awk '{print $2}')
