@@ -24,10 +24,7 @@
 
     casks = import ../../hosts/casks.nix { inherit host; };
 
-    masApps = {
-      "RunCat Neo" = 6757801838;
-      Xcode = 497799835;
-    };
+    masApps = import ../../hosts/mas.nix { inherit host; };
 
     # Homebrew 6.0 requires non-official taps to be explicitly trusted before
     # `brew bundle` will load formulae/casks from them. nix-darwin's homebrew
