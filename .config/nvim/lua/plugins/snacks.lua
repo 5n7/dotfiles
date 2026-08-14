@@ -70,9 +70,12 @@ return {
 					ignored = true,
 					exclude = exclude,
 				},
+				-- ignored is left at its default here, unlike the pickers above:
+				-- --no-ignore makes rg read the contents of build output and vendored
+				-- trees rather than just list their paths, which is what gets expensive
+				-- in a large workspace. <a-i> turns it on from inside the picker.
 				grep = {
 					hidden = true,
-					ignored = true,
 					exclude = exclude,
 				},
 			},
@@ -80,7 +83,9 @@ return {
 		quickfile = { enabled = true },
 		scope = { enabled = true },
 		statuscolumn = { enabled = true },
-		words = { enabled = true, debounce = 300 },
+		-- Each debounce window sends a documentHighlight request. Keep it long enough
+		-- that cursor movement does not queue work behind a busy server.
+		words = { enabled = true, debounce = 500 },
 	},
 	config = function(_, opts)
 		require("snacks").setup(opts)
