@@ -8,6 +8,7 @@
 {
   inputs,
   lib,
+  osConfig,
   pkgs,
   ...
 }:
@@ -159,7 +160,15 @@ let
     # Which notifier binary to shell out to. Auto-detection would search $PATH
     # and then both Homebrew prefixes, but the server inherits ghostty's launchd
     # PATH, so naming the path avoids depending on that search.
-    HERDR_FOCUS_NOTIFY_NOTIFIER=/opt/homebrew/bin/alerter
+    #
+    # It has to be alerter, and alerter has to come from Homebrew: the generated
+    # script (src/script.rs) calls it with `--actions Focus --close-label
+    # Dismiss --group ... --remove ...` and reads the clicked action back from
+    # stdout to decide whether to run `herdr agent focus`. terminal-notifier,
+    # the one notifier in nixpkgs, has no blocking action protocol, and alerter
+    # itself is not packaged there. So the path is the Homebrew prefix
+    # nix-darwin already uses for `brew` rather than a store path.
+    HERDR_FOCUS_NOTIFY_NOTIFIER=${osConfig.homebrew.brewPrefix}/alerter
 
     # The click handler runs `herdr agent focus <pane>`, and the plugin's own
     # lookup ends at ~/.local/bin, /opt/homebrew/bin, and /usr/local/bin. A Nix
