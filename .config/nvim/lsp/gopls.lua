@@ -55,8 +55,23 @@ local function project_client()
 end
 
 return {
-	cmd = { "gopls" },
+	-- -remote=auto attaches to a shared gopls daemon, starting one if none is running.
+	-- A second nvim on the same tree then reaches an already-indexed server instead of
+	-- waiting out another full index, and the workspace is held in memory once rather
+	-- than per editor. The daemon outlives nvim; `pkill gopls` clears a wedged one.
+	--
+	-- The daemon would otherwise exit a minute after the last client disconnects, which
+	-- discards the type-checked state that makes reopening cheap. An hour spans a
+	-- working session's restarts and still frees the memory once the day is over.
+	cmd = { "gopls", "-remote=auto", "-remote.listen.timeout=1h" },
 	filetypes = { "go", "gomod", "gotmpl", "gowork" },
+	capabilities = {
+		-- Declining dynamic registration stops gopls from installing watchers in nvim,
+		-- where every filesystem event is matched against globs in Lua. A branch switch
+		-- or a build touches enough files to stall the UI doing that. fileWatcher below
+		-- moves the same job into gopls.
+		workspace = { didChangeWatchedFiles = { dynamicRegistration = false } },
+	},
 	root_dir = function(bufnr, on_dir)
 		local fname = vim.fs.normalize(vim.api.nvim_buf_get_name(bufnr))
 
@@ -84,6 +99,21 @@ return {
 			directoryFilters = { "-**/.wt" },
 			-- Limits symbol search to workspace packages; the default searches dependencies too.
 			symbolScope = "workspace",
+			-- The default, "Edit", re-diagnoses workspace packages as you type.
+			diagnosticsTrigger = "Save",
+			-- Lenses are requested per buffer and none of these are used from here.
+			-- upgrade_dependency is the expensive one: opening go.mod sends it to the
+			-- module proxy over the network.
+			codelenses = {
+				generate = false,
+				regenerate_cgo = false,
+				run_govulncheck = false,
+				tidy = false,
+				upgrade_dependency = false,
+				vendor = false,
+			},
+			-- Server-side watching, in place of the client watchers declined above.
+			fileWatcher = "fsnotify",
 		},
 	},
 }
