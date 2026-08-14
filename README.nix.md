@@ -35,7 +35,7 @@ darwin-rebuild --list-generations
 ```sh
 NIX_CONFIG="access-tokens = github.com=`gh auth token`" nix flake update
 
-sudo NIX_CONFIG="access-tokens = github.com=`gh auth token`" \
+sudo -H NIX_CONFIG="access-tokens = github.com=`gh auth token`" \
   nix --extra-experimental-features 'nix-command flakes' \
   run nix-darwin -- switch --flake .#personal
 ```
