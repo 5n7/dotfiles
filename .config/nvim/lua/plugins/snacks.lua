@@ -1,3 +1,5 @@
+local exclude = { ".git", ".next", ".wt", "node_modules" }
+
 local function picker(method, opts)
 	return function()
 		Snacks.picker[method](opts or {})
@@ -54,7 +56,7 @@ return {
 				explorer = {
 					hidden = true,
 					ignored = true,
-					exclude = { ".git", ".next", "node_modules" },
+					exclude = exclude,
 					win = {
 						list = {
 							keys = {
@@ -66,12 +68,12 @@ return {
 				files = {
 					hidden = true,
 					ignored = true,
-					exclude = { ".git", ".next", "node_modules" },
+					exclude = exclude,
 				},
 				grep = {
 					hidden = true,
 					ignored = true,
-					exclude = { ".git", ".next", "node_modules", ".wt" },
+					exclude = exclude,
 				},
 			},
 		},
