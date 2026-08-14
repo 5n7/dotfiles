@@ -10,7 +10,7 @@
     enable = true;
     package = pkgs.claude-code-minimal;
     agentsDir = ./claude/agents;
-    memory.source = ./agents/AGENTS.md;
-    skillsDir = ./claude/skills;
+    context = ./agents/AGENTS.md;
+    skills = ./claude/skills;
   };
 }
