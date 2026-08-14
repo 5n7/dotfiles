@@ -7,12 +7,7 @@
     onActivation = {
       autoUpdate = false;
       upgrade = true;
-      # nix-darwin 25.11 still emits the deprecated `brew bundle --cleanup`
-      # switch when this is "uninstall". Homebrew 6 dropped that flag; cleanup
-      # now happens via `--force-cleanup` on `brew bundle install` (what
-      # nix-darwin master already passes).
-      cleanup = "none";
-      extraFlags = [ "--force-cleanup" ];
+      cleanup = "uninstall";
     };
 
     taps = [

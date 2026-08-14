@@ -9,16 +9,6 @@ let
       "k1low/tap/mo"
       "mas"
       "vjeantet/tap/alerter"
-
-      # Formula deps of the gcloud-cli cask. `brew bundle` cleanup ignores cask
-      # dependencies, so without these it tries (and fails) to uninstall them on
-      # every activation.
-      "ca-certificates"
-      "mpdecimal"
-      "openssl@3"
-      "readline"
-      "sqlite"
-      "xz"
     ];
     personal = [
     ];

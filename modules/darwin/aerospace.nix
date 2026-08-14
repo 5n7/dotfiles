@@ -4,9 +4,7 @@
 # This replaces Rectangle, which only snapped windows to halves and had no
 # concept of workspaces.
 {
-  inputs,
   lib,
-  system,
   ...
 }:
 let
@@ -64,10 +62,6 @@ in
 {
   services.aerospace = {
     enable = true;
-
-    # The pinned nixpkgs (25.11) still carries 0.19.2-Beta, which predates
-    # config-version 2. Take the package from unstable instead.
-    package = inputs.nixpkgs-unstable.legacyPackages.${system}.aerospace;
 
     settings = {
       config-version = 2;

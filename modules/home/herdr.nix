@@ -168,7 +168,7 @@ let
     # the one notifier in nixpkgs, has no blocking action protocol, and alerter
     # itself is not packaged there. So the path is the Homebrew prefix
     # nix-darwin already uses for `brew` rather than a store path.
-    HERDR_FOCUS_NOTIFY_NOTIFIER=${osConfig.homebrew.brewPrefix}/alerter
+    HERDR_FOCUS_NOTIFY_NOTIFIER=${osConfig.homebrew.prefix}/bin/alerter
 
     # The click handler runs `herdr agent focus <pane>`, and the plugin's own
     # lookup ends at ~/.local/bin, /opt/homebrew/bin, and /usr/local/bin. A Nix
