@@ -14,6 +14,9 @@ end
 
 local ts_disabled_by_ft = {}
 local ts_max_filesize = 512 * 1024
+-- Buffers set_treesitter_folds already handled. Its autocmd fires two or three
+-- times per buffer, and without this the stat and the parser start repeat.
+local ts_started = {}
 
 local function is_large_file(buf)
 	local path = vim.api.nvim_buf_get_name(buf)
@@ -26,7 +29,7 @@ local function is_large_file(buf)
 end
 
 local function set_treesitter_folds(buf)
-	if vim.bo[buf].buftype ~= "" then
+	if ts_started[buf] or vim.bo[buf].buftype ~= "" then
 		return
 	end
 
@@ -42,6 +45,8 @@ local function set_treesitter_folds(buf)
 		return
 	end
 
+	ts_started[buf] = true
+
 	local wins = vim.fn.win_findbuf(buf)
 
 	for _, win in ipairs(wins) do
@@ -52,8 +57,10 @@ local function set_treesitter_folds(buf)
 	end
 end
 
--- Reload buffers when files change on disk
-vim.api.nvim_create_autocmd({ "FocusGained", "BufEnter", "CursorHold" }, {
+-- Reload buffers when files change on disk. Not on CursorHold: at a 200ms
+-- updatetime that stats every loaded buffer several times a second while idle,
+-- and refocusing covers the case that matters.
+vim.api.nvim_create_autocmd({ "FocusGained", "BufEnter" }, {
 	group = group,
 	command = "checktime",
 })
@@ -80,6 +87,14 @@ vim.api.nvim_create_autocmd({ "BufNewFile", "BufReadPost", "FileType" }, {
 	group = group,
 	callback = function(args)
 		set_treesitter_folds(args.buf)
+	end,
+})
+
+-- Buffer numbers get reused, so drop the guard with the buffer.
+vim.api.nvim_create_autocmd("BufWipeout", {
+	group = group,
+	callback = function(args)
+		ts_started[args.buf] = nil
 	end,
 })
 
