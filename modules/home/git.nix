@@ -1,4 +1,4 @@
-# Git and related tooling (delta, gh, gitui).
+# Git and related tooling (gh, gitui).
 {
   host,
   lib,
@@ -7,11 +7,6 @@
   ...
 }:
 {
-  programs.delta = {
-    enable = true;
-    enableGitIntegration = false;
-  };
-
   programs.gh = {
     enable = true;
     extensions = [ pkgs-unstable.gh-poi ];
