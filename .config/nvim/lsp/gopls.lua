@@ -112,6 +112,17 @@ return {
 			directoryFilters = { "-**/.wt", "-**/node_modules" },
 			-- Server-side watching, in place of the client watchers declined above.
 			fileWatcher = "fsnotify",
+			-- Hints are computed for the visible range only, so this stays cheap even with
+			-- diagnosticsTrigger = "Save": a request per scroll or edit, not a workspace pass.
+			hints = {
+				assignVariableTypes = true,
+				compositeLiteralFields = true,
+				compositeLiteralTypes = true,
+				constantValues = true,
+				functionTypeParameters = true,
+				parameterNames = true,
+				rangeVariableTypes = true,
+			},
 			-- Limits symbol search to workspace packages; the default searches dependencies too.
 			symbolScope = "workspace",
 		},
