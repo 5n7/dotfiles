@@ -41,9 +41,32 @@ return {
 			end,
 			desc = "File Explorer",
 		},
+		{
+			"<leader>.",
+			function()
+				Snacks.scratch()
+			end,
+			desc = "Toggle scratch buffer",
+		},
+		{
+			"<leader>S",
+			function()
+				Snacks.scratch.select()
+			end,
+			desc = "Select scratch buffer",
+		},
+		{
+			"<leader>t",
+			function()
+				Snacks.terminal.toggle()
+			end,
+			desc = "Toggle terminal",
+		},
 	},
 	opts = {
-		bigfile = { enabled = true },
+		-- 512KB, not the 1.5MB default: this is the only thing keeping a treesitter
+		-- parser off large files now that folding starts one everywhere else.
+		bigfile = { enabled = true, size = 512 * 1024 },
 		dashboard = { enabled = true },
 		explorer = { enabled = true },
 		indent = { enabled = true },
@@ -82,10 +105,14 @@ return {
 		},
 		quickfile = { enabled = true },
 		scope = { enabled = true },
+		scratch = { enabled = true },
 		statuscolumn = { enabled = true },
+		terminal = { enabled = true },
+		toggle = { enabled = true },
 		-- Each debounce window sends a documentHighlight request. Keep it long enough
 		-- that cursor movement does not queue work behind a busy server.
 		words = { enabled = true, debounce = 500 },
+		zen = { enabled = true },
 	},
 	config = function(_, opts)
 		require("snacks").setup(opts)
@@ -97,5 +124,14 @@ return {
 			local ok, ret = pcall(get_highlights, ...)
 			return ok and ret or {}
 		end
+
+		-- No inlay_hints toggle: LspAttach already binds <leader>ch.
+		Snacks.toggle.diagnostics():map("<leader>ud")
+		Snacks.toggle.indent():map("<leader>ug")
+		Snacks.toggle.line_number():map("<leader>ul")
+		Snacks.toggle.option("spell", { name = "Spelling" }):map("<leader>us")
+		Snacks.toggle.option("wrap", { name = "Wrap" }):map("<leader>uw")
+		Snacks.toggle.zen():map("<leader>z")
+		Snacks.toggle.zoom():map("<leader>Z")
 	end,
 }
