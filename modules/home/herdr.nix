@@ -174,6 +174,16 @@ let
     # lookup ends at ~/.local/bin, /opt/homebrew/bin, and /usr/local/bin. A Nix
     # herdr is in none of them and not on the server's PATH either.
     HERDR_BIN_PATH=${lib.getExe pkgs.herdr}
+
+    # Passed straight to `alerter --timeout` (src/script.rs). The default is 3600
+    # (src/config.rs), so an unattended notification sits in the corner for an
+    # hour. The script does remove it once the pane becomes visible, but that
+    # only fires for a pane someone actually switches to. Match the length of a
+    # normal macOS banner instead; a missed notification still leaves the agent
+    # marked blocked in the sidebar.
+    # Timing out yields @TIMEOUT, which the result `case` ignores, so nothing is
+    # focused.
+    HERDR_FOCUS_NOTIFY_TIMEOUT=30
   '';
 
   # herdr-pluck is the only plugin left on its defaults, so it has no config here.
