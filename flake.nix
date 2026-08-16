@@ -6,13 +6,13 @@
     nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
 
     herdr = {
-      url = "github:ogulcancelik/herdr";
+      url = "github:herdrdev/herdr";
       inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
 
     # Plugin sources are pinned as non-flake inputs and built in modules/home/herdr.nix.
     herdr-focus-notify = {
-      url = "github:yankewei/herdr-focus-notify/v0.3.8";
+      url = "github:yankewei/herdr-focus-notify/v0.3.10";
       flake = false;
     };
 

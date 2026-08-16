@@ -13,6 +13,19 @@
   ...
 }:
 let
+  # rows_by_agent replaces `rows` rather than extending it, so the default two
+  # rows are repeated here. The third row is the terminal title minus the
+  # spinner glyph; apply it to the three agents actually used.
+  agentSidebarRows = [
+    [
+      "state_icon"
+      "workspace"
+      "tab"
+    ]
+    [ "terminal_title_stripped" ]
+    [ "agent" ]
+  ];
+
   # Only the values that differ from the binary's built-in defaults; herdr fills
   # in the rest at load time. Print the full set with `herdr --default-config`.
   herdrConfig = (pkgs.formats.toml { }).generate "config.toml" {
@@ -100,6 +113,12 @@ let
       # blocked agent surfaces without scanning the list.
       agent_panel_sort = "priority";
 
+      sidebar.agents.rows_by_agent = {
+        claude = agentSidebarRows;
+        codex = agentSidebarRows;
+        grok = agentSidebarRows;
+      };
+
       # An unnamed tab is just its index, so the name prompt buys nothing. An
       # unnamed workspace is still labelled from its cwd.
       prompt_new_tab_name = false;
@@ -109,20 +128,6 @@ let
       # needs no extra package and survives SSH; `system` would need
       # terminal-notifier.
       toast.delivery = "terminal";
-
-      # Claude Code panes get a third row showing what the agent is doing, taken
-      # from its terminal title minus the spinner glyph. rows_by_agent replaces
-      # `rows` rather than extending it, so the default two rows are repeated
-      # here. Other agents keep the two-row default and stay shorter.
-      sidebar.agents.rows_by_agent.claude = [
-        [
-          "state_icon"
-          "workspace"
-          "tab"
-        ]
-        [ "terminal_title_stripped" ]
-        [ "agent" ]
-      ];
     };
 
     # herdr is installed by Nix, so `herdr update` is disabled and the in-app new
@@ -134,13 +139,12 @@ let
       # Agent TUIs that hide the hardware cursor stop native IME candidate
       # windows from following the focused pane. The filter keeps the extra
       # cursor anchor out of unrelated panes.
+      reveal_hidden_cursor_for_cjk_ime = true;
       cjk_ime_agents = [
         "claude"
         "codex"
-        "cursor"
         "grok"
       ];
-      reveal_hidden_cursor_for_cjk_ime = true;
       # ctrl+f survives an active IME, but the plain letter after it does not.
       # This also covers navigate, copy, resize, menu, and keybind-help modes,
       # which are all driven by bare keys.
@@ -269,26 +273,25 @@ let
     # committed Cargo.lock, so buildRustPackage needs no vendor hash.
     "herdr-focus-notify" = mkPlugin {
       pname = "herdr-focus-notify";
-      version = "0.3.8";
+      version = "0.3.10";
       src = inputs.herdr-focus-notify;
-      binaryPath = "target/release/herdr-focus-notify";
       binary =
         let
           package = pkgs.rustPlatform.buildRustPackage {
             pname = "herdr-focus-notify";
-            version = "0.3.8";
+            version = "0.3.10";
             src = inputs.herdr-focus-notify;
             cargoLock.lockFile = "${inputs.herdr-focus-notify}/Cargo.lock";
           };
         in
         lib.getExe' package "herdr-focus-notify";
+      binaryPath = "target/release/herdr-focus-notify";
     };
 
     herdr-navigator = mkPlugin {
       pname = "herdr-navigator";
       version = "0.3.5";
       src = inputs.herdr-navigator;
-      binaryPath = "target/release/herdr-navigator";
       # Released as a tarball rather than a bare binary, so unwrap it first.
       binary = pkgs.runCommand "herdr-navigator-binary" { } ''
         tar -xzOf ${
@@ -298,6 +301,7 @@ let
           }
         } herdr-navigator/herdr-navigator > $out
       '';
+      binaryPath = "target/release/herdr-navigator";
     };
 
     # The manifest's own [[build]] step (./scripts/install-binary.sh) only
@@ -307,7 +311,6 @@ let
       pname = "herdr-pluck";
       version = "0.3.1";
       src = inputs.herdr-pluck;
-      binaryPath = "bin/herdr-pluck";
       # Tarball again, with the executable at the archive root this time.
       binary = pkgs.runCommand "herdr-pluck-binary" { } ''
         tar -xzOf ${
@@ -317,6 +320,7 @@ let
           }
         } herdr-pluck > $out
       '';
+      binaryPath = "bin/herdr-pluck";
     };
   };
 
