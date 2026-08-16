@@ -8,6 +8,8 @@ return {
 	config = function()
 		local lint = require("lint")
 
+		-- eslint resolves from ./node_modules/.bin and has no Nix fallback, so the
+		-- js/ts entries are a no-op in projects that do not depend on it.
 		lint.linters_by_ft = {
 			go = { "golangcilint" },
 			javascript = { "eslint" },

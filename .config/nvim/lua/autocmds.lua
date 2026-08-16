@@ -1,59 +1,8 @@
 local group = vim.api.nvim_create_augroup("dotfiles_autocmds", { clear = true })
 
-local function lsp_picker(method, fallback)
+local function lsp_picker(method)
 	return function()
-		local ok, snacks = pcall(require, "snacks")
-		if ok and snacks.picker and snacks.picker[method] then
-			snacks.picker[method]()
-			return
-		end
-
-		fallback()
-	end
-end
-
-local ts_disabled_by_ft = {}
-local ts_max_filesize = 512 * 1024
--- Buffers set_treesitter_folds already handled. Its autocmd fires two or three
--- times per buffer, and without this the stat and the parser start repeat.
-local ts_started = {}
-
-local function is_large_file(buf)
-	local path = vim.api.nvim_buf_get_name(buf)
-	if path == "" then
-		return false
-	end
-
-	local stat = vim.uv.fs_stat(path)
-	return stat and stat.size and stat.size > ts_max_filesize or false
-end
-
-local function set_treesitter_folds(buf)
-	if ts_started[buf] or vim.bo[buf].buftype ~= "" then
-		return
-	end
-
-	local ft = vim.bo[buf].filetype
-	if ft == "" or ft == "bigfile" or ts_disabled_by_ft[ft] or is_large_file(buf) then
-		return
-	end
-
-	local lang = vim.treesitter.language.get_lang(ft) or ft
-	local ok = pcall(vim.treesitter.start, buf, lang)
-	if not ok then
-		ts_disabled_by_ft[ft] = true
-		return
-	end
-
-	ts_started[buf] = true
-
-	local wins = vim.fn.win_findbuf(buf)
-
-	for _, win in ipairs(wins) do
-		vim.api.nvim_win_call(win, function()
-			vim.opt_local.foldmethod = "expr"
-			vim.opt_local.foldexpr = "v:lua.vim.treesitter.foldexpr()"
-		end)
+		Snacks.picker[method]()
 	end
 end
 
@@ -82,19 +31,29 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 	end,
 })
 
--- Treesitter-based folding for parser-backed filetypes
-vim.api.nvim_create_autocmd({ "BufNewFile", "BufReadPost", "FileType" }, {
+-- nvim-treesitter's main branch installs parsers but never starts them, so
+-- highlighting and the treesitter foldexpr depend on this call. Guarded because
+-- start() is not idempotent -- it leaks a highlighter and its tree callbacks per
+-- call -- and both lazy.nvim's FileType replay and Nvim's own ftplugins (lua,
+-- markdown, help, query) would otherwise call it again.
+--
+-- foldmethod stays window-local: an expr foldexpr is evaluated for every line of
+-- the buffer, so enabling it globally would cost a full pass on buffers that have
+-- no parser to fold with.
+vim.api.nvim_create_autocmd("FileType", {
 	group = group,
 	callback = function(args)
-		set_treesitter_folds(args.buf)
-	end,
-})
+		if vim.bo[args.buf].buftype ~= "" then
+			return
+		end
 
--- Buffer numbers get reused, so drop the guard with the buffer.
-vim.api.nvim_create_autocmd("BufWipeout", {
-	group = group,
-	callback = function(args)
-		ts_started[args.buf] = nil
+		if not vim.treesitter.highlighter.active[args.buf] then
+			pcall(vim.treesitter.start, args.buf)
+		end
+
+		if vim.treesitter.highlighter.active[args.buf] then
+			vim.opt_local.foldmethod = "expr"
+		end
 	end,
 })
 
@@ -116,20 +75,14 @@ vim.api.nvim_create_autocmd("LspAttach", {
 			end, "Toggle inlay hints")
 		end
 
-		map("n", "gd", lsp_picker("lsp_definitions", vim.lsp.buf.definition), "Go to definition")
+		-- K, ]d / [d, grn, gra and gO keep Nvim's defaults.
+		map("n", "gd", lsp_picker("lsp_definitions"), "Go to definition")
 		map("n", "gD", vim.lsp.buf.declaration, "Go to declaration")
-		map("n", "gi", lsp_picker("lsp_implementations", vim.lsp.buf.implementation), "Go to implementation")
-		map("n", "gr", lsp_picker("lsp_references", vim.lsp.buf.references), "References")
-		map("n", "gy", lsp_picker("lsp_type_definitions", vim.lsp.buf.type_definition), "Type definition")
-		map("n", "K", vim.lsp.buf.hover, "Hover")
-		map({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, "Code action")
 		map("n", "<leader>e", vim.diagnostic.open_float, "Line diagnostics")
-		map("n", "<leader>rn", vim.lsp.buf.rename, "Rename")
-		map("n", "]d", function()
-			vim.diagnostic.jump({ count = 1 })
-		end, "Next diagnostic")
-		map("n", "[d", function()
-			vim.diagnostic.jump({ count = -1 })
-		end, "Previous diagnostic")
+
+		-- Shadow the gr* defaults to list results in the picker, not the quickfix list.
+		map("n", "gri", lsp_picker("lsp_implementations"), "Go to implementation")
+		map("n", "grr", lsp_picker("lsp_references"), "References")
+		map("n", "grt", lsp_picker("lsp_type_definitions"), "Type definition")
 	end,
 })

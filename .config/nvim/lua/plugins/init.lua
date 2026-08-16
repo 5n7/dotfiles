@@ -7,6 +7,7 @@ return require("lazy").setup({
 		{ import = "plugins.diffview" },
 		{ import = "plugins.flash" },
 		{ import = "plugins.gitsigns" },
+		{ import = "plugins.icons" },
 		{ import = "plugins.lint" },
 		{ import = "plugins.lsp" },
 		{ import = "plugins.lualine" },

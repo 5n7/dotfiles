@@ -13,6 +13,7 @@ vim.opt.number = true
 vim.opt.scrolloff = 8
 vim.opt.signcolumn = "yes"
 vim.opt.smoothscroll = true
+vim.opt.winborder = "rounded"
 
 -- Search
 vim.opt.ignorecase = true
@@ -24,6 +25,9 @@ vim.opt.shiftwidth = 4
 vim.opt.tabstop = 4
 
 -- Folding
+-- foldexpr is global, but foldmethod only switches to expr window-locally where
+-- treesitter started; see autocmds.lua.
+vim.opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
 vim.opt.foldlevel = 99
 vim.opt.foldlevelstart = 99
 vim.opt.foldmethod = "manual"
@@ -44,7 +48,7 @@ vim.opt.whichwrap:append("h,l")
 
 -- Diagnostics
 vim.diagnostic.config({
-	float = { border = "rounded", source = "if_many" },
+	float = { source = "if_many" },
 	severity_sort = true,
 	signs = true,
 	underline = true,
@@ -64,3 +68,11 @@ require("plugins")
 
 -- Nvim 0.11+ native LSP
 vim.lsp.enable({ "buf_ls", "gopls", "lua_ls", "vtsls" })
+
+-- Of the servers above, only vtsls implements onTypeFormatting.
+vim.lsp.on_type_formatting.enable()
+
+-- Inert until a server implementing inlineCompletion is added (e.g. copilot-lsp).
+vim.lsp.inline_completion.enable()
+-- Not <C-\>: that prefixes i_CTRL-\_CTRL-N and i_CTRL-\_CTRL-O.
+vim.keymap.set("i", "<M-\\>", vim.lsp.inline_completion.get, { desc = "Accept inline completion" })
