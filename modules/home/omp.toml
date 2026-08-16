@@ -1,7 +1,7 @@
 "$schema" = "https://raw.githubusercontent.com/JanDeDobbeleer/oh-my-posh/main/themes/schema.json"
 version = 3
 final_space = true
-streaming = 50
+streaming = 5
 
 [[blocks]]
 type = "prompt"
