@@ -19,12 +19,18 @@
     # eslint is deliberately absent -- nvim-lint prefers ./node_modules/.bin, and a
     # global one cannot resolve a project's config or plugins.
     extraPackages = [
+      pkgs.bash-language-server
       pkgs.golangci-lint
       pkgs-unstable.gopls
       pkgs.gotools # goimports
       pkgs.lua-language-server
+      pkgs.nixd
+      pkgs.nixfmt # nix formatting, driven by nixd
       pkgs.prettier
+      pkgs.shellcheck # where bashls' diagnostics come from
+      pkgs.vscode-langservers-extracted # jsonls
       pkgs-unstable.vtsls
+      pkgs.yaml-language-server
     ];
 
     # Every plugin in .config/nvim is lua, so the ruby and python3 providers only

@@ -15,6 +15,18 @@ vim.opt.signcolumn = "yes"
 vim.opt.smoothscroll = true
 vim.opt.winborder = "rounded"
 
+-- Experimental in 0.12: replaces the builtin message and cmdline presentation
+-- layer. Long messages are collapsed with a `[+x]` spill indicator instead of a
+-- |hit-enter| prompt, and :messages opens the pager as an ordinary buffer.
+-- Messages stay in the cmdline ("cmd") rather than the ephemeral "msg" float,
+-- which only pays off at 'cmdheight' == 0; here the cmdline is always visible,
+-- so a second floating box would only duplicate it.
+-- pcall because neovim is pinned to unstable and this private module already
+-- moved once (vim._extui); a rename must degrade to the legacy UI, not error.
+pcall(function()
+	require("vim._core.ui2").enable({ msg = { targets = "cmd" } })
+end)
+
 -- Search
 vim.opt.ignorecase = true
 vim.opt.smartcase = true
@@ -39,7 +51,6 @@ vim.opt.splitright = true
 
 -- System
 vim.opt.clipboard = "unnamedplus"
-vim.opt.completeopt = { "menu", "menuone", "noselect" }
 vim.opt.mouse = "a"
 vim.opt.timeoutlen = 300
 vim.opt.undofile = true
@@ -67,12 +78,8 @@ require("keymaps")
 require("plugins")
 
 -- Nvim 0.11+ native LSP
-vim.lsp.enable({ "buf_ls", "gopls", "lua_ls", "vtsls" })
+vim.lsp.enable({ "bashls", "buf_ls", "gopls", "jsonls", "lua_ls", "nixd", "vtsls", "yamlls" })
 
--- Of the servers above, only vtsls implements onTypeFormatting.
+-- Capability-gated, so a no-op for servers without documentOnTypeFormattingProvider.
+-- vtsls (";", "}", "\n") and lua_ls ("\n") advertise it; gopls and buf_ls do not.
 vim.lsp.on_type_formatting.enable()
-
--- Inert until a server implementing inlineCompletion is added (e.g. copilot-lsp).
-vim.lsp.inline_completion.enable()
--- Not <C-\>: that prefixes i_CTRL-\_CTRL-N and i_CTRL-\_CTRL-O.
-vim.keymap.set("i", "<M-\\>", vim.lsp.inline_completion.get, { desc = "Accept inline completion" })

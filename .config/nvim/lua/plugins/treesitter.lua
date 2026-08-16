@@ -41,7 +41,7 @@ return {
 				callback = function()
 					if vim.fn.executable("tree-sitter") ~= 1 then
 						vim.notify(
-							"nvim-treesitter: 'tree-sitter' CLI is not in PATH. Homebrew users: `brew install tree-sitter-cli`, then run :TSUpdate.",
+							"nvim-treesitter: 'tree-sitter' CLI is not in PATH. It comes from modules/home/packages.nix, so re-run `darwin-rebuild switch`, then :TSUpdate.",
 							vim.log.levels.WARN
 						)
 						return
