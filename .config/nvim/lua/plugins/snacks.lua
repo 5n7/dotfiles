@@ -10,6 +10,19 @@ return {
 	"folke/snacks.nvim",
 	lazy = false,
 	priority = 1000,
+	-- bigfile answers for every path over its size threshold before the extension is
+	-- ever consulted, and the filetype it lands on is permanent -- its own handler
+	-- restores `syntax` but not `filetype`. That silently costs gopls, treesitter and
+	-- completion, because nothing downstream matches on "bigfile". Generated Go is
+	-- routinely over the threshold -- merpay's .pb.go run from 1MB to 7MB -- and is
+	-- the code least worth reading and most worth navigating, so it is exempted here:
+	-- the largest of them parses in ~350ms once and is read-only besides. A priority
+	-- above bigfile's ".*" default of 0 is what settles the filetype before it runs.
+	-- vim.filetype.add anchors user patterns as `^..$` itself, so adding a `$` here
+	-- would ask for a name ending in a literal dollar sign and never match.
+	init = function()
+		vim.filetype.add({ pattern = { [".*%.go"] = { "go", { priority = 1 } } } })
+	end,
 	keys = {
 		{ "<leader><leader>", picker("buffers"), desc = "Select buffer" },
 		{ "<leader>fb", picker("buffers"), desc = "Buffers" },
@@ -65,7 +78,8 @@ return {
 	},
 	opts = {
 		-- 512KB, not the 1.5MB default: this is the only thing keeping a treesitter
-		-- parser off large files now that folding starts one everywhere else.
+		-- parser off large files now that folding starts one everywhere else. Go is
+		-- exempt from the threshold entirely; see the filetype pattern in init above.
 		bigfile = { enabled = true, size = 512 * 1024 },
 		dashboard = { enabled = true },
 		explorer = { enabled = true },
