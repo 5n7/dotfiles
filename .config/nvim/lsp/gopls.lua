@@ -55,15 +55,16 @@ local function project_client()
 end
 
 return {
-	-- -remote=auto attaches to a shared gopls daemon, starting one if none is running.
-	-- A second nvim on the same tree then reaches an already-indexed server instead of
-	-- waiting out another full index, and the workspace is held in memory once rather
-	-- than per editor. The daemon outlives nvim; `pkill gopls` clears a wedged one.
-	--
-	-- The daemon would otherwise exit a minute after the last client disconnects, which
-	-- discards the type-checked state that makes reopening cheap. An hour spans a
-	-- working session's restarts and still frees the memory once the day is over.
-	cmd = { "gopls", "-remote=auto", "-remote.listen.timeout=1h" },
+	-- One server per nvim, deliberately not a shared -remote=auto daemon. fileWatcher
+	-- below is kqueue-backed on macOS, so every watched path costs a file descriptor:
+	-- one view of merpay-payment-service holds around 5.6k of them. A daemon outlives
+	-- the editors that connect to it, and an nvim killed without a clean shutdown
+	-- leaves its session -- and that session's watches -- behind. Sixteen stale watch
+	-- sets in, the daemon sat on kern.maxfilesperproc (122880) and every new view
+	-- failed with "too many open files", which reaches the editor as "no views" on
+	-- every request. Paying for an index per editor buys descriptors that come back
+	-- when nvim exits.
+	cmd = { "gopls" },
 	filetypes = { "go", "gomod", "gotmpl", "gowork" },
 	capabilities = {
 		-- Declining dynamic registration stops gopls from installing watchers in nvim,
