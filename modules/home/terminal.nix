@@ -2,7 +2,7 @@
 # single-surface host: herdr owns tabs, splits, scrollback, mouse, and the
 # window title. ghostty's equivalents are dead weight here, because herdr
 # emulates each pane's terminal and those escape sequences never reach ghostty.
-{ lib, pkgs, ... }:
+{ config, lib, pkgs, ... }:
 {
   programs.ghostty = {
     enable = true;
@@ -58,6 +58,12 @@
       # `bash --noprofile --norc`, and ghostty itself is started by launchd, so
       # the only PATH available is /usr/bin:/bin:/usr/sbin:/sbin.
       command = lib.getExe pkgs.herdr;
+
+      # herdr server never loads sessionVariables; prefix+e uses EDITOR.
+      env = [
+        "EDITOR=${lib.getExe config.programs.neovim.finalPackage}"
+        "VISUAL=${lib.getExe config.programs.neovim.finalPackage}"
+      ];
 
       # The command above is not a shell, and zsh injection would leak ghostty's
       # ZDOTDIR into the shells herdr spawns inside panes. Nothing is lost:
