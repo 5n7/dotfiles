@@ -2,7 +2,12 @@
 # single-surface host: herdr owns tabs, splits, scrollback, mouse, and the
 # window title. ghostty's equivalents are dead weight here, because herdr
 # emulates each pane's terminal and those escape sequences never reach ghostty.
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 {
   programs.ghostty = {
     enable = true;
