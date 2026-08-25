@@ -5,23 +5,25 @@
 # concept of workspaces.
 {
   lib,
+  host,
   ...
 }:
 let
   # Every workspace is reached with alt-<its own name, lowercased> and receives
   # the focused window with alt-shift-<same>, so the list below is the single
   # source of truth for both the bindings and persistent-workspaces. Lettered
-  # ones are the permanent home of one app; U/I/O/P are scratch space.
+  # ones are the permanent home of one app; U/O/P are scratch space, and so is I
+  # outside the work profile.
   # Linear would want L, but alt-l is `focus right`, so it took X instead.
   workspaces = [
     "A" # Claude
-    "B" # Google Chrome, Dia
+    "B" # Google Chrome, Dia (personal)
     "N" # Notion
     "S" # Slack
     "T" # Ghostty
     "X" # Linear
     "U"
-    "I"
+    "I" # Dia (work)
     "O"
     "P"
   ];
@@ -55,7 +57,7 @@ let
     "com.linear" = "X";
     "com.mitchellh.ghostty" = "T";
     "com.tinyspeck.slackmacgap" = "S";
-    "company.thebrowser.dia" = "B";
+    "company.thebrowser.dia" = if host.profile == "work" then "I" else "B";
     "notion.id" = "N";
   };
 in
