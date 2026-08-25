@@ -20,10 +20,15 @@
 
   programs.oh-my-posh = {
     enable = true;
+    # 26.05 is 29.14.0; concurrent cache writes can drop the theme.
+    package = pkgs-unstable.oh-my-posh;
     # Pre-rendered via home.activation and sourced from ./zsh/omp.zsh.
     enableZshIntegration = false;
     settings = builtins.fromTOML (builtins.readFile ./omp.toml);
   };
+
+  # Fallback when the shared session cache has no CONFIG.
+  home.sessionVariables.POSH_CONFIG = "${config.xdg.configHome}/oh-my-posh/config.json";
 
   programs.sheldon = {
     enable = true;
