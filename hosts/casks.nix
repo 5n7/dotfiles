@@ -23,7 +23,6 @@ let
       "raycast"
       "scroll-reverser"
       "slack"
-      "stablyai/orca/orca"
       "tailscale-app"
       "thebrowsercompany-dia"
     ];
