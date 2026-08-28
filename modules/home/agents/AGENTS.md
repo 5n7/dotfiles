@@ -1,7 +1,7 @@
 # AGENTS.md
 
 Single source of truth for my global agent instructions, shared across harnesses.
-The canonical copy lives in my dotfiles at `modules/home/agents/AGENTS.md`; home-manager symlinks `~/.agents/AGENTS.md`, `~/.claude/CLAUDE.md`, and `~/.codex/AGENTS.md` to it. Those symlinks are read-only Nix store paths — edit the repo file and re-run a `darwin-rebuild switch`.
+The canonical copy lives in my dotfiles at `modules/home/agents/AGENTS.md`; home-manager symlinks `~/.agents/AGENTS.md`, `~/.claude/CLAUDE.md`, `~/.codex/AGENTS.md`, and `~/.pi/agent/AGENTS.md` to it. Those symlinks are read-only Nix store paths — edit the repo file and re-run a `darwin-rebuild switch`.
 
 ## Communication
 
