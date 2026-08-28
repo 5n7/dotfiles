@@ -5,4 +5,5 @@
 {
   home.file.".agents/AGENTS.md".source = ./agents/AGENTS.md;
   home.file.".codex/AGENTS.md".source = ./agents/AGENTS.md;
+  home.file.".pi/agent/AGENTS.md".source = ./agents/AGENTS.md;
 }
