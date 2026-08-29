@@ -105,10 +105,11 @@ in
 
       mode.main.binding = workspaceBindings // {
         # Layout. Commands with several arguments toggle between them on repeated
-        # presses; fullscreen drops the outer gaps so it really covers the screen.
+        # presses. Fullscreen keeps the outer gaps so the window does not grow
+        # past the tiled size.
         alt-comma = "layout accordion horizontal vertical";
         alt-slash = "layout tiles horizontal vertical";
-        alt-f = "fullscreen --no-outer-gaps";
+        alt-f = "fullscreen";
         alt-shift-f = "layout floating tiling";
 
         # Focus, then the same keys with shift to drag the window along. Both
