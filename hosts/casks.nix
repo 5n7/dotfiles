@@ -31,6 +31,7 @@ let
       "brave-browser"
       "cursor-cli"
       "elecom-mouse-util"
+      "grok-bot"
       "grok-build"
       "hermes-desktop"
       "raspberry-pi-imager"
