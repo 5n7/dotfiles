@@ -13,7 +13,6 @@
     taps = [
       "datadog-labs/pack"
       "k1low/tap"
-      "vjeantet/tap"
     ];
 
     brews = import ../../hosts/brews.nix { inherit host; };
@@ -32,7 +31,6 @@
     extraConfig = ''
       tap "datadog-labs/pack", trusted: { formula: "pup" }
       tap "k1low/tap", trusted: { formula: "mo" }
-      tap "vjeantet/tap", trusted: { formula: "alerter" }
     '';
   };
 }

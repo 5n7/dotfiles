@@ -67,23 +67,6 @@
         "type": "github"
       }
     },
-    "herdr-focus-notify": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1786627970,
-        "narHash": "sha256-hKSOmkpy7D9cRG20MF1ZA8jlHKvsS1u53juENrMN9KE=",
-        "owner": "yankewei",
-        "repo": "herdr-focus-notify",
-        "rev": "15442959dbacbff65fe7ac34c985f347b5ef8a24",
-        "type": "github"
-      },
-      "original": {
-        "owner": "yankewei",
-        "ref": "v0.3.10",
-        "repo": "herdr-focus-notify",
-        "type": "github"
-      }
-    },
     "herdr-navigator": {
       "flake": false,
       "locked": {
@@ -267,7 +250,6 @@
     "root": {
       "inputs": {
         "herdr": "herdr",
-        "herdr-focus-notify": "herdr-focus-notify",
         "herdr-navigator": "herdr-navigator",
         "herdr-pluck": "herdr-pluck",
         "home-manager": "home-manager",
