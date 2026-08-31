@@ -8,7 +8,6 @@ let
       "googleworkspace-cli"
       "k1low/tap/mo"
       "mas"
-      "vjeantet/tap/alerter"
     ];
     personal = [
     ];
