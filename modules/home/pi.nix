@@ -28,6 +28,11 @@ let
   # pi-settings-merge.sh. Anything pi writes back at runtime belongs to pi; see
   # the header.
   settings = {
+    # Nix owns the binary, so the install ping reports a version nobody acts on.
+    # PI_SKIP_VERSION_CHECK below covers the separate update lookup; this setting
+    # does not.
+    enableInstallTelemetry = false;
+
     theme = "dark";
 
     # npm/git packages, written as the source strings `pi install` takes. Nothing
@@ -63,6 +68,11 @@ in
   home.file = lib.mapAttrs' (
     name: source: lib.nameValuePair ".pi/agent/extensions/${name}.ts" { inherit source; }
   ) extensions;
+
+  # `pi update self` cannot work against a Nix-installed binary, so the check
+  # only produces a notice about a version this machine will not install — the
+  # same reason herdr.nix turns off update.version_check.
+  home.sessionVariables.PI_SKIP_VERSION_CHECK = "1";
 
   # One `run` around the whole script, so `--dry-run` skips the side effect
   # entirely — the earlier inline version could only wrap its final `cp`, since a
