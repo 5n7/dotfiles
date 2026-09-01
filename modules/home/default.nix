@@ -24,6 +24,7 @@ in
     ./karabiner.nix
     ./mise.nix
     ./packages.nix
+    ./pi.nix
     ./shell.nix
     ./terminal.nix
   ];
