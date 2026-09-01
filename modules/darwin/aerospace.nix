@@ -12,7 +12,7 @@ let
   # Every workspace is reached with alt-<its own name, lowercased> and receives
   # the focused window with alt-shift-<same>, so the list below is the single
   # source of truth for both the bindings and persistent-workspaces. Lettered
-  # ones are the permanent home of one app; U/O/P are scratch space, and so is I
+  # ones are the permanent home of one app; U/O are scratch space, and so is I
   # outside the work profile.
   # Linear would want L, but alt-l is `focus right`, so it took X instead.
   workspaces = [
@@ -25,7 +25,7 @@ let
     "U"
     "I" # Dia (work)
     "O"
-    "P"
+    "P" # Spotify
   ];
 
   # --focus-follows-window keeps focus on the window that was just moved, so
@@ -56,6 +56,7 @@ let
     "com.google.Chrome" = "B";
     "com.linear" = "X";
     "com.mitchellh.ghostty" = "T";
+    "com.spotify.client" = "P";
     "com.tinyspeck.slackmacgap" = "S";
     "company.thebrowser.dia" = if host.profile == "work" then "I" else "B";
     "notion.id" = "N";
