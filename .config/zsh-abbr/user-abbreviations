@@ -11,7 +11,7 @@ abbr ca="cursor-agent --yolo"
 abbr cc="claude --model opus[1m]"
 abbr cch="claude --model haiku"
 abbr ccs="claude --model sonnet"
-abbr cx="codex --dangerously-bypass-approvals-and-sandbox"
+abbr cx="codex"
 abbr v=nvim
 abbr y=yazi
 
