@@ -23,6 +23,7 @@ let
       "raycast"
       "scroll-reverser"
       "slack"
+      "spotify"
       "tailscale-app"
       "thebrowsercompany-dia"
     ];
