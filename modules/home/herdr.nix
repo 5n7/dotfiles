@@ -143,6 +143,7 @@ let
         "claude"
         "codex"
         "grok"
+        "pi"
       ];
       # ctrl+f survives an active IME, but the plain letter after it does not.
       # This also covers navigate, copy, resize, menu, and keybind-help modes,
