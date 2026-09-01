@@ -40,6 +40,7 @@ let
       ripgrep
       pkgs-unstable.skaffold
       stylua
+      pkgs-unstable.toolhive
       pkgs-unstable.tree-sitter
       wget
       xcodegen
