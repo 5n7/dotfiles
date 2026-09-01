@@ -7,7 +7,6 @@ let
       "1password-cli"
       "chatgpt"
       "claude"
-      "codex-app"
       "cursor"
       "dockdoor"
       "gcloud-cli"
