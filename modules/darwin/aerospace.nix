@@ -16,7 +16,7 @@ let
   # outside the work profile.
   # Linear would want L, but alt-l is `focus right`, so it took X instead.
   workspaces = [
-    "A" # Claude
+    "A" # ChatGPT, Claude
     "B" # Google Chrome, Dia (personal)
     "N" # Notion
     "S" # Slack
@@ -56,6 +56,7 @@ let
     "com.google.Chrome" = "B";
     "com.linear" = "X";
     "com.mitchellh.ghostty" = "T";
+    "com.openai.codex" = "A";
     "com.spotify.client" = "P";
     "com.tinyspeck.slackmacgap" = "S";
     "company.thebrowser.dia" = if host.profile == "work" then "I" else "B";
