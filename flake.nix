@@ -41,6 +41,8 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    omp.url = "github:can1357/oh-my-pi";
+
     treefmt-nix = {
       url = "github:numtide/treefmt-nix";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -111,7 +113,10 @@
               home-manager.useGlobalPkgs = true;
               home-manager.useUserPackages = true;
               home-manager.backupFileExtension = "backup";
-              home-manager.sharedModules = [ inputs.hunk.homeManagerModules.default ];
+              home-manager.sharedModules = [
+                inputs.hunk.homeManagerModules.default
+                inputs.omp.homeManagerModules.default
+              ];
               home-manager.extraSpecialArgs = {
                 pkgs-unstable = import nixpkgs-unstable { inherit system; };
                 inherit

@@ -23,6 +23,7 @@ in
     ./hunk.nix
     ./karabiner.nix
     ./mise.nix
+    ./omp.nix
     ./packages.nix
     ./pi.nix
     ./shell.nix
