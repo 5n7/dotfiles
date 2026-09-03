@@ -36,7 +36,6 @@ let
       kubectl
       libpq
       mmv-go
-      obsidian
       pkgs-unstable.pi-coding-agent
       ripgrep
       pkgs-unstable.skaffold
@@ -49,6 +48,7 @@ let
       yq
     ];
     personal = [
+      obsidian
       # unstable's wrangler 4.93.0 fails to build (flaky EBADF during its DTS build),
       # so keep it on stable until nixpkgs-unstable ships a buildable revision.
       wrangler
