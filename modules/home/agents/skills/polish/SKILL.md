@@ -1,6 +1,6 @@
 ---
 name: polish
-description: Finishing pass for freshly written or edited code — runs simplify, reorders declarations, follows the repo's own style guide when one exists, then runs the project's formatter and linter. Use after finishing a non-trivial edit, on /polish, or when asked to clean up, reorder, or match repo style.
+description: Finishing pass for freshly written or edited code — runs simplify, reorders declarations, follows the repo's own style guide when one exists, runs unslop on prose, then runs the project's formatter and linter. Use after finishing a non-trivial edit, on /polish, or when asked to clean up, reorder, or match repo style.
 user-invocable: true
 ---
 
@@ -33,10 +33,14 @@ Reorder declarations within each file into a consistent, readable sequence. Stru
 
 Look for docs anywhere in the repo that state a house style. If one exists, apply it — it overrides the defaults in Step 2. Skip quietly if there isn't one.
 
-## Step 4 — Formatter and linter
+## Step 4 — Unslop
+
+Invoke the `unslop` skill (via the Skill tool) on any prose in the same scope. It removes AI tells while preserving meaning and intended tone.
+
+## Step 5 — Formatter and linter
 
 Run whatever formatter and linter the project already uses, and fix anything they flag. This is the last step — the pass isn't done until they're clean.
 
 ## Wrap-up
 
-List what changed per file in one or two lines. Skip a step from the summary entirely if it found nothing to do.
+List what changed per file in execution order, in one or two lines. Skip a step from the summary entirely if it found nothing to do.
