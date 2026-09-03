@@ -36,6 +36,7 @@ let
       kubectl
       libpq
       mmv-go
+      obsidian
       pkgs-unstable.pi-coding-agent
       ripgrep
       pkgs-unstable.skaffold

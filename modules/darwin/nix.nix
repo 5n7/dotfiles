@@ -1,7 +1,6 @@
 # Nix daemon settings and nixpkgs configuration.
 {
   inputs,
-  lib,
   system,
   ...
 }:
@@ -17,7 +16,7 @@
     "nix-command"
   ];
 
-  nixpkgs.config.allowUnfreePredicate = pkg: lib.getName pkg == "claude";
+  nixpkgs.config.allowUnfree = true;
   nixpkgs.hostPlatform = system;
   nixpkgs.overlays = [
     inputs.nix-claude-code.overlays.default
