@@ -26,6 +26,7 @@ add_skill anthropics/claude-plugins-community eli5
 add_skill citrolabs/ego-lite ego-browser
 add_skill cursor/plugins pstack/skills/unslop
 add_skill duyet/codex-claude-plugins simplify/skills/simplify
+add_skill humanlayer/skills plugins/show-me/skills/show-me
 add_skill mattpocock/skills skills/engineering/domain-modeling
 add_skill mattpocock/skills skills/engineering/grill-with-docs
 add_skill mattpocock/skills skills/productivity/grill-me
