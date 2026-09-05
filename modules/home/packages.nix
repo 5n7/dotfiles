@@ -1,6 +1,7 @@
 # User packages grouped by host: common packages plus the active profile's own group.
 {
   host,
+  inputs,
   pkgs,
   pkgs-unstable,
   ...
@@ -13,7 +14,7 @@ let
       bat
       btop
       buf
-      pkgs-unstable.codex
+      inputs.codex-cli-nix.packages.${pkgs.stdenv.hostPlatform.system}.default
       colima
       docker-client
       docker-compose
