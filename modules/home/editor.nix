@@ -20,7 +20,7 @@
     # global one cannot resolve a project's config or plugins.
     extraPackages = [
       pkgs.bash-language-server
-      pkgs.golangci-lint
+      pkgs-unstable.golangci-lint # Keep its build Go at least as new as the mise toolchain.
       pkgs-unstable.gopls
       pkgs.gotools # goimports
       pkgs.lua-language-server
