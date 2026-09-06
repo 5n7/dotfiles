@@ -48,7 +48,7 @@
       # herdr draws its own status line, so the titlebar only shows a title
       # nothing sets. "hidden" keeps the native frame and rounded corners that
       # `window-decoration = none` would strip; the window buttons go with it.
-      # Dragging by the titlebar is gone, but aerospace tiles and moves windows
+      # Dragging by the titlebar is gone, but OmniWM tiles and moves windows
       # by keyboard anyway.
       macos-titlebar-style = "hidden";
 
