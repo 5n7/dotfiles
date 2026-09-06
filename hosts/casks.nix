@@ -5,7 +5,6 @@ let
     common = [
       "1password"
       "1password-cli"
-      "chatgpt"
       "claude"
       "cursor"
       "dockdoor"
@@ -17,7 +16,6 @@ let
       "keyboardcleantool"
       "linear"
       "meetingbar"
-      "ngrok"
       "notion"
       {
         name = "BarutSRB/tap/omniwm";
@@ -33,11 +31,13 @@ let
     personal = [
       "adobe-creative-cloud"
       "brave-browser"
+      "chatgpt"
       "cursor-cli"
       "elecom-mouse-util"
       "grok-bot"
       "grok-build"
       "hermes-desktop"
+      "ngrok"
       "raspberry-pi-imager"
       "vlc"
       "voiceink"

@@ -8,7 +8,6 @@ let
         name = "datadog-labs/pack/pup";
         trusted = true;
       }
-      "googleworkspace-cli"
       {
         name = "k1low/tap/mo";
         trusted = true;
@@ -16,6 +15,7 @@ let
       "mas"
     ];
     personal = [
+      "googleworkspace-cli"
     ];
     work = [
     ];
