@@ -2,6 +2,7 @@
 {
   config,
   lib,
+  pkgs,
   pkgs-unstable,
   ...
 }:
@@ -125,37 +126,21 @@
   # Pre-render init scripts (+ zcompile) so interactive shells only `source`
   # a cache file instead of spawning subprocesses + eval.
   home.activation.precomputeShellInit = lib.hm.dag.entryAfter [ "sheldonLock" ] ''
-    run mkdir -p \
-      ${config.xdg.cacheHome}/direnv \
-      ${config.xdg.cacheHome}/fzf \
-      ${config.xdg.cacheHome}/git-wt \
-      ${config.xdg.cacheHome}/mise \
-      ${config.xdg.cacheHome}/oh-my-posh \
-      ${config.xdg.cacheHome}/sheldon \
-      ${config.xdg.cacheHome}/zoxide
-    run ${config.programs.direnv.package}/bin/direnv hook zsh \
-      > ${config.xdg.cacheHome}/direnv/hook.zsh
-    run ${config.programs.fzf.package}/bin/fzf --zsh \
-      > ${config.xdg.cacheHome}/fzf/init.zsh
-    run ${pkgs-unstable.git-wt}/bin/git-wt --init zsh \
-      > ${config.xdg.cacheHome}/git-wt/init.zsh
-    run ${config.programs.mise.package}/bin/mise activate zsh \
-      > ${config.xdg.cacheHome}/mise/activate.zsh
-    run ${config.programs.oh-my-posh.package}/bin/oh-my-posh init zsh \
-      --config ${config.xdg.configHome}/oh-my-posh/config.json \
-      > ${config.xdg.cacheHome}/oh-my-posh/init.zsh
-    run ${config.programs.sheldon.package}/bin/sheldon source \
-      > ${config.xdg.cacheHome}/sheldon/source.zsh
-    run ${config.programs.zoxide.package}/bin/zoxide init zsh \
-      > ${config.xdg.cacheHome}/zoxide/init.zsh
-    run ${config.programs.zsh.package}/bin/zsh -c \
-      'zcompile -R ${config.xdg.cacheHome}/direnv/hook.zsh
-       zcompile -R ${config.xdg.cacheHome}/fzf/init.zsh
-       zcompile -R ${config.xdg.cacheHome}/git-wt/init.zsh
-       zcompile -R ${config.xdg.cacheHome}/mise/activate.zsh
-       zcompile -R ${config.xdg.cacheHome}/oh-my-posh/init.zsh
-       zcompile -R ${config.xdg.cacheHome}/sheldon/source.zsh
-       zcompile -R ${config.xdg.cacheHome}/zoxide/init.zsh'
+    cache_shell_init() {
+      local cache_file="$1"
+      shift
+      run ${pkgs.bash}/bin/bash ${./cache-shell-init.sh} \
+        ${config.programs.zsh.package}/bin/zsh "${config.xdg.cacheHome}/$cache_file" "$@"
+    }
+    cache_shell_init direnv/hook.zsh ${config.programs.direnv.package}/bin/direnv hook zsh
+    cache_shell_init fzf/init.zsh ${config.programs.fzf.package}/bin/fzf --zsh
+    cache_shell_init git-wt/init.zsh ${pkgs-unstable.git-wt}/bin/git-wt --init zsh
+    cache_shell_init mise/activate.zsh ${config.programs.mise.package}/bin/mise activate zsh
+    cache_shell_init oh-my-posh/init.zsh ${config.programs.oh-my-posh.package}/bin/oh-my-posh init zsh \
+      --config ${config.xdg.configHome}/oh-my-posh/config.json
+    cache_shell_init sheldon/source.zsh ${config.programs.sheldon.package}/bin/sheldon source
+    cache_shell_init zoxide/init.zsh ${config.programs.zoxide.package}/bin/zoxide init zsh
+    unset -f cache_shell_init
   '';
 
   # zcompile the generated rc files; parsing .zshrc is ~12ms. The .zwc lands in

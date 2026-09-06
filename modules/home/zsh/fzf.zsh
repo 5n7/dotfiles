@@ -16,7 +16,7 @@ _fzf_dir_preview='[[ -f {}/README.md ]] && glow --style dark {}/README.md || eza
 fzf::cd() {
     local dir=$(fd --hidden --type directory | fzf --preview "$_fzf_dir_preview")
     [[ -n "$dir" ]] || return
-    BUFFER="cd $dir"
+    printf -v BUFFER 'cd -- %q' "$dir"
     zle accept-line
 }
 zle -N fzf::cd
@@ -25,16 +25,21 @@ bindkey -M viins "^T" fzf::cd
 fzf::cd-ghq() {
     local dir=$(ghq list -p | fzf --preview "$_fzf_dir_preview")
     [[ -n "$dir" ]] || return
-    BUFFER="cd $dir"
+    printf -v BUFFER 'cd -- %q' "$dir"
     zle accept-line
 }
 zle -N fzf::cd-ghq
 bindkey -M viins "^G" fzf::cd-ghq
 
 fzf::cd-wt() {
-    local dir=$(git wt | fzf --header-lines=1 --preview 'p={1}; [[ "$p" == "*" ]] && p={2}; git -C "$p" log --color=always --date=relative --graph --pretty=format:"%C(auto)%h %s%d %C(green)(%cr) %C(bold blue)<%an>"' | awk '{if ($1 == "*") print $2; else print $1}')
+    local dir record
+    IFS= read -r -d '' dir < <(
+        git worktree list --porcelain -z | while IFS= read -r -d '' record; do
+            [[ "$record" == 'worktree '* ]] && print -r -N -- "${record#worktree }"
+        done | fzf --read0 --print0 --preview 'git -C {} log --color=always --date=relative --graph --pretty=format:"%C(auto)%h %s%d %C(green)(%cr) %C(bold blue)<%an>"'
+    ) || return
     [[ -n "$dir" ]] || return
-    BUFFER="cd $dir"
+    printf -v BUFFER 'cd -- %q' "$dir"
     zle accept-line
 }
 zle -N fzf::cd-wt
@@ -55,7 +60,7 @@ bindkey -M viins "^P" fzf::ghpw
 fzf::git-switch-branch() {
     local branch=$(git branch --format='%(refname:short)' | fzf --preview "git log --color=always --date=relative --graph --pretty=format:'%C(auto)%h %s%d %C(green)(%cr) %C(bold blue)<%an>' {}")
     [[ -n "$branch" ]] || return
-    BUFFER="git switch $branch"
+    printf -v BUFFER 'git switch -- %q' "$branch"
     zle accept-line
 }
 zle -N fzf::git-switch-branch
