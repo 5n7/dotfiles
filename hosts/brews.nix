@@ -4,9 +4,15 @@ let
   brews = {
     common = [
       "aqua"
-      "datadog-labs/pack/pup"
+      {
+        name = "datadog-labs/pack/pup";
+        trusted = true;
+      }
       "googleworkspace-cli"
-      "k1low/tap/mo"
+      {
+        name = "k1low/tap/mo";
+        trusted = true;
+      }
       "mas"
     ];
     personal = [

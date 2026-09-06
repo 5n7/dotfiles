@@ -19,6 +19,10 @@ let
       "meetingbar"
       "ngrok"
       "notion"
+      {
+        name = "BarutSRB/tap/omniwm";
+        trusted = true;
+      }
       "raycast"
       "scroll-reverser"
       "slack"
