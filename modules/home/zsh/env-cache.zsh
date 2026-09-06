@@ -68,7 +68,8 @@ _env_cache_precmd() {
 [[ -d "$_env_cache_dir" ]] || { mkdir -p "$_env_cache_dir" && chmod 700 "$_env_cache_dir"; }
 
 env-cache CLOUDFLARE_TOKEN 'wrangler auth token --json | jq -r .token'
-env-cache GITHUB_TOKEN 'gh auth token'
+# Read the stored credential, not the old token exported by this cache.
+env-cache GITHUB_TOKEN 'env -u GH_TOKEN -u GITHUB_TOKEN gh auth token'
 
 autoload -Uz add-zsh-hook
 add-zsh-hook precmd _env_cache_precmd

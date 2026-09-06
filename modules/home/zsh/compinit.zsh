@@ -9,7 +9,9 @@ _zdump="${XDG_CACHE_HOME:-$HOME/.cache}/zsh/zcompdump-${ZSH_VERSION}"
 if [[ -f "$_zdump" ]]; then
     compinit -C -d "$_zdump"
     if [[ -n "$_zdump"(#qN.mh+24) ]]; then
-        zsh -c "autoload -Uz compinit; compinit -d ${(q)_zdump}; zcompile ${(q)_zdump}" &|
+        # Keep the interactive shell's fpath, including Home Manager and herdr.
+        # compinit reuses an unchanged dump, so renew its age after the audit.
+        (compinit -d "$_zdump" && touch "$_zdump" && zcompile "$_zdump") &|
     elif [[ ! -f "$_zdump.zwc" || "$_zdump" -nt "$_zdump.zwc" ]]; then
         zcompile "$_zdump" &|
     fi
