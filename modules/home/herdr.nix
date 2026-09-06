@@ -175,13 +175,12 @@ let
       herdr_plus_quick_actions = false;
     };
 
-    # ghq keeps every checkout at $GHQ_ROOT/<host>/<owner>/<repo>, so depth 3 is
-    # exactly one repository and no deeper. Replaces the ~/workspace and
-    # ~/projects defaults, which do not exist here.
+    # ghq keeps checkouts at $GHQ_ROOT/<host>/<owner>/<repo>. Navigator stops
+    # before checking depth 0, so depth 4 reaches repositories under ~/src.
     roots = [
       {
         path = "~/src";
-        max_depth = 3;
+        max_depth = 4;
       }
     ];
   };
