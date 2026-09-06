@@ -6,6 +6,16 @@ local function lsp_picker(method)
 	end
 end
 
+local function update_folds(bufnr)
+	local use_treesitter = vim.bo[bufnr].buftype == "" and vim.treesitter.highlighter.active[bufnr]
+	local method = use_treesitter and "expr" or "manual"
+	for _, win in ipairs(vim.fn.win_findbuf(bufnr)) do
+		if not vim.wo[win].diff and vim.wo[win].foldmethod ~= method then
+			vim.wo[win].foldmethod = method
+		end
+	end
+end
+
 -- Reload buffers when files change on disk. Not on CursorHold: at a 200ms
 -- updatetime that stats every loaded buffer several times a second while idle,
 -- and refocusing covers the case that matters.
@@ -43,17 +53,19 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 vim.api.nvim_create_autocmd("FileType", {
 	group = group,
 	callback = function(args)
-		if vim.bo[args.buf].buftype ~= "" then
-			return
-		end
-
-		if not vim.treesitter.highlighter.active[args.buf] then
+		if vim.bo[args.buf].buftype == "" and not vim.treesitter.highlighter.active[args.buf] then
 			pcall(vim.treesitter.start, args.buf)
 		end
 
-		if vim.treesitter.highlighter.active[args.buf] then
-			vim.opt_local.foldmethod = "expr"
-		end
+		update_folds(args.buf)
+	end,
+})
+
+-- FileType does not fire again when an existing buffer enters another window.
+vim.api.nvim_create_autocmd("BufWinEnter", {
+	group = group,
+	callback = function(args)
+		update_folds(args.buf)
 	end,
 })
 
