@@ -14,7 +14,7 @@
 ## Skills
 
 - Use installed skills listed by your agent environment.
-- Prefer APIs and CLIs when they can complete the task. Use `ego-browser` when browser UI interaction is needed.
+- Prefer APIs, CLIs, and built-in web search/open tools for public web content. Use `ego-browser` only for browser UI interaction such as authentication, form entry, clicking controls, screenshots, or UI testing.
 
 ## Delegation
 
