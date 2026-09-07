@@ -33,11 +33,14 @@ bindkey -M viins "^G" fzf::cd-ghq
 
 fzf::cd-wt() {
     local dir record
-    IFS= read -r -d '' dir < <(
+    # Keep fzf in the foreground so it can read terminal input.
+    dir=$(
         git worktree list --porcelain -z | while IFS= read -r -d '' record; do
             [[ "$record" == 'worktree '* ]] && print -r -N -- "${record#worktree }"
         done | fzf --read0 --print0 --preview 'git -C {} log --color=always --date=relative --graph --pretty=format:"%C(auto)%h %s%d %C(green)(%cr) %C(bold blue)<%an>"'
     ) || return
+    # The final NUL preserves trailing newlines through command substitution.
+    dir=${dir%$'\0'}
     [[ -n "$dir" ]] || return
     printf -v BUFFER 'cd -- %q' "$dir"
     zle accept-line
