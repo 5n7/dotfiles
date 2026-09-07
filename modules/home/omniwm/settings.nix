@@ -42,7 +42,7 @@ let
       id = "454CECD4-5E9D-4ED1-95D7-979D48817F5F";
       name = "2";
       displayName = "B";
-      layoutType = "dwindle";
+      layoutType = "niri";
       monitorType = "main";
     }
     {
@@ -247,7 +247,7 @@ in
       0.6666666666666666
     ];
     defaultContainerPrimarySpan = 0.5;
-    infiniteLoop = false;
+    infiniteLoop = true;
     singleWindowFit = "fill";
     visibleContainerCount = 2;
   };
