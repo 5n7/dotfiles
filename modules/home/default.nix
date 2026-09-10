@@ -20,7 +20,7 @@ in
     ./git.nix
     ./gpg.nix
     ./herdr.nix
-    ./hunk.nix
+    ./delta.nix
     ./karabiner.nix
     ./mise.nix
     ./omniwm.nix

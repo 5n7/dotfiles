@@ -31,11 +31,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    hunk = {
-      url = "github:modem-dev/hunk";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
     nix-claude-code = {
       url = "github:ryoppippi/nix-claude-code";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -60,7 +55,6 @@
       nixpkgs,
       nixpkgs-unstable,
       home-manager,
-      hunk,
       nix-claude-code,
       nix-darwin,
       treefmt-nix,
@@ -119,7 +113,6 @@
               home-manager.useUserPackages = true;
               home-manager.backupFileExtension = "backup";
               home-manager.sharedModules = [
-                inputs.hunk.homeManagerModules.default
                 inputs.omp.homeManagerModules.default
               ];
               home-manager.extraSpecialArgs = {
