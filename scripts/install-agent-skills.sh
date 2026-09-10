@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Install agent skills into ~/.agents/skills via `gh skill`.
+# Install skills into ~/.agents/skills and ~/.claude/skills via `gh skill`.
 # These land outside Nix, so a darwin-rebuild on a fresh machine does not bring
 # them back -- re-run this there. Update later with `gh skill update --all`.
 #
@@ -8,16 +8,22 @@
 
 set -euo pipefail
 
-readonly AGENT=universal
+readonly AGENTS=(claude-code universal)
 
 add_repo() { # <repo> -- every skill it publishes
+    local agent
     printf '\n==> %s (all)\n' "$1"
-    gh skill install "$1" --all --agent "$AGENT" --scope user --force
+    for agent in "${AGENTS[@]}"; do
+        gh skill install "$1" --all --agent "$agent" --scope user --force
+    done
 }
 
 add_skill() { # <repo> <skill-path>
+    local agent
     printf '\n==> %s (%s)\n' "$2" "$1"
-    gh skill install "$1" "$2" --agent "$AGENT" --scope user --force
+    for agent in "${AGENTS[@]}"; do
+        gh skill install "$1" "$2" --agent "$agent" --scope user --force
+    done
 }
 
 add_repo cloudflare/skills

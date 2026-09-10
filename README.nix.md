@@ -30,6 +30,13 @@ darwin-rebuild --rollback                    # undo last switch
 darwin-rebuild --list-generations
 ```
 
+## Agent skills
+
+Run `scripts/install-agent-skills.sh` after setup to install the same external
+skills into `~/.agents/skills` and `~/.claude/skills` through `gh skill`.
+Nix manages the repository skills in both directories.
+Update external skills with `gh skill update --all`.
+
 ## Update everything
 
 ```sh

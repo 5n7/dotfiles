@@ -1,9 +1,7 @@
-# Claude Code CLI. The memory file (~/.claude/CLAUDE.md) and the skills both come
-# from the shared ./agents/ tree (see agents.nix), via home-manager's
-# programs.claude-code module. Subagent definitions are no longer managed here.
+# Claude Code CLI, shared memory file, and repository skills.
+# install-agent-skills.sh adds external skills to ~/.claude/skills via `gh skill`.
 # settings.json is intentionally NOT managed here: Claude Code mutates it at
-# runtime (effortLevel, model, plugin toggles, hook injection), so only the
-# memory file and skills are managed by Nix.
+# runtime (effortLevel, model, plugin toggles, hook injection).
 { pkgs, ... }:
 {
   programs.claude-code = {
