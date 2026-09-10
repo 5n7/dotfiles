@@ -16,11 +16,11 @@ in
     ./agents.nix
     ./ccstatusline.nix
     ./claude-code.nix
+    ./delta.nix
     ./editor.nix
     ./git.nix
     ./gpg.nix
     ./herdr.nix
-    ./hunk.nix
     ./karabiner.nix
     ./mise.nix
     ./omniwm.nix
