@@ -1,8 +1,7 @@
-# Global agent instructions and skills shared across harnesses. modules/home/agents/
-# is the single source of truth; each harness gets a symlink to the same files.
-# Codex and Grok both scan ~/.agents/skills natively, so only Claude Code needs
-# its own link; ~/.claude/CLAUDE.md and ~/.claude/skills are wired up in
-# claude-code.nix via programs.claude-code.context and .skills.
+# Shared agent instructions and repository skills. Keep ~/.agents/skills writable
+# for external skills installed by install-agent-skills.sh. Codex and Grok scan
+# it directly; claude-code.nix manages the same repository skills for Claude Code.
+# The installer adds external skills to both agents' directories via `gh skill`.
 { lib, ... }:
 let
   skills = lib.filterAttrs (_: type: type == "directory") (builtins.readDir ./agents/skills);
