@@ -1,0 +1,13 @@
+interface:
+  display_name: "Browser QA Report"
+  short_description: "Browser QA with deployment checks and Poof reporting"
+  default_prompt: "Use $browser-qa-report to verify the dev deployment, validate the current UI change, and publish a Japanese QA report."
+
+dependencies:
+  tools:
+    - type: "mcp"
+      value: "poof"
+      description: "Stores the QA report and screenshot evidence"
+
+policy:
+  allow_implicit_invocation: true

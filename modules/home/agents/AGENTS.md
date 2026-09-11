@@ -4,6 +4,7 @@
 
 - Respond in Japanese.
 - Write all technical artifacts in English: code comments, commit messages, PR titles and descriptions, issue bodies, documentation.
+- Write reports created by the `browser-qa-report` skill in Japanese.
 
 ## Git
 
