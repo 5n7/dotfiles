@@ -18,7 +18,6 @@ in
   home.file = {
     ".agents/AGENTS.md".source = ./agents/AGENTS.md;
     ".codex/AGENTS.md".source = ./agents/AGENTS.md;
-    ".pi/agent/AGENTS.md".source = ./agents/AGENTS.md;
   }
   // skillLinks;
 }
