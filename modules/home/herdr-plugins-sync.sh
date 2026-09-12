@@ -39,8 +39,8 @@ done
 
 for id in $(herdr plugin list --json | jq -r '.result.plugins[].plugin_id'); do
     # Both sides are padded with spaces so the match is on a whole id: an
-    # unpadded `*"$id"*` would let a declared `herdr-pilot` make an installed
-    # `herdr-pi` look declared and survive the unlink.
+    # unpadded `*"$id"*` would let a declared `herdr-pilot` make another
+    # installed plugin look declared and survive the unlink.
     case " $declared " in
     *" $id "*) ;;
     *) herdr plugin unlink "$id" ;;

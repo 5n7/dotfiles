@@ -37,7 +37,6 @@ let
       kubectl
       libpq
       mmv-go
-      pkgs-unstable.pi-coding-agent
       ripgrep
       pkgs-unstable.skaffold
       stylua

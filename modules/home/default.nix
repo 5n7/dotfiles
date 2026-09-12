@@ -24,10 +24,8 @@ in
     ./karabiner.nix
     ./mise.nix
     ./omniwm.nix
-    ./omp.nix
     ./opencode.nix
     ./packages.nix
-    ./pi.nix
     ./shell.nix
     ./terminal.nix
   ];
