@@ -6,13 +6,14 @@ abbr ......="cd ../../../../.."
 abbr dl="cd ~/Downloads"
 abbr sb="cd ~/sandbox"
 
-abbr c="cursor ."
 abbr ca="cursor-agent --yolo"
 abbr cc="claude --model opus[1m]"
 abbr cch="claude --model haiku"
 abbr ccs="claude --model sonnet"
 abbr cx="codex"
 abbr cxx="codex --model gpt-5.6-terra"
+abbr gk="grok"
+abbr oc=opencode
 abbr v=nvim
 abbr y=yazi
 
