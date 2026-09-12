@@ -25,6 +25,7 @@ in
     ./mise.nix
     ./omniwm.nix
     ./omp.nix
+    ./opencode.nix
     ./packages.nix
     ./pi.nix
     ./shell.nix
