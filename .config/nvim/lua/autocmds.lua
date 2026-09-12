@@ -93,8 +93,9 @@ vim.api.nvim_create_autocmd("LspAttach", {
 		map("n", "<leader>e", vim.diagnostic.open_float, "Line diagnostics")
 
 		-- Shadow the gr* defaults to list results in the picker, not the quickfix list.
-		map("n", "gri", lsp_picker("lsp_implementations"), "Go to implementation")
-		map("n", "grr", lsp_picker("lsp_references"), "References")
+		-- gr waits for timeoutlen because gra/grn/grt still share the prefix.
+		map("n", "gi", lsp_picker("lsp_implementations"), "Go to implementation")
+		map("n", "gr", lsp_picker("lsp_references"), "References")
 		map("n", "grt", lsp_picker("lsp_type_definitions"), "Type definition")
 	end,
 })
