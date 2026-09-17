@@ -29,6 +29,7 @@ let
       glow
       gnused
       gomi
+      grpcurl
       imagemagick
       jnv
       jq
