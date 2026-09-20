@@ -30,6 +30,7 @@ let
     ];
     personal = [
       "adobe-creative-cloud"
+      "block-buzz"
       "brave-browser"
       "chatgpt"
       "cursor-cli"
