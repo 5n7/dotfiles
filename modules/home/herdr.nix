@@ -54,6 +54,11 @@ let
       # and pairs with the stacked split already on prefix+minus.
       split_vertical = "prefix+backslash";
 
+      # Copy mode moves off herdr's default prefix+[ to the v that split_vertical
+      # just freed. Within copy mode v starts a selection, which is a different
+      # mode and does not collide with the prefix binding.
+      copy_mode = "prefix+v";
+
       command = [
         # A throwaway shell that leaves the tiled layout alone: no extra split,
         # no extra tab. `exec` replaces the wrapper shell so exiting once closes
