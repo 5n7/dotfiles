@@ -11,6 +11,7 @@
     };
 
     taps = [
+      "anomalyco/tap"
       "BarutSRB/tap"
       "datadog-labs/pack"
       "k1low/tap"
