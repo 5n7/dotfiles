@@ -1,11 +1,13 @@
-# OpenCode CLI and repository skills. settings/tui json are intentionally NOT
-# managed here: OpenCode mutates them at runtime (model, providers, TUI).
+# OpenCode repository context and skills. The CLI is installed by Homebrew.
+# settings/tui JSON files are intentionally not managed here because OpenCode
+# mutates them at runtime (model, providers, TUI).
 { ... }:
 {
-  programs.opencode = {
-    enable = true;
-    package = null;
-    context = ./agents/AGENTS.md;
-    skills = ./agents/skills;
+  xdg.configFile = {
+    "opencode/AGENTS.md".source = ./agents/AGENTS.md;
+    "opencode/skills" = {
+      source = ./agents/skills;
+      recursive = true;
+    };
   };
 }
