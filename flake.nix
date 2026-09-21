@@ -26,6 +26,11 @@
       flake = false;
     };
 
+    herdr-plugins = {
+      url = "github:5n7/herdr-plugins";
+      flake = false;
+    };
+
     home-manager = {
       url = "github:nix-community/home-manager/release-26.05";
       inputs.nixpkgs.follows = "nixpkgs";

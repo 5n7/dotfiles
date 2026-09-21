@@ -97,6 +97,16 @@ let
           command = "rmarganti.herdr-pluck.open-url";
           description = "open visible URL";
         }
+        # The plugin evens the layout on pane.created, pane.closed, and
+        # pane.moved already; this reaches what those events cannot see, such as
+        # a layout restored from before the plugin was linked. shift+e reads as
+        # "even".
+        {
+          key = "prefix+shift+e";
+          type = "plugin_action";
+          command = "herdr-even-layout.even";
+          description = "even pane layout";
+        }
       ];
     };
 
@@ -201,83 +211,26 @@ let
       pkgs.herdr
       pkgs.jq
     ];
-    text = builtins.readFile ./herdr-plugins-sync.sh;
+    text = builtins.readFile ./herdr/plugins-sync.sh;
   };
 
-  # Plugins are built here instead of by `herdr plugin install`, which clones into
-  # ~/.config/herdr/plugins/github and runs the manifest's [[build]] step in place.
-  # `herdr plugin link` registers an existing directory and never builds, so a
-  # read-only store path is a valid plugin root.
-  #
-  # Building under Nix also sidesteps the environment those [[build]] steps get.
-  # herdr passes its own PATH straight through (src/plugin_command.rs), and the
-  # server inherits ghostty's, which launchd sets to /usr/bin:/bin:/usr/sbin:/sbin
-  # plus /usr/local/bin. No cargo, no bun, no Homebrew. Only plugins that build
-  # with nothing, or that download a prebuilt binary, install the imperative way
-  # on this machine.
-  #
-  # These plugins are all Rust, but none of them is compiled here: upstream
-  # publishes a code-signed aarch64-darwin binary per release, which is exactly
-  # what their own build steps download. Taking the same binary keeps a version
-  # bump to a hash change instead of a cargo build.
-  #
-  # The flake input still supplies the manifest and any scripts the manifest runs;
-  # only the executable comes from the release. Manifest commands are written
-  # relative to the plugin root, but the path they use differs per plugin
-  # (./target/release/<pname> for navigator, ./bin/<pname> for pluck), so
-  # binaryPath names where the binary has to land.
-  mkPlugin =
-    {
-      pname,
-      version,
-      src,
-      binary,
-      binaryPath,
-    }:
-    pkgs.runCommand "${pname}-${version}" { } ''
-      cp -R ${src} $out
-      chmod -R u+w $out
-      install -Dm555 ${binary} $out/${binaryPath}
-    '';
-
-  # Attribute names are the plugin ids from each herdr-plugin.toml; the reconcile
-  # script below matches on them.
-  plugins = {
-    herdr-navigator = mkPlugin {
-      pname = "herdr-navigator";
-      version = "0.3.5";
-      src = inputs.herdr-navigator;
-      # Released as a tarball rather than a bare binary, so unwrap it first.
-      binary = pkgs.runCommand "herdr-navigator-binary" { } ''
-        tar -xzOf ${
-          pkgs.fetchurl {
-            url = "https://github.com/thanhdat77/herdr-navigator/releases/download/v0.3.5/herdr-navigator-macos-aarch64.tar.gz";
-            hash = "sha256-0LQE2/tp9M9RhVIadLnkOchIs6tnxueskwLog7fwzBM=";
-          }
-        } herdr-navigator/herdr-navigator > $out
-      '';
-      binaryPath = "target/release/herdr-navigator";
-    };
-
-    # The manifest's own [[build]] step (./scripts/install-binary.sh) only
-    # downloads this release tarball, so it is skipped and the binary installed
-    # here instead.
-    "rmarganti.herdr-pluck" = mkPlugin {
-      pname = "herdr-pluck";
-      version = "0.3.1";
-      src = inputs.herdr-pluck;
-      # Tarball again, with the executable at the archive root this time.
-      binary = pkgs.runCommand "herdr-pluck-binary" { } ''
-        tar -xzOf ${
-          pkgs.fetchurl {
-            url = "https://github.com/rmarganti/herdr-pluck/releases/download/v0.3.1/herdr-pluck-v0.3.1-aarch64-apple-darwin.tar.gz";
-            hash = "sha256-TNg86ZPjYF+ddarrK3oV9QPoDvTI+AQW55vqdyzmnH4=";
-          }
-        } herdr-pluck > $out
-      '';
-      binaryPath = "bin/herdr-pluck";
-    };
+  plugins = import ./herdr/plugins.nix {
+    inherit
+      inputs
+      lib
+      pkgs
+      ;
   };
+
+  pluginManifest = pkgs.writeText "herdr-plugins-manifest.json" (
+    builtins.toJSON {
+      version = 1;
+      plugins = lib.mapAttrs (_: plugin: {
+        path = plugin.package;
+        inherit (plugin) enabled;
+      }) plugins;
+    }
+  );
 
 in
 {
@@ -304,8 +257,6 @@ in
   # One `run` wraps the whole script, so `--dry-run` names the script rather than
   # the individual link and unlink calls it would make.
   home.activation.herdrPlugins = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
-    run ${lib.getExe herdr-plugins-sync} ${
-      lib.escapeShellArgs (lib.mapAttrsToList (id: package: "${id}=${package}") plugins)
-    }
+    run ${lib.getExe herdr-plugins-sync} ${lib.escapeShellArg pluginManifest}
   '';
 }
