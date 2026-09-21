@@ -97,11 +97,11 @@
     "herdr-plugins": {
       "flake": false,
       "locked": {
-        "lastModified": 1789955998,
-        "narHash": "sha256-6Akwq+jzGptabTyNFCl8+52Bah5B6tlId+aLjtBDCpQ=",
+        "lastModified": 1789971671,
+        "narHash": "sha256-ViuPb8nqseSCEc3+hgXkdK4lmfXznVpSNjdxexduisw=",
         "owner": "5n7",
         "repo": "herdr-plugins",
-        "rev": "a402288bd2273718c7d069d22f37953300c05e52",
+        "rev": "43901fcb9c3ea16a46e20143f79350cfcac22cf2",
         "type": "github"
       },
       "original": {

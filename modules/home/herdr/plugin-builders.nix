@@ -24,7 +24,11 @@
     '';
     pkgs.runCommand "${pname}-${version}"
       {
-        nativeBuildInputs = [ pkgs.bun ];
+        nativeBuildInputs = [
+          pkgs.bun
+          pkgs.darwin.cctools
+          pkgs.darwin.sigtool
+        ];
         passthru.pluginId = manifest.id;
       }
       ''
@@ -34,6 +38,7 @@
         mkdir -p $out
         cp ${pluginRoot}/herdr-plugin.toml $out/herdr-plugin.toml
         bun build --compile --target=bun ${entrypoint} --outfile $out/plugin
+        codesign --force --sign - $out/plugin
       '';
 
   mkReleasePlugin =
