@@ -53,7 +53,6 @@
       nixpkgs,
       nixpkgs-unstable,
       home-manager,
-      nix-claude-code,
       nix-darwin,
       treefmt-nix,
       ...
@@ -115,7 +114,6 @@
                 inherit
                   host
                   inputs
-                  system
                   ;
               };
               home-manager.users.${host.username} = import ./modules/home;
