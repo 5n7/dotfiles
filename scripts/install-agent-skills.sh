@@ -29,6 +29,7 @@ add_skill() { # <repo> <skill-path>
 add_repo cloudflare/skills
 
 add_skill anthropics/claude-plugins-community eli5
+add_skill ayghri/i-have-adhd skills/i-have-adhd
 add_skill citrolabs/ego-lite ego-browser
 add_skill cursor/plugins pstack/skills/unslop
 add_skill duyet/codex-claude-plugins simplify/skills/simplify
