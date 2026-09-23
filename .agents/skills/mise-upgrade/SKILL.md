@@ -1,6 +1,6 @@
 ---
 name: mise-upgrade
-description: Update all mise-managed tools to their latest versions and bump the pinned versions in the mise config. Use when the user invokes $mise-upgrade or asks to update mise tools, upgrade mise, or bump tool versions.
+description: Update all mise-managed tools to their latest versions and bump the pinned versions in the mise config. Use when the user explicitly requests this skill or asks to update mise tools, upgrade mise, or bump tool versions.
 ---
 
 # Upgrade mise Tools

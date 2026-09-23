@@ -1,6 +1,6 @@
 ---
 name: polish
-description: Finishing pass for freshly written or edited code — runs simplify, reorders declarations, follows the repo's own style guide when one exists, runs unslop on prose, then runs the project's formatter and linter. Use after finishing a non-trivial edit, on /polish, or when asked to clean up, reorder, or match repo style.
+description: Finish a code cleanup when the user explicitly requests this skill or a polishing pass. Use for simplifying, reordering declarations, or matching repository style.
 user-invocable: true
 ---
 
