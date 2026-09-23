@@ -22,6 +22,10 @@ let
       "googleworkspace-cli"
     ];
     work = [
+      {
+        name = "metalbear-co/mirrord/mirrord";
+        trusted = true;
+      }
     ];
   };
 in
