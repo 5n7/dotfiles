@@ -15,6 +15,10 @@ _env_cache_dir="${XDG_CACHE_HOME:-$HOME/.cache}/zsh/env"
 _env_cache_ttl=30
 typeset -gA _env_cache_cmds
 
+# gh gives GITHUB_TOKEN precedence over its stored login. Use gh's credential
+# store so an inherited token or an old env-cache entry cannot override it.
+unset GITHUB_TOKEN
+
 # Read the cached value into the environment. Builtin only, no fork.
 _env_cache_load() {
     local file="$_env_cache_dir/$1"
@@ -68,8 +72,6 @@ _env_cache_precmd() {
 [[ -d "$_env_cache_dir" ]] || { mkdir -p "$_env_cache_dir" && chmod 700 "$_env_cache_dir"; }
 
 env-cache CLOUDFLARE_TOKEN 'wrangler auth token --json | jq -r .token'
-# Read the stored credential, not the old token exported by this cache.
-env-cache GITHUB_TOKEN 'env -u GH_TOKEN -u GITHUB_TOKEN gh auth token'
 
 autoload -Uz add-zsh-hook
 add-zsh-hook precmd _env_cache_precmd
