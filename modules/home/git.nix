@@ -9,7 +9,10 @@
 {
   programs.gh = {
     enable = true;
-    extensions = [ pkgs-unstable.gh-poi ];
+    extensions = [
+      pkgs-unstable.gh-poi
+      pkgs-unstable.gh-stack
+    ];
     settings.aliases.co = "pr checkout";
   };
 
