@@ -43,6 +43,7 @@ let
       "voiceink"
     ];
     work = [
+      "caffeine"
       "zoom"
     ];
   };
