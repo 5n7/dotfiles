@@ -4,14 +4,14 @@
 # file and the custom widget scripts it references live under ./ccstatusline.
 { config, pkgs, ... }:
 let
-  version = "2.2.22";
+  version = "2.2.30";
   ccstatusline = pkgs.stdenvNoCC.mkDerivation {
     pname = "ccstatusline";
     inherit version;
 
     src = pkgs.fetchurl {
       url = "https://registry.npmjs.org/ccstatusline/-/ccstatusline-${version}.tgz";
-      hash = "sha256-FKDBeocIjiP4xXxNycTAJFlr7s+I8zm+gNv9IchcsQA=";
+      hash = "sha256-NWR5zB/3Nbdmvrom7ploLN7xQ8YDsPTx/X5qVugn12k=";
     };
 
     nativeBuildInputs = [ pkgs.makeWrapper ];
