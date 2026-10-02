@@ -57,8 +57,4 @@ in
     source = ./ccstatusline/model-color.sh;
     executable = true;
   };
-  xdg.configFile."ccstatusline/status-claude.sh" = {
-    source = ./ccstatusline/status-claude.sh;
-    executable = true;
-  };
 }
