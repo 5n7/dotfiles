@@ -3,15 +3,12 @@
 # it directly; claude-code.nix and opencode.nix manage the same repository skills
 # for Claude Code and OpenCode. The installer adds external skills to both
 # agents' directories via `gh skill`.
-{ lib, ... }:
+{ host, lib, ... }:
 let
-  skills = lib.filterAttrs (_: type: type == "directory") (builtins.readDir ./agents/skills);
+  skills = import ./agents/skills.nix { inherit host lib; };
   # Keep the parent writable for skills managed by install-agent-skills.sh.
   skillLinks = lib.mapAttrs' (
-    name: _:
-    lib.nameValuePair ".agents/skills/${name}" {
-      source = ./agents/skills + "/${name}";
-    }
+    name: source: lib.nameValuePair ".agents/skills/${name}" { inherit source; }
   ) skills;
 in
 {
