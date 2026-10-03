@@ -13,7 +13,7 @@
 
 ## Skills
 
-- Use installed skills when they directly apply. For public web content, prefer APIs, CLIs, and web search/open tools; use `ego-browser` for browser UI interaction.
+- Use installed skills when they directly apply. For public web content, prefer APIs, CLIs, and web search/open tools.
 
 ## Workflow
 
