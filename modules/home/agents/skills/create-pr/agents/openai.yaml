@@ -1,0 +1,7 @@
+interface:
+  display_name: "Create PR"
+  short_description: "Open a PR with a Conventional Commit title and Intent/What/Why description"
+  default_prompt: "Use $create-pr to open a pull request for the current branch with a Conventional Commit title and an Intent, What, Why description."
+
+policy:
+  allow_implicit_invocation: true
