@@ -12,17 +12,44 @@
   ...
 }:
 let
+  # TokyoNight Storm, the ghostty theme. herdr's built-in tokyo-night is the
+  # Night variant, whose highlight backgrounds are tuned for #1a1b26 and nearly
+  # vanish against Storm's #24283b.
+  storm = {
+    bg_highlight = "#292e42";
+    bg_visual = "#2e3c64";
+    blue = "#7aa2f7";
+    magenta = "#bb9af7";
+  };
+
   # rows_by_agent replaces `rows` rather than extending it, so the default two
   # rows are repeated here. The third row is the terminal title minus the
   # spinner glyph; apply it to the three agents actually used.
+  #
+  # Colour tells the tokens apart: blue workspace, dimmed title, magenta agent.
+  # herdr bolds the workspace by default, which bold = false switches off.
   agentSidebarRows = [
     [
       "state_icon"
-      "workspace"
+      {
+        token = "workspace";
+        fg = storm.blue;
+        bold = false;
+      }
       "tab"
     ]
-    [ "terminal_title_stripped" ]
-    [ "agent" ]
+    [
+      {
+        token = "terminal_title_stripped";
+        dim = true;
+      }
+    ]
+    [
+      {
+        token = "agent";
+        fg = storm.magenta;
+      }
+    ]
   ];
 
   # Only the values that differ from the binary's built-in defaults; herdr fills
@@ -119,7 +146,16 @@ let
       # dialogs solid. "reset" hands those cells back to the terminal
       # background so the window transparency shows through. The sidebar
       # already inherits it, since sidebar_bg is unset.
-      custom.panel_bg = "reset";
+      custom = {
+        panel_bg = "reset";
+
+        # Magenta rather than the theme's blue, so borders and focus stand apart
+        # from the blue workspace names in the sidebar.
+        accent = storm.magenta;
+        active_row_bg = storm.bg_highlight;
+        selection_bg = storm.bg_visual;
+        surface0 = storm.bg_highlight;
+      };
     };
 
     ui = {
@@ -132,6 +168,29 @@ let
         codex = agentSidebarRows;
         grok = agentSidebarRows;
       };
+
+      # The default space rows. herdr bolds the focused workspace and colours
+      # only its branch; here no workspace is bold and every branch is magenta.
+      sidebar.spaces.rows = [
+        [
+          "state_icon"
+          {
+            token = "workspace";
+            bold = false;
+          }
+        ]
+        [
+          {
+            token = "branch";
+            fg = storm.magenta;
+          }
+          "git_status"
+        ]
+      ];
+
+      # Name the agent on each split pane's top border. The label needs that
+      # border, so pane_outer_borders must stay on or top-row panes lose it.
+      show_agent_labels_on_pane_borders = true;
 
       # An unnamed tab is just its index, so the name prompt buys nothing. An
       # unnamed workspace is still labelled from its cwd.
