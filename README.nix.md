@@ -30,12 +30,15 @@ darwin-rebuild --rollback                    # undo last switch
 darwin-rebuild --list-generations
 ```
 
-## Agent skills
+## Agent plugins and skills
 
-Run `scripts/install-agent-skills.sh` after setup to install the same external
-skills into `~/.agents/skills` and `~/.claude/skills` through `gh skill`.
+Run `scripts/install-agent-extensions.sh` after setup to install Claude Code
+plugins through `claude plugin`, and the same external skills into
+`~/.agents/skills` and `~/.claude/skills` through `gh skill`.
 Nix manages the repository skills in both directories.
-Update external skills with `gh skill update --all`.
+Run `/pstack:setup-pstack` once in Claude Code to write the model sheet that
+`~/.claude/CLAUDE.md` imports. Update plugins with `claude plugin marketplace update`
+and `claude plugin update <plugin>`, and skills with `gh skill update --all`.
 
 ## Update everything
 

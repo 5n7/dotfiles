@@ -1,6 +1,6 @@
 ---
 name: polish
-description: Finish a code cleanup when the user explicitly requests this skill or a polishing pass. Use for simplifying, reordering declarations, or matching repository style.
+description: Finish a code cleanup when the user explicitly requests this skill or a polishing pass. Use for reordering declarations or matching repository style.
 user-invocable: true
 ---
 
@@ -16,11 +16,7 @@ Work out which files to touch, in this priority:
 2. Files with recent edits in the current conversation.
 3. If the user says "all" (or there's no conversation context to go on), scan the project for source files.
 
-## Step 1 — Simplify
-
-Invoke the `simplify` skill (via the Skill tool) on the same scope. It handles reuse, redundancy, efficiency, and altitude — don't duplicate that logic here.
-
-## Step 2 — Reorder
+## Step 1 — Reorder
 
 Reorder declarations within each file into a consistent, readable sequence. Structural only: move things, don't rename or change logic.
 
@@ -29,15 +25,11 @@ Reorder declarations within each file into a consistent, readable sequence. Stru
 - Where the language distinguishes them, put exported/public before internal/private.
 - When two orderings are equally valid, keep the one closer to the current order — minimizing diff noise beats theoretical purity. Leave deliberately adjacent pairs (a helper right below its one caller) alone.
 
-## Step 3 — Follow the style guide
+## Step 2 — Follow the style guide
 
-Look for docs anywhere in the repo that state a house style. If one exists, apply it — it overrides the defaults in Step 2. Skip quietly if there isn't one.
+Look for docs anywhere in the repo that state a house style. If one exists, apply it — it overrides the defaults in Step 1. Skip quietly if there isn't one.
 
-## Step 4 — Unslop
-
-Invoke the `unslop` skill (via the Skill tool) on any prose in the same scope. It removes AI tells while preserving meaning and intended tone.
-
-## Step 5 — Formatter and linter
+## Step 3 — Formatter and linter
 
 Run whatever formatter and linter the project already uses, and fix anything they flag. This is the last step — the pass isn't done until they're clean.
 
