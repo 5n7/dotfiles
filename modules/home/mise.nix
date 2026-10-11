@@ -15,6 +15,10 @@ let
   # A conf.d entry is a full mise config file, hence the `settings` table wrapper.
   settingsConfig = (pkgs.formats.toml { }).generate "00-settings.toml" {
     settings = {
+      # A shim for a tool that is installed but not active here falls back to PATH
+      # minus mise's shims, which lands on aqua's proxy; aqua does the same in
+      # reverse, so the two exec each other forever (e.g. shellcheck from bashls).
+      activate_shims = false;
       experimental = true;
       python.uv_venv_auto = true;
       status.missing_tools = "always";
