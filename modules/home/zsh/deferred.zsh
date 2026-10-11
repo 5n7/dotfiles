@@ -16,7 +16,8 @@ if command -v zsh-defer >/dev/null 2>&1; then
     }
     _defer_cached direnv/hook.zsh 'eval "$(direnv hook zsh)"'
     _defer_cached git-wt/init.zsh 'eval "$(git wt --init zsh)"'
-    _defer_cached mise/activate.zsh 'eval "$(mise activate zsh)"'
+    # Not cached: `mise activate` bakes the caller's PATH into its output.
+    zsh-defer -c 'eval "$(mise activate zsh)"'
     _defer_cached zoxide/init.zsh 'eval "$(zoxide init zsh)"'
 
     # direnv and zoxide both hook chpwd, which is where the cost of `cd` shows

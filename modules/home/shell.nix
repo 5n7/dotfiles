@@ -124,7 +124,8 @@
   '';
 
   # Pre-render init scripts (+ zcompile) so interactive shells only `source`
-  # a cache file instead of spawning subprocesses + eval.
+  # a cache file instead of spawning subprocesses + eval. mise is deliberately
+  # not cached; see the mise line in ./zsh/deferred.zsh.
   home.activation.precomputeShellInit = lib.hm.dag.entryAfter [ "sheldonLock" ] ''
     cache_shell_init() {
       local cache_file="$1"
@@ -135,7 +136,6 @@
     cache_shell_init direnv/hook.zsh ${config.programs.direnv.package}/bin/direnv hook zsh
     cache_shell_init fzf/init.zsh ${config.programs.fzf.package}/bin/fzf --zsh
     cache_shell_init git-wt/init.zsh ${pkgs-unstable.git-wt}/bin/git-wt --init zsh
-    cache_shell_init mise/activate.zsh ${config.programs.mise.package}/bin/mise activate zsh
     cache_shell_init oh-my-posh/init.zsh ${config.programs.oh-my-posh.package}/bin/oh-my-posh init zsh \
       --config ${config.xdg.configHome}/oh-my-posh/config.json
     cache_shell_init sheldon/source.zsh ${config.programs.sheldon.package}/bin/sheldon source
