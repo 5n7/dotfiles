@@ -7,7 +7,6 @@ let
     ];
     personal = [
       "browser-qa-report"
-      "create-pr"
     ];
     work = [
     ];

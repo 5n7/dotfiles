@@ -11,6 +11,11 @@
 - Run `git push` only with my explicit approval.
 - Reuse the current Herdr worktree. For a new branch, use `herdr worktree create --branch <name>`; outside Herdr, use [git-wt](https://github.com/k1LoW/git-wt): `git wt <branch>`.
 
+## Pull requests
+
+- Open PRs with the `opening-a-pr` playbook of pstack's `poteto-mode` skill.
+- Asking for a PR approves `git push` and running tests.
+
 ## Skills
 
 - Use installed skills when they directly apply. For public web content, prefer APIs, CLIs, and web search/open tools.
