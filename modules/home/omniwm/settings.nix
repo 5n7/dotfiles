@@ -129,29 +129,18 @@ let
 
 in
 {
-  schemaVersion = 2;
+  schemaVersion = 4;
 
   monitorBarOverrides = [ ];
   monitorDwindleOverrides = [ ];
   monitorGapOverrides = [ ];
   monitorNiriOverrides = [ ];
   monitorOrientationOverrides = [ ];
-  monitorRoutingOverrides = [
-    {
-      gridColumn = 0;
-      gridRow = 0;
-      monitorDisplayUUID = "37D8832A-2D66-02CA-B9F7-8F30A301B230";
-      monitorName = "Built-in Retina Display";
-    }
-    {
-      gridColumn = 1;
-      gridRow = 0;
-      monitorDisplayUUID = "B0DF8254-431C-49E5-B1CB-DEB25A61E736";
-      monitorName = "LG ULTRAFINE";
-    }
-  ];
 
-  appearance.mode = "automatic";
+  appearance = {
+    mode = "automatic";
+    tabRailAppIcons = false;
+  };
 
   borders = {
     enabled = true;
@@ -166,6 +155,7 @@ in
 
   clipboard = {
     historyEnabled = false;
+    ignoredTypes = [ ];
     maxItemBytes = 8388608;
     maxItems = 200;
     maxTotalBytes = 67108864;
@@ -202,6 +192,7 @@ in
   };
 
   general = {
+    animationSpeed = 1.0;
     animationsEnabled = true;
     defaultLayoutType = "dwindle";
     hotkeysEnabled = true;
@@ -217,10 +208,17 @@ in
     invertDirection = true;
     mouseMoveModifierKey = "option";
     mouseResizeModifierKey = "option";
+    overviewGestureEnabled = false;
+    overviewGestureFingerCount = 4;
     scrollEnabled = true;
     scrollModifierKey = "optionShift";
     scrollSensitivity = 5.0;
     trackpadScrollStyle = "snap";
+    windowGestureSensitivity = 1.0;
+    windowMoveEnabled = false;
+    windowMoveFingerCount = 4;
+    windowResizeEnabled = false;
+    windowResizeFingerCount = 3;
     workspaceSwipeAxis = "vertical";
     workspaceSwipeEnabled = false;
     workspaceSwipeFingerCount = 3;
@@ -247,12 +245,18 @@ in
       0.6666666666666666
     ];
     defaultContainerPrimarySpan = 0.5;
+    edgeGaps = true;
     infiniteLoop = true;
+    resizeStepPercent = 5;
     singleWindowFit = "fill";
     visibleContainerCount = 2;
   };
 
   overview = {
+    enabled = true;
+    invertScrollDirection = false;
+    matchFocusBorder = true;
+    mouseScrollSpeed = 1.0;
     zoom = 1.0;
     backdrop = {
       alpha = 1.0;
@@ -295,17 +299,42 @@ in
     widthPercent = 50.0;
   };
 
-  routing.mode = "custom";
+  routing = {
+    mode = "custom";
+    arrangements = [
+      {
+        id = "DD7F1799-C5E9-4169-933A-9DAD78C0472A";
+        monitors = [
+          {
+            gridColumn = 0;
+            gridRow = 0;
+            monitorDisplayUUID = "37D8832A-2D66-02CA-B9F7-8F30A301B230";
+            monitorName = "Built-in Retina Display";
+          }
+          {
+            gridColumn = 1;
+            gridRow = 0;
+            monitorDisplayUUID = "B0DF8254-431C-49E5-B1CB-DEB25A61E736";
+            monitorName = "LG ULTRAFINE";
+          }
+        ];
+      }
+    ];
+  };
 
   scratchpads.labels = { };
 
   statusBar = {
     showAppNames = false;
+    showIcon = true;
     showWorkspaceName = false;
     useWorkspaceId = false;
   };
 
   workspaceBar = {
+    autoHide = false;
+    autoHideHideDelayMilliseconds = 0.0;
+    autoHideRevealDelayMilliseconds = 0.0;
     backgroundOpacity = 0.1;
     deduplicateAppIcons = false;
     enabled = true;
@@ -313,16 +342,23 @@ in
     height = 22.0;
     hideEmptyWorkspaces = false;
     hideInNativeFullscreen = false;
+    hoverPreviewsEnabled = true;
     iconOverrides = { };
     notchActiveZoneWidth = 180.0;
     notchMode = "moveBelowMenuBar";
+    notificationBadgeRefreshIntervalSeconds = 5.0;
+    notificationBadges = "off";
     position = "overlappingMenuBar";
     reserveLayoutSpace = false;
     revealHoldMilliseconds = 200.0;
     revealModifier = "off";
+    showAccentHighlights = true;
     showFloatingWindows = false;
+    showItemBackgrounds = true;
     showLabels = true;
+    solidBlackBackground = false;
     systemStatsButton = false;
+    transparentBackground = false;
     windowLevel = "popup";
     xOffset = 0.0;
     yOffset = 4.0;
@@ -438,10 +474,13 @@ in
       (unassigned "preselectClear")
       (hotkey "openCommandPalette" "Control+Option+Space")
       (hotkey "raiseAllFloatingWindows" "Option+Shift+R")
+      (unassigned "toggleFloatingFocus")
       (unassigned "rescueOffscreenWindows")
       (hotkey "toggleFocusedWindowFloating" "Option+Shift+F")
       (unassigned "closeFocusedWindow") # Option+Q opens Vicinae's snippets instead.
       (hotkey "openMenuAnywhere" "Control+Option+M")
+      (unassigned "setWindowMark")
+      (unassigned "removeWindowMark")
       (unassigned "toggleWorkspaceBarVisibility")
       (unassigned "toggleHiddenBarPanel")
       (unassigned "toggleQuakeTerminal")
