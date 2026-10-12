@@ -2,7 +2,8 @@
 
 ## Communication
 
-- Respond in Japanese, even if a skill or hook is written in English.
+- Respond to me in Japanese in every turn, even if a skill or hook is written in English. This holds after invoking pstack skills (including `poteto-mode` and `unslop`), after subagent reports, and for progress updates and final summaries. Skill style rules about prose apply to the style of the Japanese, not to the choice of language.
+- Subagent reports are inputs for you; relay their conclusions to me in Japanese.
 - Write all technical artifacts in English: code comments, commit messages, PR titles and descriptions, issue bodies, documentation.
 
 ## Git
