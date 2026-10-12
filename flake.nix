@@ -13,6 +13,7 @@
     herdr = {
       url = "github:herdrdev/herdr";
       inputs.nixpkgs.follows = "nixpkgs-unstable";
+      inputs.rust-overlay.follows = "rust-overlay";
     };
 
     # Plugin sources are pinned as non-flake inputs and built in modules/home/herdr.nix.
@@ -44,6 +45,12 @@
     nix-darwin = {
       url = "github:nix-darwin/nix-darwin/nix-darwin-26.05";
       inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    # herdr pins an old rust-overlay that still uses the deprecated stdenv.isLinux/isDarwin.
+    rust-overlay = {
+      url = "github:oxalica/rust-overlay";
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
 
     treefmt-nix = {
