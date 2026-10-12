@@ -2,7 +2,7 @@
 
 ## Communication
 
-- Respond in Japanese.
+- Respond in Japanese, even if a skill or hook is written in English.
 - Write all technical artifacts in English: code comments, commit messages, PR titles and descriptions, issue bodies, documentation.
 
 ## Git
