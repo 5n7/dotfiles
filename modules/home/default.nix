@@ -28,6 +28,7 @@ in
     ./packages.nix
     ./shell.nix
     ./terminal.nix
+    ./vicinae.nix
   ];
 
   # Single source for the live dotfiles checkout, consumed here (DOTFILES_DIR) and

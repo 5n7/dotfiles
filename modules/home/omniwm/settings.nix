@@ -337,7 +337,6 @@ in
     (workspaceRule "4D31DD3A-C38C-4044-ACCB-762E980BB63C" "com.anthropic.claudefordesktop" "1")
     (workspaceRule "6A31F08A-4051-4354-B439-42F4C71894A3" "com.openai.codex" "1")
     (workspaceRule "486CEFA6-69AA-4A3C-AF27-BCD38F4F138B" "com.google.Chrome" "2")
-    (workspaceRule "C21156B1-0224-4998-97E3-8F4FA65B9F3B" "company.thebrowser.dia" "2")
     (workspaceRule "B6AD65C4-3419-4DD4-93B2-61266B602D9C" "notion.id" "3")
     (workspaceRule "CB2D767B-C322-4078-8593-B915566B1CE0" "com.tinyspeck.slackmacgap" "4")
     (workspaceRule "7876C9EF-437E-4D4F-9C27-B1B02F4AABCE" "com.mitchellh.ghostty" "5")
@@ -441,7 +440,7 @@ in
       (hotkey "raiseAllFloatingWindows" "Option+Shift+R")
       (unassigned "rescueOffscreenWindows")
       (hotkey "toggleFocusedWindowFloating" "Option+Shift+F")
-      (hotkey "closeFocusedWindow" "Option+Q")
+      (unassigned "closeFocusedWindow") # Option+Q opens Vicinae's snippets instead.
       (hotkey "openMenuAnywhere" "Control+Option+M")
       (unassigned "toggleWorkspaceBarVisibility")
       (unassigned "toggleHiddenBarPanel")

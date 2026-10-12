@@ -6,37 +6,32 @@ let
       "1password"
       "1password-cli"
       "claude"
-      "cursor"
       "dockdoor"
       "gcloud-cli"
       "ghostty"
       "google-chrome"
       "karabiner-elements"
       "keyboardcleantool"
-      "linear"
       "meetingbar"
       "notion"
       {
         name = "BarutSRB/tap/omniwm";
         trusted = true;
       }
-      "raycast"
       "scroll-reverser"
       "slack"
       "spotify"
       "tailscale-app"
-      "thebrowsercompany-dia"
+      "vicinae"
     ];
     personal = [
       "adobe-creative-cloud"
       "block-buzz"
       "brave-browser"
-      "chatgpt"
       "cursor-cli"
       "elecom-mouse-util"
       "grok-bot"
       "grok-build"
-      "hermes-desktop"
       "ngrok"
       "raspberry-pi-imager"
       "vlc"
@@ -44,6 +39,7 @@ let
     ];
     work = [
       "caffeine"
+      "linear"
       "zoom"
     ];
   };
