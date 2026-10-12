@@ -6,6 +6,7 @@ let
       "RunCat Neo" = 6757801838;
     };
     personal = {
+      "Amazon Kindle" = 302584613;
       Xcode = 497799835;
     };
     work = {
