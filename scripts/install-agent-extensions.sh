@@ -60,17 +60,19 @@ add_skill() { # <repo> <skill-path>
     spawn "$2 ($1)" "$1" "$2"
 }
 
-# TODO: install pstack for Codex and the other agents too (Codex has `codex plugin
-# marketplace add` and `codex plugin add`); AGENTS.md's PR rule points at it.
 add_plugin anthropics/claude-plugins-official plugin-dev
-add_plugin michael-denyer/pstack-claude pstack
+add_plugin cursor/plugins pstack
 
 add_skill_repo cloudflare/skills
 
-# ego-browser is not listed: the ego lite app links its bundled copy into each
-# agent's skills directory and updates it with the app, so `gh skill` cannot
-# write through that link.
 add_skill ayghri/i-have-adhd skills/i-have-adhd
+add_skill cursor/plugins cursor-team-kit/skills/deslop
+add_skill cursor/plugins cursor-team-kit/skills/fix-ci
+add_skill cursor/plugins cursor-team-kit/skills/fix-merge-conflicts
+add_skill cursor/plugins cursor-team-kit/skills/get-pr-comments
+add_skill cursor/plugins cursor-team-kit/skills/make-pr-easy-to-review
+add_skill cursor/plugins cursor-team-kit/skills/thermo-nuclear-code-quality-review
+add_skill cursor/plugins cursor-team-kit/skills/what-did-i-get-done
 add_skill herdrdev/herdr skills/herdr
 add_skill humanlayer/skills plugins/show-me/skills/show-me
 add_skill mattpocock/skills skills/engineering/domain-modeling

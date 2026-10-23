@@ -12,9 +12,9 @@
   programs.claude-code = {
     enable = true;
     package = pkgs.claude-code-minimal;
-    # setup-pstack writes its per-role model sheet here and expects this import;
-    # CLAUDE.md is a read-only store link, so the import lives in Nix.
-    context = builtins.readFile ./agents/AGENTS.md + "\n@~/.claude/pstack-models.md\n";
+    # setup-pstack writes its model sheet to ~/.claude/rules/pstack-models.md,
+    # which Claude Code loads on its own, so no import is needed here.
+    context = builtins.readFile ./agents/AGENTS.md;
     skills = import ./agents/skills.nix { inherit host lib; };
   };
 }
