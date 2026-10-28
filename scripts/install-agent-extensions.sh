@@ -78,6 +78,7 @@ add_skill humanlayer/skills plugins/show-me/skills/show-me
 add_skill mattpocock/skills skills/engineering/domain-modeling
 add_skill mattpocock/skills skills/engineering/grill-with-docs
 add_skill mattpocock/skills skills/productivity/grilling
+add_skill nanaism/yomiyasu skills/yomiyasu
 add_skill pbakaus/impeccable impeccable
 
 wait
