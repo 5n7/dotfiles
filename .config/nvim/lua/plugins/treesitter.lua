@@ -15,6 +15,7 @@ local ensure = {
 	"nix",
 	"proto",
 	"regex",
+	"rust",
 	"toml",
 	"tsx",
 	"typescript",

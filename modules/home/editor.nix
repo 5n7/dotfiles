@@ -21,6 +21,7 @@
       pkgs-unstable.gopls
       pkgs.lua-language-server
       pkgs.nixd
+      pkgs-unstable.rust-analyzer
       pkgs.vscode-langservers-extracted # jsonls
       pkgs-unstable.vtsls
       pkgs.yaml-language-server

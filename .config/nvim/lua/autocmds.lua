@@ -78,7 +78,8 @@ vim.api.nvim_create_autocmd("LspAttach", {
 		end
 
 		-- Enabling hints on a client without the capability errors, and buf_ls has none.
-		-- Which servers actually emit hints is decided in lsp/*.lua; only gopls opts in.
+		-- Which servers actually emit hints is decided in lsp/*.lua or by the server's
+		-- defaults: gopls opts in, and rust-analyzer emits them unless told not to.
 		local client = vim.lsp.get_client_by_id(args.data.client_id)
 		if client and client:supports_method("textDocument/inlayHint") then
 			vim.lsp.inlay_hint.enable(true, { bufnr = args.buf })
