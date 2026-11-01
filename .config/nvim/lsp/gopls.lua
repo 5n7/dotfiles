@@ -95,17 +95,6 @@ return {
 	},
 	settings = {
 		gopls = {
-			-- Lenses are requested per buffer and none of these are used from here.
-			-- upgrade_dependency is the expensive one: opening go.mod sends it to the
-			-- module proxy over the network.
-			codelenses = {
-				generate = false,
-				regenerate_cgo = false,
-				run_govulncheck = false,
-				tidy = false,
-				upgrade_dependency = false,
-				vendor = false,
-			},
 			-- The default, "Edit", re-diagnoses workspace packages as you type.
 			diagnosticsTrigger = "Save",
 			-- Replaces the default -**/node_modules rather than merging with it, so that is
