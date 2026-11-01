@@ -5,10 +5,6 @@ let
     common = [
       "aqua"
       {
-        name = "anomalyco/tap/opencode-v2";
-        trusted = true;
-      }
-      {
         name = "datadog-labs/pack/pup";
         trusted = true;
       }
@@ -19,6 +15,10 @@ let
       "mas"
     ];
     personal = [
+      {
+        name = "anomalyco/tap/opencode-v2";
+        trusted = true;
+      }
       "googleworkspace-cli"
     ];
     work = [

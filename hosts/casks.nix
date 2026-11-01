@@ -11,7 +11,6 @@ let
       "ghostty"
       "google-chrome"
       "karabiner-elements"
-      "keyboardcleantool"
       "meetingbar"
       "notion"
       {
@@ -32,6 +31,8 @@ let
       "elecom-mouse-util"
       "grok-bot"
       "grok-build"
+      "herdr-app"
+      "keyboardcleantool"
       "ngrok"
       "raspberry-pi-imager"
       "vlc"
