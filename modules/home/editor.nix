@@ -14,20 +14,13 @@
     viAlias = true;
     vimAlias = true;
 
-    # LSP servers (lsp/*.lua), formatters (conform) and linters (nvim-lint). On the
-    # wrapper's PATH rather than the user profile: nothing outside nvim calls them.
-    # eslint is deliberately absent -- nvim-lint prefers ./node_modules/.bin, and a
-    # global one cannot resolve a project's config or plugins.
+    # LSP servers (lsp/*.lua). On the wrapper's PATH rather than the user profile:
+    # nothing outside nvim calls them.
     extraPackages = [
       pkgs.bash-language-server
-      pkgs-unstable.golangci-lint # Keep its build Go at least as new as the mise toolchain.
       pkgs-unstable.gopls
-      pkgs.gotools # goimports
       pkgs.lua-language-server
       pkgs.nixd
-      pkgs.nixfmt # nix formatting, driven by nixd
-      pkgs.prettier
-      pkgs.shellcheck # where bashls' diagnostics come from
       pkgs.vscode-langservers-extracted # jsonls
       pkgs-unstable.vtsls
       pkgs.yaml-language-server

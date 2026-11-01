@@ -79,7 +79,3 @@ require("plugins")
 
 -- Nvim 0.11+ native LSP
 vim.lsp.enable({ "bashls", "buf_ls", "gopls", "jsonls", "lua_ls", "nixd", "vtsls", "yamlls" })
-
--- Capability-gated, so a no-op for servers without documentOnTypeFormattingProvider.
--- vtsls (";", "}", "\n") and lua_ls ("\n") advertise it; gopls and buf_ls do not.
-vim.lsp.on_type_formatting.enable()

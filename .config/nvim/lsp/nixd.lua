@@ -64,14 +64,6 @@ return {
 	cmd = { "nixd" },
 	filetypes = { "nix" },
 	root_markers = { ".git", "flake.nix" },
-	settings = {
-		nixd = {
-			-- conform has no nix formatter, and format_on_save falls back to the LSP,
-			-- so this is what formats nix buffers. nixfmt is also what `nix fmt` runs
-			-- through treefmt.nix, so both paths produce the same file.
-			formatting = { command = { "nixfmt" } },
-		},
-	},
 	-- The flake ref is only known once the root is resolved, which is after the
 	-- config table is read. Assigning here covers both ways nixd asks for settings:
 	-- the notification below, and the workspace/configuration pulls nvim answers

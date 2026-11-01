@@ -6,9 +6,9 @@ return {
 	root_markers = { ".git" },
 	settings = {
 		bashIde = {
-			-- Almost every diagnostic bashls reports comes from shellcheck, which it
-			-- shells out to; the wrapper's PATH supplies it (see modules/home/editor.nix).
-			shellcheckPath = "shellcheck",
+			-- Empty turns linting off. bashls would otherwise run whatever shellcheck
+			-- PATH resolves.
+			shellcheckPath = "",
 		},
 	},
 }
