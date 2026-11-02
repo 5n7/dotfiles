@@ -20,6 +20,7 @@ in
     ./editor.nix
     ./git.nix
     ./gpg.nix
+    ./herdr-app
     ./herdr.nix
     ./karabiner.nix
     ./mise.nix
