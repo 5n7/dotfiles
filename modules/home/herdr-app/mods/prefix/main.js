@@ -75,6 +75,9 @@ function runCommand(command) {
   run(name, { [arg]: /^\d+$/.test(value) ? Number(value) : value });
 }
 
+const prefixBinding = (keystroke) =>
+  keys().find((k) => k.section === "mod:prefix" && k.keys === keystroke);
+
 // Runs hc and shows a failure under `title`, which would otherwise go unseen.
 async function hcOrNotify(title, args) {
   try {
@@ -130,8 +133,30 @@ const ACTIONS = {
   },
 };
 
+// The app takes Tab and Shift+Tab to move the keyboard between tab stops,
+// before keys.json or on_key_down sees them. GPUI tries bindings under the
+// mod's own key context first, as win98's menu relies on for Escape, so the mod
+// binds both keys there as actions.
+const KEY_CONTEXT = "Prefix";
+const TAB_ACTIONS = { tab: "prefix_tab", "shift-tab": "prefix_shift_tab" };
+
+let tabKeysBound = false;
+
+function bindTabKeysOnce(cx) {
+  if (tabKeysBound) return;
+  cx.bind_keys(
+    Object.entries(TAB_ACTIONS).map(([keystroke, action]) => ({
+      keystroke,
+      action,
+      context: KEY_CONTEXT,
+    })),
+  );
+  tabKeysBound = true;
+}
+
 export default class Prefix extends View {
   init(_props, cx) {
+    bindTabKeysOnce(cx);
     // Where the keyboard was, to give it back.
     this.origin = focused();
     this.handle = cx.focus_handle();
@@ -167,10 +192,16 @@ export default class Prefix extends View {
     else ACTIONS[command]?.(cx);
   }
 
+  runBinding(keystroke) {
+    const action = prefixBinding(keystroke)?.action;
+    if (action) run(action);
+    else this.dismiss();
+  }
+
   // Any other key: ? shows or hides the list, and the rest, Esc included,
   // close the prefix.
   key(e, cx) {
-    if (keys().some((k) => k.section === "mod:prefix" && k.keys === e.keystroke)) return;
+    if (prefixBinding(e.keystroke)) return;
     if (e.key_char !== "?") return this.dismiss();
     // A held ? repeats, which would flicker.
     if (e.is_held) return;
@@ -187,6 +218,9 @@ export default class Prefix extends View {
         .items_center()
         .justify_end()
         .pb(BOTTOM)
+        .key_context(KEY_CONTEXT)
+        .on_action(TAB_ACTIONS.tab, () => this.runBinding("tab"))
+        .on_action(TAB_ACTIONS["shift-tab"], () => this.runBinding("shift-tab"))
         .track_focus(this.handle)
         .on_key_down((e, cx) => this.key(e, cx))
         // A press the mod lets through would drag the window.
