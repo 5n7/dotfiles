@@ -2,6 +2,7 @@
 {
   lib,
   pkgs,
+  pkgs-unstable,
   ...
 }:
 let
@@ -9,6 +10,9 @@ let
   appDir = ".config/herdr-app";
 
   json = pkgs.formats.json { };
+
+  # Unstable's Bun: 1.3's --compile output fails macOS's signature check.
+  pluck = pkgs.callPackage ./pluck { inherit (pkgs-unstable) bun; };
 
   # The second keys of the Ctrl+F prefix: its keymap section and its card.
   prefix = import ./mods/prefix { inherit lib pkgs; };
@@ -88,6 +92,9 @@ in
   home.file = {
     # File by file, so the folder stays writable for the jsconfig.json and
     # gpui-kit.d.ts the app writes beside every mod.
+    "${appDir}/mods/pluck/main.js".source = ./mods/pluck/main.js;
+    "${appDir}/mods/pluck/mod.json".source = ./mods/pluck/mod.json;
+    "${appDir}/mods/pluck/pluck".source = lib.getExe pluck;
     "${appDir}/mods/prefix/card.json".source = prefix.card;
     "${appDir}/mods/prefix/main.js".source = ./mods/prefix/main.js;
     "${appDir}/mods/prefix/mod.json".source = ./mods/prefix/mod.json;

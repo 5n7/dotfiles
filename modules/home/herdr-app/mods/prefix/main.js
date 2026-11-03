@@ -97,6 +97,10 @@ function hcError(stderr) {
   }
 }
 
+function openPluck(mode) {
+  openOverlay({ mod: "pluck", props: { mode }, kind: "window", frame: "none" });
+}
+
 // The agents that came to need you, blocked or finished while you weren't
 // looking.
 const waiting = () => agents().filter((a) => a.status === "blocked" || a.status === "done");
@@ -107,6 +111,14 @@ const ACTIONS = {
   attention() {
     const [latest] = waiting().sort((a, b) => b.seq - a.seq);
     if (latest) run("agent.focus", { terminal: latest.address });
+  },
+
+  "open-url"() {
+    openPluck("open");
+  },
+
+  pluck() {
+    openPluck("copy");
   },
 
   // Ctrl+F twice: a literal one for the program.

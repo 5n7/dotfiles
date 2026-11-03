@@ -125,6 +125,22 @@ let
         }
       ];
     }
+    # The herdr TUI's pluck keys: y as yank, u as url.
+    {
+      name = "Screen";
+      rows = [
+        {
+          keys = [ "y" ];
+          label = "Copy text";
+          action = "pluck";
+        }
+        {
+          keys = [ "u" ];
+          label = "Open URL";
+          action = "open-url";
+        }
+      ];
+    }
     {
       name = "Window";
       rows = [
