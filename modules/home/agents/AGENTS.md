@@ -10,7 +10,7 @@
 
 - Follow Conventional Commits for commit messages.
 - Run `git push` only with my explicit approval.
-- Reuse the current Herdr worktree. For a new branch, use `herdr worktree create --branch <name>`; outside Herdr, use [git-wt](https://github.com/k1LoW/git-wt): `git wt <branch>`.
+- Reuse the current worktree. For a new branch, use `herdr worktree create --branch <name>` in the Herdr TUI (`HERDR_ENV=1`); elsewhere, including the Herdr app, use [git-wt](https://github.com/k1LoW/git-wt): `git wt <branch>`.
 
 ## Pull requests
 
@@ -24,5 +24,5 @@
 ## Workflow
 
 - Infer clear intent and complete the requested work. Ask only when missing information could materially change the result.
-- Delegate independent work when it materially improves speed or quality. Use session subagents for short tasks; use Herdr for long-lived work or another runtime, following the `herdr` skill.
+- Delegate independent work when it materially improves speed or quality. Use session subagents for short tasks. For long-lived work or another runtime, use the Herdr TUI following the `herdr` skill when `HERDR_ENV=1`, or herdr-core following `hc --skill` when `HC_TERMINAL_ID` is set, as in the Herdr app.
 - Review the diff before finishing. Run tests only when I ask for testing or verification.
