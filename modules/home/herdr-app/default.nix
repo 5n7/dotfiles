@@ -52,6 +52,14 @@ let
     # takes.
     font = "0xProto Nerd Font";
     font_size = 12;
+
+    # Option is Alt on every input source, as with ghostty's
+    # macos-option-as-alt. The default, auto, does that only on US and ABC
+    # layouts.
+    option_as_alt = "on";
+
+    # Off, as DISABLE_TELEMETRY and vicinae's telemetry are.
+    telemetry = false;
   };
 
   # The themes beyond the app's own, by the name settings.json and the picker
