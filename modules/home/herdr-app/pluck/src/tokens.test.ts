@@ -54,6 +54,13 @@ describe("paths", () => {
     ).toEqual(["../..", "~/foo/..", "src/a.ts", "https://a.test/docs/", "dir/"]);
   });
 
+  test("keep a host and its port before the path", () => {
+    expect(texts(["curl localhost:8080/health or 127.0.0.1:3000/api/v1."])).toEqual([
+      "localhost:8080/health",
+      "127.0.0.1:3000/api/v1",
+    ]);
+  });
+
   test("take a diff's path without its a/ or b/", () => {
     expect(texts(["--- a/src/main.rs", "+++ b/src/lib.rs"])).toEqual(["src/main.rs", "src/lib.rs"]);
   });

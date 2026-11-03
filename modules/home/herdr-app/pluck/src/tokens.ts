@@ -12,8 +12,10 @@ interface Kind {
 
 type Candidate = Token & { reach: number };
 
+const LINE_COLUMN = String.raw`(?::\d+(?::\d+)?)`;
 const OCTET = String.raw`(?:25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)`;
 const PATH_CHAR = String.raw`[\w.\-@+%~]`;
+const PORT = String.raw`(?::\d{1,5})`;
 // RFC 3986's URL characters, less the ' that quotes a URL in prose. ASCII only,
 // so Japanese punctuation ends a URL.
 const URL_CHAR = String.raw`[A-Za-z0-9\-._~:/?#\[\]@!$&()*+,;=%]`;
@@ -21,12 +23,12 @@ const URL_CHAR = String.raw`[A-Za-z0-9\-._~:/?#\[\]@!$&()*+,;=%]`;
 const COMMIT: Kind = { re: /\b(?=[0-9a-f]*[a-f])(?=[0-9a-f]*\d)[0-9a-f]{7,40}\b/dg };
 const DIFF_PATH: Kind = { re: /(?:^|\s)(?:---|\+\+\+) [ab]\/(?<token>\S+)/dg };
 const IPV4: Kind = {
-  re: new RegExp(String.raw`\b(?:${OCTET}\.){3}${OCTET}(?::\d{1,5})?\b`, "dg"),
+  re: new RegExp(String.raw`\b(?:${OCTET}\.){3}${OCTET}${PORT}?\b`, "dg"),
 };
 const NUMBER: Kind = { re: /\b\d{4,}\b/dg };
 const PATH: Kind = {
   re: new RegExp(
-    String.raw`(?<!${PATH_CHAR})${PATH_CHAR}*(?:\/${PATH_CHAR}+)+\/?(?::\d+){0,2}`,
+    String.raw`(?<!${PATH_CHAR})${PATH_CHAR}*${PORT}?(?:\/${PATH_CHAR}+)+\/?${LINE_COLUMN}?`,
     "dg",
   ),
   trim: true,
