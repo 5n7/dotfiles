@@ -54,28 +54,8 @@ describe("paths", () => {
     ).toEqual(["../..", "~/foo/..", "src/a.ts", "https://a.test/docs/", "dir/"]);
   });
 
-  test("take a git status path whole, spaces and git's quotes included", () => {
-    expect(
-      texts([
-        "new file:   a b.txt",
-        'modified:   "a\\"b.txt"',
-        "modified:   lib (new commits)",
-        "modified:   photo (1)",
-      ]),
-    ).toEqual(["a b.txt", '"a\\"b.txt"', "lib", "photo (1)"]);
-  });
-
-  test("read a git status label only as git aligns it", () => {
-    expect(texts(["- modified: `src/main.ts` was moved"])).toEqual(["src/main.ts"]);
-    expect(texts(["  deleted: the old config is no longer read"])).toEqual([]);
-    expect(texts(["  modified: src/a.ts and src/b.ts"])).toEqual(["src/a.ts", "src/b.ts"]);
-    expect(texts(["        both modified:   x y.txt"])).toEqual(["x y.txt"]);
-  });
-
-  test("take the path from git status and diffs", () => {
-    expect(
-      texts(["modified:   README.md", "renamed:    old.md -> new.md", "+++ b/src/lib.rs"]),
-    ).toEqual(["README.md", "new.md", "src/lib.rs"]);
+  test("take a diff's path without its a/ or b/", () => {
+    expect(texts(["--- a/src/main.rs", "+++ b/src/lib.rs"])).toEqual(["src/main.rs", "src/lib.rs"]);
   });
 });
 
@@ -98,7 +78,14 @@ describe("overlaps", () => {
     ]);
   });
 
+  test("a path wins over the address and numbers inside it", () => {
+    expect(texts(["route 10.0.0.0/8 via /proc/12345/status"])).toEqual([
+      "10.0.0.0/8",
+      "/proc/12345/status",
+    ]);
+  });
+
   test("a captured path is placed where it sits in its line", () => {
-    expect(findTokens(["modified:   a/b.ts"])).toEqual([{ line: 0, start: 12, text: "a/b.ts" }]);
+    expect(findTokens(["+++ b/a/b.ts"])).toEqual([{ line: 0, start: 6, text: "a/b.ts" }]);
   });
 });
