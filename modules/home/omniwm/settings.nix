@@ -376,6 +376,7 @@ in
     (workspaceRule "B6AD65C4-3419-4DD4-93B2-61266B602D9C" "notion.id" "3")
     (workspaceRule "CB2D767B-C322-4078-8593-B915566B1CE0" "com.tinyspeck.slackmacgap" "4")
     (workspaceRule "7876C9EF-437E-4D4F-9C27-B1B02F4AABCE" "com.mitchellh.ghostty" "5")
+    (workspaceRule "2B3C8E57-0A99-4BAE-B78A-B0D36E97E016" "dev.herdr.app" "5")
     (workspaceRule "82B26BD2-9E20-4A2B-8A04-D30BD65D4486" "com.linear" "6")
   ];
 
