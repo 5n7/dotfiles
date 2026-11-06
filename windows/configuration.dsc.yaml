@@ -1,0 +1,282 @@
+# yaml-language-server: $schema=https://aka.ms/configuration-dsc-schema/0.2
+# Gaming PC packages, app settings, and Windows settings.
+# Apply with `winget configure -f windows/configuration.dsc.yaml`.
+properties:
+  configurationVersion: 0.2.0
+  resources:
+    # Packages to install. UseLatest upgrades on each apply; it is set only on
+    # packages that do not update themselves.
+    - resource: Microsoft.WinGet.DSC/WinGetPackage
+      id: 1password
+      settings: { Id: AgileBits.1Password, Source: winget }
+
+    - resource: Microsoft.WinGet.DSC/WinGetPackage
+      id: chrome
+      settings: { Id: Google.Chrome, Source: winget }
+
+    - resource: Microsoft.WinGet.DSC/WinGetPackage
+      id: claude
+      settings: { Id: Anthropic.Claude, Source: winget }
+
+    - resource: Microsoft.WinGet.DSC/WinGetPackage
+      id: claude-code
+      settings: { Id: Anthropic.ClaudeCode, Source: winget, UseLatest: true }
+
+    - resource: Microsoft.WinGet.DSC/WinGetPackage
+      id: discord
+      settings: { Id: Discord.Discord, Source: winget }
+
+    # Per-app volume control from the taskbar.
+    - resource: Microsoft.WinGet.DSC/WinGetPackage
+      id: eartrumpet
+      settings: { Id: File-New-Project.EarTrumpet, Source: winget, UseLatest: true }
+
+    - resource: Microsoft.WinGet.DSC/WinGetPackage
+      id: git
+      settings: { Id: Git.Git, Source: winget, UseLatest: true }
+
+    # CPU and GPU temperature monitoring.
+    - resource: Microsoft.WinGet.DSC/WinGetPackage
+      id: hwinfo
+      settings: { Id: REALiX.HWiNFO, Source: winget, UseLatest: true }
+
+    # Required by GTA V, including the Steam edition.
+    - resource: Microsoft.WinGet.DSC/WinGetPackage
+      id: rockstar-games-launcher
+      settings: { Id: RockstarGames.Launcher, Source: winget }
+
+    - resource: Microsoft.WinGet.DSC/WinGetPackage
+      id: steam
+      settings: { Id: Valve.Steam, Source: winget }
+
+    # Asia-Pacific region; also installs Riot Client.
+    - resource: Microsoft.WinGet.DSC/WinGetPackage
+      id: valorant
+      settings: { Id: RiotGames.Valorant.AP, Source: winget }
+
+    # Packages to remove. OneDrive syncs Documents, where games keep saves.
+    # Windows feature updates can reinstall it; re-apply to remove it again.
+    - resource: Microsoft.WinGet.DSC/WinGetPackage
+      id: onedrive
+      settings: { Id: Microsoft.OneDrive, Source: winget, Ensure: Absent }
+
+    # App settings. Git identity matches the personal profile in flake.nix.
+    - resource: GitDsc/GitConfigUserEmail
+      id: git-user-email
+      dependsOn: [git]
+      directives:
+        description: Set the global Git user email
+        allowPrerelease: true
+      settings:
+        UserEmail: iamshunta@gmail.com
+        ConfigLocation: global
+
+    - resource: GitDsc/GitConfigUserName
+      id: git-user-name
+      dependsOn: [git]
+      directives:
+        description: Set the global Git user name
+        allowPrerelease: true
+      settings:
+        UserName: Shunta Komatsu
+        ConfigLocation: global
+
+    # Windows settings.
+    - resource: Microsoft.Windows.Developer/WindowsExplorer
+      id: explorer
+      directives:
+        description: Show file extensions and hidden files
+        allowPrerelease: true
+      settings:
+        FileExtensions: Show
+        HiddenFiles: Show
+
+    - resource: PSDscResources/Registry
+      id: explorer-open-this-pc
+      directives:
+        description: Open File Explorer to This PC instead of Home
+      settings:
+        Key: HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced
+        ValueName: LaunchTo
+        ValueType: Dword
+        ValueData: ["1"]
+        Force: true
+
+    # Xbox Game Bar. Disabled rather than uninstalled: removing the app makes
+    # games show "You'll need a new app to open this ms-gamingoverlay link".
+    - resource: PSDscResources/Registry
+      id: game-bar-app-capture
+      directives:
+        description: Disable Game Bar background capture
+      settings:
+        Key: HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\GameDVR
+        ValueName: AppCaptureEnabled
+        ValueType: Dword
+        ValueData: ["0"]
+        Force: true
+
+    - resource: PSDscResources/Registry
+      id: game-bar-controller-button
+      directives:
+        description: Stop the controller's Xbox button from opening Game Bar
+      settings:
+        Key: HKEY_CURRENT_USER\Software\Microsoft\GameBar
+        ValueName: UseNexusForGameBarEnabled
+        ValueType: Dword
+        ValueData: ["0"]
+        Force: true
+
+    - resource: PSDscResources/Registry
+      id: game-bar-game-dvr
+      directives:
+        description: Disable Game Bar game recording
+      settings:
+        Key: HKEY_CURRENT_USER\System\GameConfigStore
+        ValueName: GameDVR_Enabled
+        ValueType: Dword
+        ValueData: ["0"]
+        Force: true
+
+    # Graphics. Optimizations for windowed games use flip-model presentation
+    # for DX10/11 games in borderless windowed mode. The value holds other
+    # Graphics settings too (e.g. Auto HDR), and re-applying overwrites them.
+    - resource: PSDscResources/Registry
+      id: graphics-windowed-game-optimizations
+      directives:
+        description: Enable optimizations for windowed games
+      settings:
+        Key: HKEY_CURRENT_USER\Software\Microsoft\DirectX\UserGpuPreferences
+        ValueName: DirectXUserGlobalSettings
+        ValueType: String
+        ValueData: ["SwapEffectUpgradeEnable=1;"]
+        Force: true
+
+    - resource: PSDscResources/Registry
+      id: keyboard-sticky-keys-shortcut
+      directives:
+        description: Stop Shift x5 from opening the Sticky Keys prompt
+      settings:
+        Key: HKEY_CURRENT_USER\Control Panel\Accessibility\StickyKeys
+        ValueName: Flags
+        ValueType: String
+        ValueData: ["506"]
+        Force: true
+
+    # Mouse. All three values at 0 turn off "Enhance pointer precision" (mouse
+    # acceleration). Takes effect after signing out.
+    - resource: PSDscResources/Registry
+      id: mouse-speed
+      directives:
+        description: Disable mouse acceleration (MouseSpeed)
+      settings:
+        Key: HKEY_CURRENT_USER\Control Panel\Mouse
+        ValueName: MouseSpeed
+        ValueType: String
+        ValueData: ["0"]
+        Force: true
+
+    - resource: PSDscResources/Registry
+      id: mouse-threshold-1
+      directives:
+        description: Disable mouse acceleration (MouseThreshold1)
+      settings:
+        Key: HKEY_CURRENT_USER\Control Panel\Mouse
+        ValueName: MouseThreshold1
+        ValueType: String
+        ValueData: ["0"]
+        Force: true
+
+    - resource: PSDscResources/Registry
+      id: mouse-threshold-2
+      directives:
+        description: Disable mouse acceleration (MouseThreshold2)
+      settings:
+        Key: HKEY_CURRENT_USER\Control Panel\Mouse
+        ValueName: MouseThreshold2
+        ValueType: String
+        ValueData: ["0"]
+        Force: true
+
+    # Notifications. Turn off the setup and tips nags under Settings > System >
+    # Notifications > Additional settings.
+    - resource: PSDscResources/Registry
+      id: notifications-finish-setup
+      directives:
+        description: Stop suggesting ways to finish setting up Windows
+      settings:
+        Key: HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\UserProfileEngagement
+        ValueName: ScoobeSystemSettingEnabled
+        ValueType: Dword
+        ValueData: ["0"]
+        Force: true
+
+    - resource: PSDscResources/Registry
+      id: notifications-tips
+      directives:
+        description: Stop tips and suggestions while using Windows
+      settings:
+        Key: HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager
+        ValueName: SubscribedContent-338389Enabled
+        ValueType: Dword
+        ValueData: ["0"]
+        Force: true
+
+    - resource: PSDscResources/Registry
+      id: notifications-welcome
+      directives:
+        description: Stop the welcome experience after updates
+      settings:
+        Key: HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager
+        ValueName: SubscribedContent-310093Enabled
+        ValueType: Dword
+        ValueData: ["0"]
+        Force: true
+
+    # Start menu. Stop promoted apps from installing themselves and from
+    # appearing as tips and suggestions under Recommended.
+    - resource: PSDscResources/Registry
+      id: start-recommendations
+      directives:
+        description: Hide tips and app promotions in Start's Recommended section
+      settings:
+        Key: HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced
+        ValueName: Start_IrisRecommendations
+        ValueType: Dword
+        ValueData: ["0"]
+        Force: true
+
+    - resource: PSDscResources/Registry
+      id: start-silent-app-installs
+      directives:
+        description: Stop Windows from silently installing promoted apps
+      settings:
+        Key: HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager
+        ValueName: SilentInstalledAppsEnabled
+        ValueType: Dword
+        ValueData: ["0"]
+        Force: true
+
+    # Taskbar. Keep only Start and app icons.
+    - resource: Microsoft.Windows.Developer/Taskbar
+      id: taskbar
+      directives:
+        description: Hide the search box and Task View button
+        allowPrerelease: true
+      settings:
+        SearchboxMode: Hide
+        TaskViewButton: Hide
+        RestartExplorer: true
+
+    # Windows blocks direct writes to the taskbar's widgets value, so hide
+    # widgets with a policy instead; it also stops the widgets board.
+    - resource: PSDscResources/Registry
+      id: taskbar-widgets
+      directives:
+        description: Turn off widgets
+        securityContext: elevated
+      settings:
+        Key: HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Dsh
+        ValueName: AllowNewsAndInterests
+        ValueType: Dword
+        ValueData: ["0"]
+        Force: true
