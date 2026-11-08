@@ -40,9 +40,12 @@ properties:
       id: hwinfo
       settings: { Id: REALiX.HWiNFO, Source: winget, UseLatest: true }
 
-    # Required by GTA V, including the Steam edition.
+    # Required by GTA V, including the Steam edition. Its installer and its
+    # Visual C++ runtime dependencies need admin rights.
     - resource: Microsoft.WinGet.DSC/WinGetPackage
       id: rockstar-games-launcher
+      directives:
+        securityContext: elevated
       settings: { Id: RockstarGames.Launcher, Source: winget }
 
     - resource: Microsoft.WinGet.DSC/WinGetPackage
