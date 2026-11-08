@@ -112,8 +112,9 @@ Windows:
 - Unpin promoted apps from Start (Spotify, TikTok, and so on). Most are
   install stubs, so unpinning removes them.
 
-Pulsar mouse: set DPI and polling rate with Pulsar's software or web driver
-from pulsar.gg; it is not on winget.
+Fnatic x Lamzu mouse: set DPI and polling rate with the settings software
+from lamzu.com (support page, pick the model); it is not on winget. The
+settings are stored in the mouse, so they survive a reinstall of Windows.
 
 AMD Software: Adrenalin Edition:
 

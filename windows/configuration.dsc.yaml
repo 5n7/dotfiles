@@ -26,14 +26,26 @@ properties:
       id: discord
       settings: { Id: Discord.Discord, Source: winget }
 
+    - resource: Microsoft.WinGet.DSC/WinGetPackage
+      id: ea-app
+      settings: { Id: ElectronicArts.EADesktop, Source: winget }
+
     # Per-app volume control from the taskbar.
     - resource: Microsoft.WinGet.DSC/WinGetPackage
       id: eartrumpet
       settings: { Id: File-New-Project.EarTrumpet, Source: winget, UseLatest: true }
 
     - resource: Microsoft.WinGet.DSC/WinGetPackage
+      id: epic-games-launcher
+      settings: { Id: EpicGames.EpicGamesLauncher, Source: winget }
+
+    - resource: Microsoft.WinGet.DSC/WinGetPackage
       id: git
       settings: { Id: Git.Git, Source: winget, UseLatest: true }
+
+    - resource: Microsoft.WinGet.DSC/WinGetPackage
+      id: github-cli
+      settings: { Id: GitHub.cli, Source: winget, UseLatest: true }
 
     # CPU and GPU temperature monitoring.
     - resource: Microsoft.WinGet.DSC/WinGetPackage
