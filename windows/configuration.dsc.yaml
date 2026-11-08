@@ -40,15 +40,6 @@ properties:
       id: hwinfo
       settings: { Id: REALiX.HWiNFO, Source: winget, UseLatest: true }
 
-    # Required by GTA V, including the Steam edition. Its installer needs admin
-    # rights.
-    - resource: Microsoft.WinGet.DSC/WinGetPackage
-      id: rockstar-games-launcher
-      dependsOn: [vcredist-x64, vcredist-x86]
-      directives:
-        securityContext: elevated
-      settings: { Id: RockstarGames.Launcher, Source: winget }
-
     - resource: Microsoft.WinGet.DSC/WinGetPackage
       id: steam
       settings: { Id: Valve.Steam, Source: winget }
@@ -57,21 +48,6 @@ properties:
     - resource: Microsoft.WinGet.DSC/WinGetPackage
       id: valorant
       settings: { Id: RiotGames.Valorant.AP, Source: winget }
-
-    # Visual C++ runtimes that the Rockstar Games Launcher manifest lists as
-    # dependencies. winget configure fails to install package dependencies
-    # (0x8A150110), so they are declared here instead.
-    - resource: Microsoft.WinGet.DSC/WinGetPackage
-      id: vcredist-x64
-      directives:
-        securityContext: elevated
-      settings: { Id: Microsoft.VCRedist.2015+.x64, Source: winget, UseLatest: true }
-
-    - resource: Microsoft.WinGet.DSC/WinGetPackage
-      id: vcredist-x86
-      directives:
-        securityContext: elevated
-      settings: { Id: Microsoft.VCRedist.2015+.x86, Source: winget, UseLatest: true }
 
     # Packages to remove. OneDrive syncs Documents, where games keep saves.
     # Windows feature updates can reinstall it; re-apply to remove it again.

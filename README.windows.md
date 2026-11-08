@@ -83,6 +83,12 @@ winget configure -f windows\configuration.dsc.yaml
 
 `winget configure --enable` is needed only once.
 
+Install Rockstar Games Launcher separately; it fails under `winget configure`:
+
+```powershell
+winget install RockstarGames.Launcher
+```
+
 Approve the one UAC prompt; the widgets policy needs admin rights. Sign out
 once afterwards so the mouse settings take effect.
 
