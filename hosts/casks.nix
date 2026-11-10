@@ -3,16 +3,14 @@
 let
   casks = {
     common = [
-      "1password"
-      "1password-cli"
       "claude"
       "dockdoor"
       "gcloud-cli"
       "ghostty"
       "google-chrome"
+      "herdr-app"
       "karabiner-elements"
       "meetingbar"
-      "notion"
       {
         name = "BarutSRB/tap/omniwm";
         trusted = true;
@@ -24,6 +22,8 @@ let
       "vicinae"
     ];
     personal = [
+      "1password"
+      "1password-cli"
       "adobe-creative-cloud"
       "block-buzz"
       "brave-browser"
@@ -31,9 +31,9 @@ let
       "elecom-mouse-util"
       "grok-bot"
       "grok-build"
-      "herdr-app"
       "keyboardcleantool"
       "ngrok"
+      "notion"
       "raspberry-pi-imager"
       "vlc"
       "voiceink"
