@@ -5,8 +5,6 @@
 
   home.packages = [ pkgs.pinentry_mac ];
 
-  # The gpg-agent module writes ~/.gnupg/gpg-agent.conf (pinentry-program plus
-  # cache TTLs) and manages the agent.
   services.gpg-agent = {
     enable = true;
     pinentry.package = pkgs.pinentry_mac;

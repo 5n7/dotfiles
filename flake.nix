@@ -73,19 +73,18 @@
     let
       system = "aarch64-darwin";
       pkgs = nixpkgs.legacyPackages.${system};
+      pkgs-unstable = import nixpkgs-unstable { inherit system; };
       treefmtEval = treefmt-nix.lib.evalModule pkgs {
         imports = [ ./treefmt.nix ];
-        _module.args.pkgs-unstable = import nixpkgs-unstable { inherit system; };
+        _module.args.pkgs-unstable = pkgs-unstable;
       };
 
-      # Per-host identity: everything that differs between profiles lives here and
-      # is passed through as a single `host` record.
       hosts = {
         personal = {
           username = "shunta";
           email = "iamshunta@gmail.com";
           hostName = "personal";
-          # signingKey stays null; TODO: set to personal GPG key ID after generation
+          # TODO: Set to the personal GPG key ID once one is generated.
           signingKey = null;
           goPrivate = "github.com/5n7,github.com/mansion-friends";
         };
@@ -106,7 +105,6 @@
           };
         in
         nix-darwin.lib.darwinSystem {
-          inherit system;
           specialArgs = {
             inherit
               host
@@ -123,10 +121,10 @@
               home-manager.useUserPackages = true;
               home-manager.backupFileExtension = "backup";
               home-manager.extraSpecialArgs = {
-                pkgs-unstable = import nixpkgs-unstable { inherit system; };
                 inherit
                   host
                   inputs
+                  pkgs-unstable
                   ;
               };
               home-manager.users.${host.username} = import ./modules/home;

@@ -1,9 +1,8 @@
 # Aggregates the darwin-level modules.
 { ... }:
 {
-  # Karabiner-Elements is installed via the karabiner-elements cask (hosts/casks.nix),
-  # which manages its own DriverKit daemon and launchd services; its user config is
-  # handled by modules/home/karabiner.nix — so no darwin-level module is needed.
+  # No darwin module for Karabiner-Elements: its cask (hosts/casks.nix) manages the
+  # DriverKit daemon and launchd services, and modules/home/karabiner.nix the config.
   imports = [
     ./homebrew.nix
     ./nix.nix

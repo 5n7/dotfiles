@@ -10,9 +10,7 @@
     localHostName = host.hostName;
   };
 
-  users.users.${host.username} = {
-    home = "/Users/${host.username}";
-  };
+  users.users.${host.username}.home = "/Users/${host.username}";
 
   system.primaryUser = host.username;
 }

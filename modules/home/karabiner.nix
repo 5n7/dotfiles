@@ -1,7 +1,6 @@
-# Manage Karabiner-Elements user config. Karabiner rewrites karabiner.json at
-# runtime, which conflicts with home-manager's read-only symlinks, so copy it as a
-# real writable file on each activation instead. GUI edits are overwritten on the
-# next `darwin-rebuild switch` — edit modules/home/karabiner.json to make changes.
+# Karabiner rewrites karabiner.json at runtime, so it is copied as a writable file
+# instead of linked read-only. Each `darwin-rebuild switch` overwrites GUI edits;
+# make changes in modules/home/karabiner.json.
 { lib, ... }:
 {
   home.activation.karabinerConfig = lib.hm.dag.entryAfter [ "writeBoundary" ] ''

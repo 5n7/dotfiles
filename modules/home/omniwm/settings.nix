@@ -1,4 +1,4 @@
-# Complete hardware-neutral OmniWM configuration.
+# The complete OmniWM settings file.
 let
   hotkey = id: binding: { inherit id binding; };
   unassigned = id: hotkey id "Unassigned";
@@ -21,78 +21,69 @@ let
     prefix: start: count:
     map (index: unassigned "${prefix}.${toString (index + start)}") (indices count);
 
-  workspace = id: name: displayName: layoutType: monitorType: {
-    inherit
-      displayName
-      id
-      layoutType
-      name
-      ;
-    monitorAssignment.type = monitorType;
-  };
-  workspaceSpecs = [
+  workspaces = [
     {
       id = "AD36F001-C57E-41A5-AC1D-DF5249D007F0";
       name = "1";
       displayName = "A";
       layoutType = "dwindle";
-      monitorType = "main";
+      monitorAssignment.type = "main";
     }
     {
       id = "454CECD4-5E9D-4ED1-95D7-979D48817F5F";
       name = "2";
       displayName = "B";
       layoutType = "niri";
-      monitorType = "main";
+      monitorAssignment.type = "main";
     }
     {
       id = "BEB842B5-E894-4791-9FD1-397C3CDD3538";
       name = "3";
       displayName = "N";
       layoutType = "dwindle";
-      monitorType = "main";
+      monitorAssignment.type = "main";
     }
     {
       id = "248AA883-2261-4D45-943C-79C0E46A232B";
       name = "4";
       displayName = "S";
       layoutType = "dwindle";
-      monitorType = "main";
+      monitorAssignment.type = "main";
     }
     {
       id = "8B8C45D6-CE9E-41D9-BD50-BE4989D5E3DE";
       name = "5";
       displayName = "T";
       layoutType = "dwindle";
-      monitorType = "main";
+      monitorAssignment.type = "main";
     }
     {
       id = "5953F2BF-A378-4266-91B2-287174C4FA4D";
       name = "6";
       displayName = "X";
       layoutType = "dwindle";
-      monitorType = "main";
+      monitorAssignment.type = "main";
     }
     {
       id = "A7D5E104-6985-4516-8ED5-07F144F2A33D";
       name = "7";
       displayName = "U";
       layoutType = "dwindle";
-      monitorType = "main";
+      monitorAssignment.type = "main";
     }
     {
       id = "0E18F6B0-345A-4078-8B21-33641F07A861";
       name = "8";
       displayName = "I";
       layoutType = "dwindle";
-      monitorType = "main";
+      monitorAssignment.type = "main";
     }
     {
       id = "8D4D711C-2B2F-4FEC-86BF-FA952037738A";
       name = "9";
       displayName = "O";
       layoutType = "dwindle";
-      monitorType = "secondary";
+      monitorAssignment.type = "secondary";
     }
   ];
 
@@ -107,13 +98,13 @@ let
     builtins.genList (
       index:
       let
-        key = (builtins.elemAt workspaceSpecs index).displayName;
+        key = (builtins.elemAt workspaces index).displayName;
       in
       [
         (hotkey "switchWorkspace.${toString index}" "Option+${key}")
         (hotkey "moveToWorkspace.${toString index}" "Option+Shift+${key}")
       ]
-    ) (builtins.length workspaceSpecs)
+    ) (builtins.length workspaces)
   );
 
   workspaceSlotHotkeys = builtins.concatLists (
@@ -126,7 +117,6 @@ let
   focusColumnHotkeys = map (
     index: hotkey "focusColumn.${toString index}" "Control+Option+${toString (index + 1)}"
   ) (indices 9);
-
 in
 {
   schemaVersion = 4;
@@ -365,11 +355,9 @@ in
   };
 
   appRules = [
-    # Floating windows.
     (floatingRule "A67FC070-F690-4FE9-9944-DA5C65B0DE72" "com.apple.ActivityMonitor")
     (floatingRule "4CE20B69-EC66-4442-88DD-F57BD610C4A0" "com.apple.systempreferences")
 
-    # Workspace-assigned apps.
     (workspaceRule "4D31DD3A-C38C-4044-ACCB-762E980BB63C" "com.anthropic.claudefordesktop" "1")
     (workspaceRule "6A31F08A-4051-4354-B439-42F4C71894A3" "com.openai.codex" "1")
     (workspaceRule "486CEFA6-69AA-4A3C-AF27-BCD38F4F138B" "com.google.Chrome" "2")
@@ -491,9 +479,5 @@ in
       (unassigned "toggleSystemStats")
     ];
 
-  workspaces = map (
-    specification:
-    workspace specification.id specification.name specification.displayName specification.layoutType
-      specification.monitorType
-  ) workspaceSpecs;
+  inherit workspaces;
 }

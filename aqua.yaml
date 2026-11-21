@@ -1,6 +1,6 @@
 ---
-# Global aqua config (AQUA_GLOBAL_CONFIG). For CLIs that are awkward or
-# unavailable via nix/homebrew. Per-repo aqua.yaml still applies on top.
+# Global aqua config (AQUA_GLOBAL_CONFIG) for CLIs that Nix and Homebrew lack or
+# package poorly. Per-repo aqua.yaml files still apply on top.
 registries:
   - type: standard
     ref: v4.469.0 # renovate: depName=aquaproj/aqua-registry

@@ -1,11 +1,10 @@
-# macOS security: authenticate `sudo` with Touch ID so `darwin-rebuild switch`
-# (which requires root for system activation) doesn't prompt for a password.
+# Touch ID for sudo, so `darwin-rebuild switch`, which activates as root, doesn't
+# ask for a password.
 { ... }:
 {
   security.pam.services.sudo_local = {
-    # Reattach the process to the user's GUI bootstrap session so Touch ID
-    # works for sudo inside tmux/screen, where it otherwise falls back to a
-    # password prompt despite showing the popup.
+    # Reattaches to the GUI session. Inside tmux or screen, Touch ID otherwise
+    # shows its popup but still falls back to a password prompt.
     reattach = true;
     touchIdAuth = true;
   };

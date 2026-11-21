@@ -5,7 +5,6 @@
     enable = true;
 
     onActivation = {
-      autoUpdate = false;
       upgrade = true;
       cleanup = if host.profile == "work" then "none" else "uninstall";
     };

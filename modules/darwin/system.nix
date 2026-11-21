@@ -5,6 +5,8 @@
 }:
 {
   system.defaults = {
+    controlcenter.BatteryShowPercentage = true;
+
     dock = {
       autohide = true;
       show-recents = false;
@@ -21,41 +23,36 @@
       _FXShowPosixPathInTitle = true;
     };
 
+    menuExtraClock.ShowSeconds = true;
+
     # OmniWM requires separate spaces and supports native fullscreen there.
     # Changes take effect after a logout.
     spaces.spans-displays = false;
 
     trackpad.Clicking = true;
 
-    # Show battery percentage in the menu bar.
-    controlcenter.BatteryShowPercentage = true;
-
-    # Show seconds in the menu bar clock.
-    menuExtraClock.ShowSeconds = true;
-
     NSGlobalDomain = {
       ApplePressAndHoldEnabled = false;
       InitialKeyRepeat = 15;
       KeyRepeat = 2;
-      # Use F1-F12 as standard function keys (not media keys); press fn for media.
+      # F1-F12 act as function keys; fn gives the media keys.
       "com.apple.keyboard.fnState" = true;
       NSAutomaticCapitalizationEnabled = false;
       NSAutomaticDashSubstitutionEnabled = false;
       NSAutomaticPeriodSubstitutionEnabled = false;
-      # Don't turn straight quotes into curly "smart" quotes — breaks code/Markdown.
+      # Curly quotes break code and Markdown.
       NSAutomaticQuoteSubstitutionEnabled = false;
       "com.apple.trackpad.scaling" = 2.0;
     };
 
     CustomUserPreferences = {
-      # Apple Japanese IME (Kotoeri) — engineer-friendly defaults. Keys captured
-      # from the live `com.apple.inputmethod.Kotoeri` domain after toggling them in
-      # System Settings, so they match this macOS version's actual pref names.
+      # Apple's Japanese IME. The key names were read from this domain after
+      # toggling each option in System Settings.
       "com.apple.inputmethod.Kotoeri" = {
-        JIMPrefLiveConversionKey = 0; # disable live conversion (勝手に変換しない)
-        JIMPrefCharacterForYenKey = 1; # ¥ key inputs backslash (\) instead of ¥
-        JIMPrefFullWidthNumeralCharactersKey = 0; # numerals are half-width
-        JIMPrefAutocorrectionKey = 0; # disable IME autocorrection
+        JIMPrefAutocorrectionKey = 0;
+        JIMPrefCharacterForYenKey = 1; # The ¥ key types a backslash.
+        JIMPrefFullWidthNumeralCharactersKey = 0;
+        JIMPrefLiveConversionKey = 0;
       };
     };
   };

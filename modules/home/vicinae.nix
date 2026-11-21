@@ -16,9 +16,9 @@ let
 in
 {
   # Vicinae saves settings.json by renaming a temporary file over it, which would
-  # replace a symlink. It stays a writable file that imports the read-only nix.json,
-  # and keys set in the GUI override nix.json. nix.json holds only values that differ
-  # from Vicinae's defaults (`vicinae config default`).
+  # replace a symlink, so it stays a writable file that imports the read-only
+  # nix.json. Keys set in the GUI override nix.json, which holds only values that
+  # differ from `vicinae config default`.
   home.file.".config/vicinae/nix.json".text = builtins.toJSON {
     # OmniWM leaves Option+Q unassigned for the snippets shortcut.
     providers.clipboard.entrypoints.history.shortcut = "alt+c";
@@ -53,8 +53,7 @@ in
     fi
   '';
 
-  # Vicinae writes snippets.json in place, so snippets created in the GUI go through
-  # the symlink into the checkout.
+  # Vicinae writes snippets.json in place, so GUI snippets land in the checkout.
   home.file.".local/share/vicinae/snippets/snippets.json".source =
     config.lib.file.mkOutOfStoreSymlink "${dotfilesDir}/modules/home/vicinae/snippets.json";
 }

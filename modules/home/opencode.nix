@@ -1,6 +1,6 @@
-# OpenCode repository context and skills. The CLI is installed by Homebrew.
-# settings/tui JSON files are intentionally not managed here because OpenCode
-# mutates them at runtime (model, providers, TUI).
+# OpenCode context and repository skills. The CLI comes from Homebrew on the
+# personal profile. Its settings and TUI JSON stay unmanaged because OpenCode
+# rewrites them at runtime.
 { host, lib, ... }:
 let
   skills = import ./agents/skills.nix { inherit host lib; };

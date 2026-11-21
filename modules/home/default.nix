@@ -32,12 +32,9 @@ in
     ./vicinae.nix
   ];
 
-  # Single source for the live dotfiles checkout, consumed here (DOTFILES_DIR) and
-  # by editor.nix's out-of-store nvim symlink.
+  # For modules that link out of the store into the live checkout.
   _module.args.dotfilesDir = dotfilesDir;
 
-  home.username = host.username;
-  home.homeDirectory = "/Users/${host.username}";
   home.stateVersion = "25.11";
 
   home.sessionPath = [
@@ -57,7 +54,6 @@ in
     CLAUDE_CODE_NO_FLICKER = "1";
     DISABLE_TELEMETRY = "1";
     DOTFILES_DIR = dotfilesDir;
-    EDITOR = "nvim";
     GHQ_ROOT = "${homeDirectory}/src";
     GOPATH = goRoot;
     GOPRIVATE = host.goPrivate;
