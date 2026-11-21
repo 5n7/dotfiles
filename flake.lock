@@ -69,11 +69,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1795242280,
-        "narHash": "sha256-NL1WiXs6gyq2Q2g4Vl6bObH0NUQEIPjKmsv4btCjbBI=",
+        "lastModified": 1795267465,
+        "narHash": "sha256-LE+PiR+VuOzZP9H44KHZvmTh9eoUxgdUl05akQGRLzk=",
         "owner": "5n7",
         "repo": "herdr-extensions",
-        "rev": "5ff02f29c09d9ca4985f65d548bd31554436cf01",
+        "rev": "926ad98309e9ff6464f9d4c0190d157bcf13361a",
         "type": "github"
       },
       "original": {
