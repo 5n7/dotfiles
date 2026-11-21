@@ -16,7 +16,13 @@
       inputs.rust-overlay.follows = "rust-overlay";
     };
 
-    # Plugin sources are pinned as non-flake inputs and built in modules/home/herdr.nix.
+    herdr-extensions = {
+      url = "github:5n7/herdr-extensions";
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
+    };
+
+    # Third-party plugin sources are pinned as non-flake inputs and built in
+    # modules/home/herdr/plugins.nix.
     herdr-navigator = {
       url = "github:thanhdat77/herdr-navigator/v0.3.5";
       flake = false;
@@ -24,11 +30,6 @@
 
     herdr-pluck = {
       url = "github:rmarganti/herdr-pluck/v0.3.1";
-      flake = false;
-    };
-
-    herdr-plugins = {
-      url = "github:5n7/herdr-plugins";
       flake = false;
     };
 

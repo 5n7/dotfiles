@@ -1,8 +1,8 @@
 # Herdr desktop app, installed as a Homebrew cask. https://herdr.dev
 {
+  inputs,
   lib,
   pkgs,
-  pkgs-unstable,
   ...
 }:
 let
@@ -11,18 +11,43 @@ let
 
   json = pkgs.formats.json { };
 
-  # Unstable's Bun: 1.3's --compile output fails macOS's signature check.
-  pick = pkgs.callPackage ./pick { inherit (pkgs-unstable) bun; };
+  extensions = inputs.herdr-extensions.packages.${pkgs.stdenv.hostPlatform.system};
 
-  # The second keys of the Ctrl+F prefix: its keymap section and its card.
-  prefix = import ./mods/prefix { inherit lib pkgs; };
+  prefix = extensions.mod-prefix.override { groups = import ./prefix-keys.nix { inherit lib; }; };
+
+  mods = {
+    pick = extensions.mod-pick;
+    inherit prefix;
+  };
+
+  # A name becomes a folder that ./mods-sync.sh replaces wholesale, so "." or
+  # ".." would reach outside mods/.
+  modsManifest = json.generate "herdr-app-mods.json" (
+    lib.mapAttrs (
+      name: mod:
+      assert lib.assertMsg (
+        builtins.match "[A-Za-z0-9_-][A-Za-z0-9_.-]*" name != null
+      ) "herdr-app mod name ${name} is not a plain folder name";
+      assert lib.assertMsg (mod.modName or name == name) ''
+        herdr-app mod ${name} expects to be installed as ${mod.modName}
+      '';
+      "${mod}"
+    ) mods
+  );
+
+  herdr-app-mods-sync = pkgs.writeShellApplication {
+    name = "herdr-app-mods-sync";
+    runtimeInputs = [
+      pkgs.jq
+      pkgs.rsync
+    ];
+    text = builtins.readFile ./mods-sync.sh;
+  };
 
   # keys.json replaces the app's keymap rather than extending it, so this is all
   # of it. As in the TUI, herdr's own actions go through the prefix alone.
   keymap = json.generate "herdr-app-keys.json" {
     global = {
-      # Ctrl+F opens ./mods/prefix, which reads the next key as the TUI's prefix
-      # did.
       "ctrl-f" = "mod.open:prefix";
 
       # Standard Mac shortcuts, kept direct rather than behind the prefix.
@@ -76,7 +101,8 @@ in
   # The app writes settings.json itself and moves keys.json aside on reset, which
   # a store symlink cannot take, so both are copied in as writable files. The app
   # reloads them live, so they change only when they differ, land by rename, and
-  # wait for linkGeneration to place the theme and mod they name.
+  # wait for the theme and mods they name: linkGeneration places the theme, and
+  # the mods are copied in first (see ./mods-sync.sh).
   home.activation.herdrAppConfig = lib.hm.dag.entryAfter [ "linkGeneration" ] ''
     herdrAppInstall() {
       if ! cmp -s "$1" "$HOME/${appDir}/$2"; then
@@ -85,21 +111,12 @@ in
       fi
     }
     run mkdir -p "$HOME/${appDir}"
+    run ${lib.getExe herdr-app-mods-sync} "$HOME/${appDir}/mods" ${modsManifest}
     herdrAppInstall ${keymap} keys.json
     herdrAppInstall ${settings} settings.json
   '';
 
-  home.file = {
-    # File by file, so the folder stays writable for the jsconfig.json and
-    # gpui-kit.d.ts the app writes beside every mod.
-    "${appDir}/mods/pick/main.js".source = ./mods/pick/main.js;
-    "${appDir}/mods/pick/mod.json".source = ./mods/pick/mod.json;
-    "${appDir}/mods/pick/pick".source = lib.getExe pick;
-    "${appDir}/mods/prefix/card.json".source = prefix.card;
-    "${appDir}/mods/prefix/main.js".source = ./mods/prefix/main.js;
-    "${appDir}/mods/prefix/mod.json".source = ./mods/prefix/mod.json;
-  }
-  // lib.mapAttrs' (
+  home.file = lib.mapAttrs' (
     name: theme:
     lib.nameValuePair "${appDir}/themes/${name}.json" {
       source = json.generate "herdr-app-theme-${name}.json" theme;

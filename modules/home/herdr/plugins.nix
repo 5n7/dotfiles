@@ -1,23 +1,19 @@
-# Plugin catalog linked into the herdr server on activation.
+# Plugin catalog linked into the herdr server on activation. Attribute names
+# are plugin ids from each herdr-plugin.toml.
 #
-# Two build strategies:
-# - mkReleasePlugin: upstream source plus a published aarch64-darwin binary.
-#   `herdr plugin install` would clone into ~/.config/herdr/plugins/github and
-#   run the manifest's [[build]] step in place, inheriting launchd's PATH (no
-#   cargo, no bun). Linking a store path skips that. Attribute names are plugin
-#   ids from each herdr-plugin.toml.
-# - mkBunStandalonePlugin: a Bun TypeScript entrypoint compiled into a standalone
-#   executable, so the Herdr server does not need Bun in its launchd PATH.
+# mkReleasePlugin takes upstream source plus a published aarch64-darwin binary.
+# `herdr plugin install` would clone into ~/.config/herdr/plugins/github and run
+# the manifest's [[build]] step in place, inheriting launchd's PATH (no cargo,
+# no bun). Linking a store path skips that.
 {
   inputs,
   lib,
   pkgs,
 }:
 let
-  inherit (import ./plugin-builders.nix { inherit lib pkgs; })
-    mkBunStandalonePlugin
-    mkReleasePlugin
-    ;
+  inherit (import ./plugin-builders.nix { inherit lib pkgs; }) mkReleasePlugin;
+
+  extensions = inputs.herdr-extensions.packages.${pkgs.stdenv.hostPlatform.system};
 
   plugin =
     id: package: enabled:
@@ -29,6 +25,8 @@ let
     };
 in
 {
+  herdr-even-layout = plugin "herdr-even-layout" extensions.plugin-even-layout true;
+
   herdr-navigator = plugin "herdr-navigator" (mkReleasePlugin {
     pname = "herdr-navigator";
     version = "0.3.5";
@@ -53,14 +51,5 @@ in
     tarMember = "herdr-pluck";
     binaryPath = "bin/herdr-pluck";
     expectedId = "rmarganti.herdr-pluck";
-  }) true;
-
-  herdr-even-layout = plugin "herdr-even-layout" (mkBunStandalonePlugin {
-    pname = "herdr-even-layout";
-    version = "0.1.0";
-    src = inputs.herdr-plugins;
-    pluginRoot = "plugins/herdr-even-layout";
-    entrypoint = "plugins/herdr-even-layout/src/main.ts";
-    expectedId = "herdr-even-layout";
   }) true;
 }
