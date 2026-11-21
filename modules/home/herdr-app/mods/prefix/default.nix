@@ -89,16 +89,6 @@ let
           action = "worktree";
         }
         {
-          keys = [ "n" ];
-          label = "Next space";
-          run = "space.next";
-        }
-        {
-          keys = [ "p" ];
-          label = "Previous space";
-          run = "space.prev";
-        }
-        {
           keys = [ "shift-w" ];
           label = "Rename space";
           run = "space.rename";
@@ -117,6 +107,16 @@ let
           keys = [ "space" ];
           label = "Go to…";
           run = "mod.open:picker";
+        }
+        {
+          keys = [ "n" ];
+          label = "Next agent";
+          run = "agent.next";
+        }
+        {
+          keys = [ "p" ];
+          label = "Previous agent";
+          run = "agent.prev";
         }
         {
           keys = [ "o" ];
