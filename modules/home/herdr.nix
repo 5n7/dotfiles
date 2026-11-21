@@ -12,6 +12,8 @@
   ...
 }:
 let
+  toml = pkgs.formats.toml { };
+
   # TokyoNight Storm, the ghostty theme. herdr's built-in tokyo-night is the
   # Night variant, whose highlight backgrounds are tuned for #1a1b26 and nearly
   # vanish against Storm's #24283b.
@@ -22,12 +24,10 @@ let
     magenta = "#bb9af7";
   };
 
-  # rows_by_agent replaces `rows` rather than extending it, so the default two
-  # rows are repeated here. The third row is the terminal title minus the
-  # spinner glyph; apply it to the three agents actually used.
-  #
-  # Colour tells the tokens apart: blue workspace, dimmed title, magenta agent.
-  # herdr bolds the workspace by default, which bold = false switches off.
+  # rows_by_agent replaces `rows` rather than extending it, so these restate the
+  # default rows, minus `machine`, with the terminal title minus the spinner
+  # glyph added as the middle row. Colour, not herdr's default bold workspace,
+  # tells the tokens apart.
   agentSidebarRows = [
     [
       "state_icon"
@@ -52,9 +52,9 @@ let
     ]
   ];
 
-  # Only the values that differ from the binary's built-in defaults; herdr fills
-  # in the rest at load time. Print the full set with `herdr --default-config`.
-  herdrConfig = (pkgs.formats.toml { }).generate "config.toml" {
+  # Only values that differ from herdr's defaults; `herdr --default-config`
+  # prints the full set.
+  herdrConfig = toml.generate "config.toml" {
     # Missing or true reopens first-run setup on every start.
     onboarding = false;
 
@@ -66,8 +66,7 @@ let
 
       # Tab cycling moves onto prefix+tab, which herdr gives to pane cycling by
       # default. A configured binding beats a default one, so the pane cycle
-      # drops those keys; panes stay reachable with prefix+hjkl. Tab cycling
-      # wraps around.
+      # drops those keys; panes stay reachable with prefix+hjkl.
       next_tab = "prefix+tab";
       previous_tab = "prefix+shift+tab";
 
@@ -87,10 +86,8 @@ let
       copy_mode = "prefix+v";
 
       command = [
-        # A throwaway shell that leaves the tiled layout alone: no extra split,
-        # no extra tab. `exec` replaces the wrapper shell so exiting once closes
-        # the popup. Popups are a singleton, and opening one while Settings or
-        # Copy mode is active returns ui_busy.
+        # A throwaway shell in a popup, which leaves the tiled layout alone.
+        # `exec` replaces the wrapper shell, so one exit closes the popup.
         {
           key = "prefix+t";
           type = "popup";
@@ -99,19 +96,17 @@ let
           width = "80%";
           height = "80%";
         }
-        # herdr-navigator's own README suggests prefix+t, which the scratch
-        # terminal already holds. prefix+space stays free of the tab, pane, and
-        # agent groups and is the one chord that reaches every kind of target.
+        # herdr-navigator's README suggests prefix+t, which the scratch terminal
+        # holds. prefix+space sits outside the tab, pane, and agent groups,
+        # fitting a picker that reaches every kind of target.
         {
           key = "prefix+space";
           type = "plugin_action";
           command = "herdr-navigator.open";
           description = "navigator";
         }
-        # Both pluck actions hint the tokens visible in the focused pane; the
-        # general one copies whatever is picked, the narrow one takes URLs only
-        # and hands them to the browser. prefix+y reads as yank, and prefix+u as
-        # url, because herdr already spends prefix+o on open_notification_target.
+        # prefix+y reads as yank and prefix+u as url, since herdr already spends
+        # prefix+o on open_notification_target.
         {
           key = "prefix+y";
           type = "plugin_action";
@@ -124,10 +119,9 @@ let
           command = "rmarganti.herdr-pluck.open-url";
           description = "open visible URL";
         }
-        # The plugin evens the layout on pane.created, pane.closed, and
-        # pane.moved already; this reaches what those events cannot see, such as
-        # a layout restored from before the plugin was linked. shift+e reads as
-        # "even".
+        # The plugin already evens the layout on pane.created, pane.closed, and
+        # pane.moved; this catches what those events miss, such as a layout
+        # restored from before the plugin was linked. shift+e reads as "even".
         {
           key = "prefix+shift+e";
           type = "plugin_action";
@@ -138,14 +132,13 @@ let
     };
 
     theme = {
-      # Matches ghostty's "TokyoNight Storm".
+      # The nearest built-in to ghostty's TokyoNight Storm; see `storm` above.
       name = "tokyo-night";
 
-      # tokyo-night paints panels with an opaque colour, which would sit on top
-      # of ghostty's background-opacity and leave the tab bar, menus, and
-      # dialogs solid. "reset" hands those cells back to the terminal
-      # background so the window transparency shows through. The sidebar
-      # already inherits it, since sidebar_bg is unset.
+      # tokyo-night paints panels opaque, which hides ghostty's
+      # background-opacity behind the tab bar, menus, and dialogs. "reset" hands
+      # those cells back to the terminal background. The sidebar already
+      # inherits it, since sidebar_bg is unset.
       custom = {
         panel_bg = "reset";
 
@@ -163,14 +156,22 @@ let
       # blocked agent surfaces without scanning the list.
       agent_panel_sort = "priority";
 
+      # An unnamed tab is just its index, so the name prompt buys nothing. An
+      # unnamed workspace is still labelled from its cwd.
+      prompt_new_tab_name = false;
+
+      # Name the agent on each split pane's top border. The label needs that
+      # border, so pane_outer_borders must stay on or top-row panes lose it.
+      show_agent_labels_on_pane_borders = true;
+
       sidebar.agents.rows_by_agent = {
         claude = agentSidebarRows;
         codex = agentSidebarRows;
         grok = agentSidebarRows;
       };
 
-      # The default space rows. herdr bolds the focused workspace and colours
-      # only its branch; here no workspace is bold and every branch is magenta.
+      # herdr's default space rows. herdr bolds the focused workspace and colours
+      # only its branch; here none is bold and every branch is magenta.
       sidebar.spaces.rows = [
         [
           "state_icon"
@@ -187,14 +188,6 @@ let
           "git_status"
         ]
       ];
-
-      # Name the agent on each split pane's top border. The label needs that
-      # border, so pane_outer_borders must stay on or top-row panes lose it.
-      show_agent_labels_on_pane_borders = true;
-
-      # An unnamed tab is just its index, so the name prompt buys nothing. An
-      # unnamed workspace is still labelled from its cwd.
-      prompt_new_tab_name = false;
 
       # Popups are off by default, which defeats the point of watching agents for
       # a blocked prompt. `terminal` hands the notification to ghostty, so it
@@ -225,13 +218,13 @@ let
     };
   };
 
-  # herdr-pluck is the only plugin left on its defaults, so it has no config here.
-  navigatorConfig = (pkgs.formats.toml { }).generate "navigator-config.toml" {
+  navigatorConfig = toml.generate "navigator-config.toml" {
     picker = {
       # The binary is pinned by the flake, so the daily release check can only
       # report a version Nix will not install.
       check_updates = false;
-      # Drop the two herdr-plus sources from the ranking; they are disabled below.
+      # The default order minus the two herdr-plus sources, disabled below, and
+      # the plugin source, which an unlisted rank puts below every listed one.
       source_order = [
         "workspace"
         "agent"
@@ -262,8 +255,8 @@ let
     pkgs.runCommand "herdr-zsh-completion" { }
       "${pkgs.herdr}/bin/herdr completion zsh > $out";
 
-  # The reconcile lives in its own file so writeShellApplication runs shellcheck
-  # over it at build time and so it can be run by hand outside activation.
+  # A separate script so shellcheck runs on it at build time and it can be run
+  # by hand.
   herdr-plugins-sync = pkgs.writeShellApplication {
     name = "herdr-plugins-sync";
     runtimeInputs = [
@@ -282,15 +275,13 @@ let
   };
 
   pluginManifest = pkgs.writeText "herdr-plugins-manifest.json" (
-    builtins.toJSON {
-      version = 1;
-      plugins = lib.mapAttrs (_: plugin: {
+    builtins.toJSON (
+      lib.mapAttrs (_: plugin: {
         path = plugin.package;
         inherit (plugin) enabled;
-      }) plugins;
-    }
+      }) plugins
+    )
   );
-
 in
 {
   home.packages = [ pkgs.herdr ];
@@ -298,23 +289,17 @@ in
   xdg.configFile."herdr/config.toml".source = herdrConfig;
 
   # herdr derives this directory from the plugin id (src/plugin_paths.rs). Only
-  # the config file itself is symlinked, so the directory stays writable for
-  # whatever a plugin drops beside it, which navigator needs: it keeps its
-  # jump-back and pinned-entry state as siblings of config.toml.
+  # the file is symlinked, so the directory stays writable for the jump-back and
+  # pinned-entry state navigator keeps beside it.
   xdg.configFile."herdr/plugins/config/herdr-navigator/config.toml".source = navigatorConfig;
 
   # ZDOTDIR/completions is added to fpath by ./zsh/fpath.zsh.
   xdg.configFile."zsh/completions/_herdr".source = herdrCompletion;
 
-  # ~/.config/herdr/plugins.json is a registry the server derives and owns,
-  # written only by `plugin link`/`unlink`, so it cannot be a store symlink.
-  # Reconciling it against `plugins` on every activation gets the same result,
-  # and every declared plugin is relinked each time because a rebuild moves it to
-  # a new store path. Linking goes through the running server, so the change
-  # applies without a restart.
-  #
-  # One `run` wraps the whole script, so `--dry-run` names the script rather than
-  # the individual link and unlink calls it would make.
+  # ~/.config/herdr/plugins.json is owned by the server and written only by
+  # `plugin link`/`unlink`, so it cannot be a store symlink; reconciling it on
+  # every activation gets the same result without a restart. One `run` wraps the
+  # whole script, so `--dry-run` names the script, not its link and unlink calls.
   home.activation.herdrPlugins = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
     run ${lib.getExe herdr-plugins-sync} ${lib.escapeShellArg pluginManifest}
   '';

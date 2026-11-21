@@ -33,10 +33,8 @@ in
     src = inputs.herdr-navigator;
     url = "https://github.com/thanhdat77/herdr-navigator/releases/download/v0.3.5/herdr-navigator-macos-aarch64.tar.gz";
     hash = "sha256-0LQE2/tp9M9RhVIadLnkOchIs6tnxueskwLog7fwzBM=";
-    # Tarball nests the binary one directory down.
     tarMember = "herdr-navigator/herdr-navigator";
     binaryPath = "target/release/herdr-navigator";
-    expectedId = "herdr-navigator";
   }) true;
 
   # The manifest's own [[build]] step (./scripts/install-binary.sh) only
@@ -50,6 +48,5 @@ in
     hash = "sha256-TNg86ZPjYF+ddarrK3oV9QPoDvTI+AQW55vqdyzmnH4=";
     tarMember = "herdr-pluck";
     binaryPath = "bin/herdr-pluck";
-    expectedId = "rmarganti.herdr-pluck";
   }) true;
 }

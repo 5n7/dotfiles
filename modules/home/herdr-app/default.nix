@@ -78,8 +78,7 @@ let
     appearance = "dark";
     theme = "tokyo-night-storm";
 
-    # The terminals' font, as ghostty's: its first family, which is all the app
-    # takes.
+    # ghostty's first font family; the app takes only one.
     font = "0xProto Nerd Font";
     font_size = 12;
 
@@ -88,7 +87,6 @@ let
     # layouts.
     option_as_alt = "on";
 
-    # Off, as DISABLE_TELEMETRY and vicinae's telemetry are.
     telemetry = false;
   };
 
@@ -100,8 +98,7 @@ let
     custom = import ./layouts/custom.nix;
   };
 
-  # The themes beyond the app's own, by the name settings.json and the picker
-  # use, which is also the file name the app finds each by.
+  # Each name is the theme's file name and the name settings.json uses.
   themes = {
     tokyo-night-storm = import ./themes/tokyo-night-storm.nix;
   };

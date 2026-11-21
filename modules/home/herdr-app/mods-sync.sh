@@ -3,11 +3,10 @@
 # Mods are copied in as real files rather than linked: the app refuses to import
 # a module whose real path is outside the mod's folder, and it writes
 # jsconfig.json and gpui-kit.d.ts beside each mod. A hidden marker, which the
-# app ignores, tells the folders this script owns from mods made by hand or
-# shipped with the app, so only owned folders are replaced or removed. A folder
-# without the marker is someone else's mod only if it holds a main.js, which
-# every mod needs; anything else left in it, such as the app's own files or a
-# .DS_Store, is taken over.
+# app ignores, marks the folders this script owns, so mods made by hand or
+# shipped with the app are left alone. An unmarked folder counts as someone
+# else's mod only if it holds main.js, which every mod needs; otherwise, such as
+# a folder holding only the app's files or a .DS_Store, it is taken over.
 #
 # writeShellApplication supplies the shebang and the `set -o` flags.
 
