@@ -130,7 +130,7 @@
       }
       {
         keys = [ "u" ];
-        label = "Open URL";
+        label = "Open URL or Markdown";
         action = "open-url";
       }
     ];
