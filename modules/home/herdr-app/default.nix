@@ -18,6 +18,7 @@ let
   mods = {
     pick = extensions.mod-pick;
     inherit prefix;
+    usage = extensions.mod-usage;
   };
 
   # A name becomes a folder that ./mods-sync.sh replaces wholesale, so "." or
@@ -91,6 +92,14 @@ let
     telemetry = false;
   };
 
+  # Layouts of our own, by the name `layout.switch` and the picker use. The
+  # app's own are replaced on every start, so changes go in these instead.
+  # `herdr-app do layout.switch '{"name":"custom"}'` shows one once, and the app
+  # remembers it.
+  layouts = {
+    custom = import ./layouts/custom.nix;
+  };
+
   # The themes beyond the app's own, by the name settings.json and the picker
   # use, which is also the file name the app finds each by.
   themes = {
@@ -99,21 +108,33 @@ let
 in
 {
   # The app writes settings.json itself and moves keys.json aside on reset, which
-  # a store symlink cannot take, so both are copied in as writable files. The app
-  # reloads them live, so they change only when they differ, land by rename, and
-  # wait for the theme and mods they name: linkGeneration places the theme, and
-  # the mods are copied in first (see ./mods-sync.sh).
+  # a store symlink cannot take, so both are copied in as writable files, as are
+  # the layouts, which layout.set rewrites. The app reloads them live, so they
+  # change only when they differ, land by rename, and wait for the theme and
+  # mods they name: linkGeneration places the theme, and the mods are copied in
+  # first (see ./mods-sync.sh).
   home.activation.herdrAppConfig = lib.hm.dag.entryAfter [ "linkGeneration" ] ''
+    # $2 is a path under the app's folder; the hidden temporary file sits beside
+    # it, as the app ignores hidden files.
     herdrAppInstall() {
-      if ! cmp -s "$1" "$HOME/${appDir}/$2"; then
-        run install -m 0644 "$1" "$HOME/${appDir}/.$2.tmp"
-        run mv -f "$HOME/${appDir}/.$2.tmp" "$HOME/${appDir}/$2"
+      dest="$HOME/${appDir}/$2"
+      tmp="$(dirname "$dest")/.$(basename "$dest").tmp"
+      if ! cmp -s "$1" "$dest"; then
+        run install -m 0644 "$1" "$tmp"
+        run mv -f "$tmp" "$dest"
       fi
     }
     run mkdir -p "$HOME/${appDir}"
     run ${lib.getExe herdr-app-mods-sync} "$HOME/${appDir}/mods" ${modsManifest}
     herdrAppInstall ${keymap} keys.json
     herdrAppInstall ${settings} settings.json
+    run mkdir -p "$HOME/${appDir}/layouts"
+    ${lib.concatLines (
+      lib.mapAttrsToList (
+        name: layout:
+        "herdrAppInstall ${json.generate "herdr-app-layout-${name}.json" layout} layouts/${name}.json"
+      ) layouts
+    )}
   '';
 
   home.file = lib.mapAttrs' (
