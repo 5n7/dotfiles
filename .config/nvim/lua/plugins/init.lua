@@ -11,6 +11,7 @@ return require("lazy").setup({
 		{ import = "plugins.lualine" },
 		{ import = "plugins.neogit" },
 		{ import = "plugins.oil" },
+		{ import = "plugins.render-markdown" },
 		{ import = "plugins.snacks" },
 		{ import = "plugins.surround" },
 		{ import = "plugins.tokyonight" },

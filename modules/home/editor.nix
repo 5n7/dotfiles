@@ -14,17 +14,27 @@
     viAlias = true;
     vimAlias = true;
 
-    # LSP servers (lsp/*.lua). On the wrapper's PATH rather than the user profile:
-    # nothing outside nvim calls them.
+    # LSP servers (lsp/*.lua) and snacks.image's converters. On the wrapper's PATH
+    # rather than the user profile: nothing outside nvim calls them.
     extraPackages = [
       pkgs.bash-language-server
       pkgs-unstable.gopls
+      pkgs.imagemagick
       pkgs.lua-language-server
+      pkgs.mermaid-cli
       pkgs.nixd
       pkgs-unstable.rust-analyzer
       pkgs.vscode-langservers-extracted # jsonls
       pkgs-unstable.vtsls
       pkgs.yaml-language-server
+    ];
+
+    # mermaid-cli renders through Chrome, which nixpkgs doesn't build for macOS;
+    # the Homebrew cask's (hosts/casks.nix) stands in.
+    extraWrapperArgs = [
+      "--set"
+      "PUPPETEER_EXECUTABLE_PATH"
+      "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
     ];
 
     # Every plugin in .config/nvim is lua, so the ruby and python3 providers only

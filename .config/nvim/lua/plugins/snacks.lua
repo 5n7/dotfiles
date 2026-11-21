@@ -6,6 +6,35 @@ local function picker(method, opts)
 	end
 end
 
+-- The Herdr app's terminals draw Kitty graphics with Unicode placeholders, as
+-- ghostty does, but don't answer XTVERSION, which snacks.image asks to recognise
+-- one, take no file path in place of an image's data, and report no pixel size,
+-- so a cell of the app's font (herdr-app/default.nix) at 2x is assumed. And
+-- snacks.image draws a 72-dpi image's pixel over 96/72 * scale screen pixels,
+-- so a scale of 72/96 puts it on one, and a diagram rendered at 2x shows at its
+-- own size.
+local function herdr_app(opts)
+	vim.env.SNACKS_GHOSTTY = "1"
+	vim.env.SNACKS_SSH = "1"
+	opts.image.convert = {
+		mermaid = function()
+			local theme = vim.o.background == "light" and "neutral" or "dark"
+			return { "-i", "{src}", "-o", "{file}", "-b", "transparent", "-t", theme, "-s", "2" }
+		end,
+	}
+	local terminal = require("snacks.image.terminal")
+	local size = terminal.size
+	terminal.size = function()
+		local s = size()
+		if s.cell_width == 0 then
+			s.cell_width, s.cell_height = 16, 34
+			s.width, s.height = s.columns * s.cell_width, s.rows * s.cell_height
+		end
+		s.scale = 72 / 96
+		return s
+	end
+end
+
 return {
 	"folke/snacks.nvim",
 	lazy = false,
@@ -83,6 +112,7 @@ return {
 		bigfile = { enabled = true, size = 512 * 1024 },
 		dashboard = { enabled = true },
 		explorer = { enabled = true },
+		image = { enabled = true, doc = { max_height = 60, max_width = 200 } },
 		indent = { enabled = true },
 		input = { enabled = true },
 		lazygit = { enabled = false },
@@ -129,6 +159,9 @@ return {
 		zen = { enabled = true },
 	},
 	config = function(_, opts)
+		if vim.env.HC_TERMINAL_ID then
+			herdr_app(opts)
+		end
 		require("snacks").setup(opts)
 		-- Guard against broken treesitter queries crashing the picker
 		-- (https://github.com/folke/snacks.nvim/issues/2694)
