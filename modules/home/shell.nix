@@ -1,4 +1,3 @@
-# Shell (zsh) and prompt/completion tooling.
 {
   config,
   lib,
@@ -33,7 +32,8 @@
 
   programs.sheldon = {
     enable = true;
-    # Injected via ./zsh/sheldon.zsh instead of HM's deprecated initExtra path.
+    # HM's integration evals `sheldon source` every shell; ./zsh/sheldon.zsh
+    # sources the pre-rendered output instead.
     enableZshIntegration = false;
     settings = {
       plugins = {
@@ -87,11 +87,8 @@
       extended = true;
       findNoDups = true;
       ignoreAllDups = true;
-      ignoreDups = true;
-      ignoreSpace = true;
       path = "$HOME/.local/state/zsh/history";
       save = 1000000;
-      share = true;
       size = 100000;
     };
 
@@ -123,9 +120,9 @@
     run ${config.programs.sheldon.package}/bin/sheldon lock
   '';
 
-  # Pre-render init scripts (+ zcompile) so interactive shells only `source`
-  # a cache file instead of spawning subprocesses + eval. mise is deliberately
-  # not cached; see the mise line in ./zsh/deferred.zsh.
+  # Pre-render and zcompile init scripts so interactive shells source a cache
+  # file instead of forking and evaluating. mise is not cached; see
+  # ./zsh/deferred.zsh.
   home.activation.precomputeShellInit = lib.hm.dag.entryAfter [ "sheldonLock" ] ''
     cache_shell_init() {
       local cache_file="$1"

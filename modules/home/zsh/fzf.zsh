@@ -1,16 +1,13 @@
-# Pre-rendered fzf shell integration; HM's emits `source <(fzf --zsh)`, forking
-# fzf every shell. Falls back to live `fzf --zsh` if the cache is missing.
-# The widgets below must stay after it: they override fzf's own ^T and ^R.
-# They bind into viins explicitly because this file loads before keymaps.zsh
-# runs `bindkey -v`, which relinks `main`.
+# Pre-rendered because HM's integration forks `fzf --zsh` every shell. The
+# widgets below must stay after it to override fzf's ^T and ^R. They bind into
+# viins explicitly because keymaps.zsh runs `bindkey -v` later, which relinks
+# `main`.
 if [[ -f "${XDG_CACHE_HOME:-$HOME/.cache}/fzf/init.zsh" ]]; then
     source "${XDG_CACHE_HOME:-$HOME/.cache}/fzf/init.zsh"
 else
     source <(fzf --zsh)
 fi
 
-# Shared fzf preview for directory pickers: render the README if present,
-# otherwise a tree listing.
 _fzf_dir_preview='[[ -f {}/README.md ]] && glow --style dark {}/README.md || eza -Ta --icons=always --git-ignore {}'
 
 fzf::cd() {

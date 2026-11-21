@@ -10,8 +10,8 @@
 #   gh skill preview mattpocock/skills skills/productivity/grilling
 #
 # Plugin installs run one at a time because they all write settings.json; skill
-# installs then run in parallel (MAX_JOBS at a time, default 8). Each one's
-# output is buffered and printed in order once everything has finished.
+# installs run MAX_JOBS at a time. Output is buffered and printed in order at
+# the end.
 
 set -euo pipefail
 

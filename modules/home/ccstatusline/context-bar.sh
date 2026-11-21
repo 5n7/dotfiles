@@ -1,14 +1,12 @@
 #!/bin/sh
-# Context usage progress bar with threshold colors for ccstatusline (Tokyo Night).
-#   green < 50%, yellow 50-79%, red >= 80%; empty track in a muted blue-gray.
 # Mirrors ccstatusline's own context-length computation (input + cache tokens).
-# All rendering is done inside jq so multibyte block glyphs stay intact.
+# Renders inside jq so the multibyte block glyphs stay intact.
 
 . "${0%/*}/lib.sh"
 
 jq -rj '
   def rep($s; $n): [range(0; $n) | $s] | join("");
-  (.context_window // {}) as $cw
+  .context_window as $cw
   | ($cw.context_window_size // 0) as $total
   | (
       if ($cw.current_usage | type) == "number" then $cw.current_usage
@@ -18,7 +16,7 @@ jq -rj '
          + ($cw.current_usage.cache_read_input_tokens // 0))
       else 0 end
     ) as $used
-  | if ($total | not) or $total <= 0 then ""
+  | if $total <= 0 then ""
     else
       ([$used * 100 / $total, 100] | min | floor) as $p
       | (($p * 10 / 100) | floor) as $f

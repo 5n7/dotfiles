@@ -4,9 +4,7 @@
     selected_tab: Some("#7aa2f7"),
     selection_bg: Some("#283457"),
     selection_fg: Some("#c0caf5"),
-    use_selection_fg: Some(true),
     disabled_fg: Some("#565f89"),
-    line_break: Some("¶"),
 
     // Command bar
     command_fg: Some("#c0caf5"),

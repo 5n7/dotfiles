@@ -75,20 +75,6 @@
     ]
   ],
   "flexMode": "full-minus-40",
-  "compactThreshold": 60,
   "colorLevel": 3,
-  "defaultSeparator": "\u001b[38;2;65;72;104m · \u001b[0m",
-  "inheritSeparatorColors": false,
-  "globalBold": false,
-  "gitCacheTtlSeconds": 5,
-  "minimalistMode": false,
-  "powerline": {
-    "enabled": false,
-    "separators": [""],
-    "separatorInvertBackground": [false],
-    "startCaps": [],
-    "endCaps": [],
-    "autoAlign": false,
-    "continueThemeAcrossLines": false
-  }
+  "defaultSeparator": "\u001b[38;2;65;72;104m · \u001b[0m"
 }

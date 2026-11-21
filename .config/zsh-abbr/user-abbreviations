@@ -51,7 +51,6 @@ abbr gwt="git worktree"
 abbr gmt="go mod tidy"
 
 abbr k=kubectl
-abbr kubectx=kubectl-ctx
 abbr tf=terraform
 
 abbr -g G="| rg"

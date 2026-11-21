@@ -1,4 +1,3 @@
-# vi mode keymaps. Loaded from programs.zsh.initContent.
 bindkey -v
 bindkey -M viins "jj" vi-cmd-mode
 
@@ -12,7 +11,7 @@ autoload -Uz edit-command-line
 zle -N edit-command-line
 bindkey -M viins "^e" edit-command-line
 
-# text objects (ci", da(, vi{) from the widgets zsh already ships
+# Text objects such as ci", da( and vi{.
 autoload -Uz select-bracketed select-quoted
 zle -N select-bracketed
 zle -N select-quoted
@@ -26,8 +25,8 @@ for c in {a,i}{\',\",\`}; do
 done
 unset c
 
-# hooked instead of `zle -N zle-keymap-select` because omp.zsh and the deferred
-# plugins load after this file and would clobber the widget
+# Hooked rather than `zle -N zle-keymap-select`, which omp.zsh and the deferred
+# plugins would clobber since they load after this file.
 autoload -Uz add-zle-hook-widget
 keymap::cursor-shape() {
     case ${KEYMAP:-main} in

@@ -1,7 +1,5 @@
-# ccstatusline statusline for Claude Code. The binary is built by Nix here (from
-# the npm tarball) and installed as `ccstatusline`; the runtime-managed
-# settings.json references it by name in its statusLine command. The settings
-# file and the custom widget scripts it references live under ./ccstatusline.
+# Built from the npm tarball and installed as `ccstatusline`, the name Claude
+# Code's runtime-managed settings.json calls in its statusLine command.
 { config, pkgs, ... }:
 let
   version = "2.2.30";
@@ -41,7 +39,7 @@ in
     builtins.replaceStrings [ "@configHome@" ] [ config.xdg.configHome ]
       (builtins.readFile ./ccstatusline/settings.json);
 
-  # Shared, sourced by the widgets — no exec bit.
+  # Sourced by the widgets, so no exec bit.
   xdg.configFile."ccstatusline/lib.sh".source = ./ccstatusline/lib.sh;
 
   # ccstatusline executes each widget commandPath directly, so the exec bit is required.

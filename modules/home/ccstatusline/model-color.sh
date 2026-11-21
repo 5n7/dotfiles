@@ -1,7 +1,4 @@
 #!/bin/sh
-# Model name with family-based color for ccstatusline (Tokyo Night palette).
-# Opus = purple, Sonnet = blue, Haiku = green. Strips a trailing "(... context)".
-
 . "${0%/*}/lib.sh"
 
 jq -rj '

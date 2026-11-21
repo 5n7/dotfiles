@@ -1,4 +1,3 @@
-# zsh utility functions. Loaded from programs.zsh.initContent.
 gmi() { go mod init "$(pwd | sed -e 's/.*github.com/github.com/g')"; }
 mkcd() { mkdir -p "$1" && cd "$1"; }
 targz() { tar -cvzf "$1.tar.gz" "$1"; }

@@ -1,10 +1,7 @@
 #!/bin/sh
-# Working-directory widget for ccstatusline (Tokyo Night palette).
-# Inside a git repo:  "owner/repo[/subdir]"  (owner/repo from the origin remote;
-#   falls back to the repo directory name when there is no remote).
-#   owner = orange, repo = cyan, subpath = muted blue-gray.
-# Outside a repo:     the path with $HOME collapsed to "~", in muted foreground.
-# ASCII-only output, so colors are emitted via printf %b (\033 escapes).
+# Inside a git repo, prints "owner/repo[/subdir]" with owner/repo taken from
+# the origin remote, or just the repo directory name without one. Elsewhere,
+# prints the path with $HOME collapsed to "~".
 
 . "${0%/*}/lib.sh"
 
@@ -12,7 +9,7 @@ dir=$(jq -r '.workspace.current_dir // .cwd // empty' 2>/dev/null)
 [ -z "$dir" ] && dir=$PWD
 cd "$dir" 2>/dev/null || exit 0
 
-# One git call for both values; line 1 is "true", line 2 the prefix (may be absent at repo root).
+# One git call for both values: line 1 is "true", line 2 the prefix, absent at the repo root.
 if info=$(git rev-parse --is-inside-work-tree --show-prefix 2>/dev/null); then
     { read -r _ && read -r prefix; } <<EOF
 $info
