@@ -97,8 +97,8 @@ function hcError(stderr) {
   }
 }
 
-function openPluck(mode) {
-  openOverlay({ mod: "pluck", props: { mode }, kind: "window", frame: "none" });
+function openPick(mode) {
+  openOverlay({ mod: "pick", props: { mode }, kind: "window", frame: "none" });
 }
 
 // The agents that came to need you, blocked or finished while you weren't
@@ -114,11 +114,11 @@ const ACTIONS = {
   },
 
   "open-url"() {
-    openPluck("open");
+    openPick("open");
   },
 
-  pluck() {
-    openPluck("copy");
+  pick() {
+    openPick("copy");
   },
 
   // Ctrl+F twice: a literal one for the program.

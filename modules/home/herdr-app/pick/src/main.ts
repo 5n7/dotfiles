@@ -108,7 +108,7 @@ if (
   screen === undefined ||
   !process.stdin.isTTY
 ) {
-  console.error("usage: pluck copy|open <screen>, on a terminal");
+  console.error("usage: pick copy|open <screen>, on a terminal");
   process.exit(64);
 }
 new Picker(MODES[name], screen.split("\n")).start();

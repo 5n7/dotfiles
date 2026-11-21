@@ -5,11 +5,11 @@
 import { View, div } from "gpui-kit";
 import { appHome, closeOverlay, focused, hc, notify, props, run, terminals } from "herdr";
 
-const PICKER = "mods/pluck/pluck";
+const PICKER = "mods/pick/pick";
 const LISTING_POLL_MS = 20;
 const LISTING_TIMEOUT_MS = 3000;
 
-export default class Pluck extends View {
+export default class Pick extends View {
   init(_props, cx) {
     const mode = props()?.mode === "open" ? "open" : "copy";
     cx.spawn(async (cx) => {
@@ -34,7 +34,7 @@ async function showPicker(mode, cx) {
   // A layout terminal block has no pane to show the picker in.
   if (!f?.pane) return;
   const path = `${appHome()}/${PICKER}`;
-  // Plucking over a picker starts over on the screen beneath it. The old one
+  // Picking over a picker starts over on the screen beneath it. The old one
   // goes first, since its end would take the new one out of the pane.
   const over = terminals().some((x) => x.address === f.shown && x.argv?.[0] === path);
   if (over) {

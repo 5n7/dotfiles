@@ -132,7 +132,7 @@ let
         {
           keys = [ "y" ];
           label = "Copy text";
-          action = "pluck";
+          action = "pick";
         }
         {
           keys = [ "u" ];
