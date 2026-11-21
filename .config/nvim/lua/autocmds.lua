@@ -1,10 +1,25 @@
 local group = vim.api.nvim_create_augroup("dotfiles_autocmds", { clear = true })
 
-local function lsp_picker(method)
-	return function()
-		Snacks.picker[method]()
-	end
-end
+-- Not on CursorHold: at a 200ms updatetime that stats every loaded buffer several
+-- times a second while idle, and refocusing covers the case that matters.
+vim.api.nvim_create_autocmd({ "FocusGained", "BufEnter" }, {
+	group = group,
+	command = "checktime",
+})
+
+vim.api.nvim_create_autocmd("FileType", {
+	group = group,
+	callback = function()
+		vim.opt_local.formatoptions:remove({ "c", "o", "r" })
+	end,
+})
+
+vim.api.nvim_create_autocmd("TextYankPost", {
+	group = group,
+	callback = function()
+		vim.hl.on_yank({ higroup = "IncSearch", timeout = 180 })
+	end,
+})
 
 local function update_folds(bufnr)
 	local use_treesitter = vim.bo[bufnr].buftype == "" and vim.treesitter.highlighter.active[bufnr]
@@ -15,31 +30,6 @@ local function update_folds(bufnr)
 		end
 	end
 end
-
--- Reload buffers when files change on disk. Not on CursorHold: at a 200ms
--- updatetime that stats every loaded buffer several times a second while idle,
--- and refocusing covers the case that matters.
-vim.api.nvim_create_autocmd({ "FocusGained", "BufEnter" }, {
-	group = group,
-	command = "checktime",
-})
-
--- Disable auto-comment on new lines
-vim.api.nvim_create_autocmd("FileType", {
-	group = group,
-	pattern = "*",
-	callback = function()
-		vim.opt_local.formatoptions:remove({ "c", "o", "r" })
-	end,
-})
-
--- Highlight yanked text
-vim.api.nvim_create_autocmd("TextYankPost", {
-	group = group,
-	callback = function()
-		vim.hl.on_yank({ higroup = "IncSearch", timeout = 180 })
-	end,
-})
 
 -- nvim-treesitter's main branch installs parsers but never starts them, so
 -- highlighting and the treesitter foldexpr depend on this call. Guarded because
@@ -69,7 +59,6 @@ vim.api.nvim_create_autocmd("BufWinEnter", {
 	end,
 })
 
--- LSP keymaps and inlay hints
 vim.api.nvim_create_autocmd("LspAttach", {
 	group = group,
 	callback = function(args)
@@ -78,8 +67,8 @@ vim.api.nvim_create_autocmd("LspAttach", {
 		end
 
 		-- Enabling hints on a client without the capability errors, and buf_ls has none.
-		-- Which servers actually emit hints is decided in lsp/*.lua or by the server's
-		-- defaults: gopls opts in, and rust-analyzer emits them unless told not to.
+		-- Which servers emit hints is left to lsp/*.lua or server defaults: off in
+		-- gopls, on in rust-analyzer.
 		local client = vim.lsp.get_client_by_id(args.data.client_id)
 		if client and client:supports_method("textDocument/inlayHint") then
 			vim.lsp.inlay_hint.enable(true, { bufnr = args.buf })
@@ -89,14 +78,14 @@ vim.api.nvim_create_autocmd("LspAttach", {
 		end
 
 		-- K, ]d / [d, grn, gra and gO keep Nvim's defaults.
-		map("n", "gd", lsp_picker("lsp_definitions"), "Go to definition")
+		map("n", "gd", Snacks.picker.lsp_definitions, "Go to definition")
 		map("n", "gD", vim.lsp.buf.declaration, "Go to declaration")
 		map("n", "<leader>e", vim.diagnostic.open_float, "Line diagnostics")
 
 		-- Shadow the gr* defaults to list results in the picker, not the quickfix list.
 		-- gr waits for timeoutlen because gra/grn/grt still share the prefix.
-		map("n", "gi", lsp_picker("lsp_implementations"), "Go to implementation")
-		map("n", "gr", lsp_picker("lsp_references"), "References")
-		map("n", "grt", lsp_picker("lsp_type_definitions"), "Type definition")
+		map("n", "gi", Snacks.picker.lsp_implementations, "Go to implementation")
+		map("n", "gr", Snacks.picker.lsp_references, "References")
+		map("n", "grt", Snacks.picker.lsp_type_definitions, "Type definition")
 	end,
 })

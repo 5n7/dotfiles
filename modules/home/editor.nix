@@ -14,12 +14,12 @@
     viAlias = true;
     vimAlias = true;
 
-    # LSP servers (lsp/*.lua) and snacks.image's converters. On the wrapper's PATH
-    # rather than the user profile: nothing outside nvim calls them.
+    # LSP servers (lsp/*.lua) and snacks.image's Mermaid converter, on the
+    # wrapper's PATH rather than the user profile because nothing outside nvim
+    # needs them.
     extraPackages = [
       pkgs.bash-language-server
       pkgs-unstable.gopls
-      pkgs.imagemagick
       pkgs.lua-language-server
       pkgs.mermaid-cli
       pkgs.nixd
@@ -29,25 +29,23 @@
       pkgs.yaml-language-server
     ];
 
-    # mermaid-cli renders through Chrome, which nixpkgs doesn't build for macOS;
-    # the Homebrew cask's (hosts/casks.nix) stands in.
+    # mermaid-cli renders through Chrome, which nixpkgs doesn't build for macOS, so
+    # it uses the google-chrome cask.
     extraWrapperArgs = [
       "--set"
       "PUPPETEER_EXECUTABLE_PATH"
       "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
     ];
 
-    # Every plugin in .config/nvim is lua, so the ruby and python3 providers only
-    # add an interpreter each to the closure. These are 26.05's defaults; setting
-    # them explicitly adopts the new behaviour while home.stateVersion stays 25.11.
+    # Every plugin is Lua, so these providers only add interpreters to the closure.
+    # 26.05 defaults to this, but only from home.stateVersion 26.05 (ours is 25.11).
     withPython3 = false;
     withRuby = false;
 
-    # home-manager puts its provider settings in ~/.config/nvim/init.lua, which
-    # here is an out-of-store symlink into the checkout below; writing into it
-    # fails the "outside $HOME" check in home-manager's file builder. Sideloading
-    # passes the same lua to the wrapper as `--cmd 'lua dofile(...)'`, so it runs
-    # before the checkout's own init.lua and nothing is written into the symlink.
+    # home-manager writes its provider settings into ~/.config/nvim/init.lua, an
+    # out-of-store symlink into the checkout here, which fails its "outside $HOME"
+    # check. Sideloading passes the same Lua as `--cmd 'lua dofile(...)'` instead,
+    # so it runs before the checkout's init.lua.
     sideloadInitLua = true;
   };
 

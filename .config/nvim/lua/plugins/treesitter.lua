@@ -75,7 +75,6 @@ return {
 						["@class.outer"] = "<C-v>",
 					},
 				},
-				move = { set_jumps = true },
 			})
 
 			local select_to = require("nvim-treesitter-textobjects.select").select_textobject
@@ -92,38 +91,38 @@ return {
 			}
 			for key, capture in pairs(textobjects) do
 				vim.keymap.set({ "x", "o" }, key, function()
-					select_to(capture, "textobjects")
+					select_to(capture)
 				end, { desc = "Select " .. capture })
 			end
 
 			local goto_next = move.goto_next_start
 			local goto_prev = move.goto_previous_start
 			vim.keymap.set({ "n", "x", "o" }, "]f", function()
-				goto_next("@function.outer", "textobjects")
+				goto_next("@function.outer")
 			end, { desc = "Next function" })
 			vim.keymap.set({ "n", "x", "o" }, "[f", function()
-				goto_prev("@function.outer", "textobjects")
+				goto_prev("@function.outer")
 			end, { desc = "Prev function" })
 			-- ]c / [c stay on diff navigation inside diff windows (diffview, :diffthis).
 			vim.keymap.set({ "n", "x", "o" }, "]c", function()
 				if vim.wo.diff then
 					vim.cmd.normal({ "]c", bang = true })
 				else
-					goto_next("@class.outer", "textobjects")
+					goto_next("@class.outer")
 				end
 			end, { desc = "Next class" })
 			vim.keymap.set({ "n", "x", "o" }, "[c", function()
 				if vim.wo.diff then
 					vim.cmd.normal({ "[c", bang = true })
 				else
-					goto_prev("@class.outer", "textobjects")
+					goto_prev("@class.outer")
 				end
 			end, { desc = "Prev class" })
 			vim.keymap.set({ "n", "x", "o" }, "]a", function()
-				goto_next("@parameter.outer", "textobjects")
+				goto_next("@parameter.outer")
 			end, { desc = "Next argument" })
 			vim.keymap.set({ "n", "x", "o" }, "[a", function()
-				goto_prev("@parameter.outer", "textobjects")
+				goto_prev("@parameter.outer")
 			end, { desc = "Prev argument" })
 
 			vim.keymap.set("n", "<leader>sa", function()

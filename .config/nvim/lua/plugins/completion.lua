@@ -6,7 +6,6 @@ return {
 	},
 	event = "InsertEnter",
 	opts = {
-		keymap = { preset = "default" },
 		sources = {
 			default = { "lazydev", "lsp", "path", "snippets", "buffer" },
 			providers = {

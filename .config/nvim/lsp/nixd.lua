@@ -1,4 +1,3 @@
---- Flake ref for `builtins.getFlake`, or nil when root holds no flake.
 local function flake_ref(root)
 	if not root or not vim.uv.fs_stat(vim.fs.joinpath(root, "flake.nix")) then
 		return nil
@@ -15,11 +14,9 @@ local function flake_ref(root)
 	return "path:" .. root
 end
 
---- What nixd should evaluate to answer completion in the flake at ref.
----
---- Everything is derived from the LSP root instead of hardcoding this checkout,
---- so the same config serves any flake; the `or` fallbacks make a flake without
---- system configurations yield an empty option set rather than an eval error.
+-- Derived from the LSP root rather than this checkout, so any flake works. The
+-- `or` fallbacks give a flake without system configurations an empty option set
+-- instead of an eval error.
 local function flake_settings(ref)
 	-- Both option sets read the first host in configs. Which host is picked does not
 	-- matter: the hosts here differ only in the arguments handed to the same modules,
@@ -74,7 +71,7 @@ return {
 			return
 		end
 
-		client.settings = vim.tbl_deep_extend("force", client.settings or {}, { nixd = flake_settings(ref) })
+		client.settings = vim.tbl_deep_extend("force", client.settings, { nixd = flake_settings(ref) })
 		client:notify("workspace/didChangeConfiguration", { settings = client.settings })
 	end,
 }

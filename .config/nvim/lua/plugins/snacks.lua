@@ -1,18 +1,18 @@
 local exclude = { ".git", ".next", ".wt", "node_modules" }
 
-local function picker(method, opts)
+local function picker(method)
 	return function()
-		Snacks.picker[method](opts or {})
+		Snacks.picker[method]()
 	end
 end
 
--- The Herdr app's terminals draw Kitty graphics with Unicode placeholders, as
--- ghostty does, but don't answer XTVERSION, which snacks.image asks to recognise
--- one, take no file path in place of an image's data, and report no pixel size,
--- so a cell of the app's font (herdr-app/default.nix) at 2x is assumed. And
--- snacks.image draws a 72-dpi image's pixel over 96/72 * scale screen pixels,
--- so a scale of 72/96 puts it on one, and a diagram rendered at 2x shows at its
--- own size.
+-- The Herdr app's terminals draw Kitty graphics with Unicode placeholders like
+-- ghostty, but snacks.image cannot detect that: they don't answer XTVERSION (hence
+-- SNACKS_GHOSTTY), take no file path in place of image data (hence SNACKS_SSH), and
+-- report no pixel size, so a cell of the app's font (herdr-app/default.nix) at 2x
+-- is assumed. snacks.image spreads a 72-dpi image pixel over 96/72 * scale screen
+-- pixels, so a scale of 72/96 maps it to one and a diagram rendered at 2x shows at
+-- its own size.
 local function herdr_app(opts)
 	vim.env.SNACKS_GHOSTTY = "1"
 	vim.env.SNACKS_SSH = "1"
@@ -39,16 +39,14 @@ return {
 	"folke/snacks.nvim",
 	lazy = false,
 	priority = 1000,
-	-- bigfile answers for every path over its size threshold before the extension is
-	-- ever consulted, and the filetype it lands on is permanent -- its own handler
-	-- restores `syntax` but not `filetype`. That silently costs gopls, treesitter and
-	-- completion, because nothing downstream matches on "bigfile". Generated Go is
-	-- routinely over the threshold -- merpay's .pb.go run from 1MB to 7MB -- and is
-	-- the code least worth reading and most worth navigating, so it is exempted here:
-	-- the largest of them parses in ~350ms once and is read-only besides. A priority
-	-- above bigfile's ".*" default of 0 is what settles the filetype before it runs.
-	-- vim.filetype.add anchors user patterns as `^..$` itself, so adding a `$` here
-	-- would ask for a name ending in a literal dollar sign and never match.
+	-- bigfile claims every path over its size threshold before the extension is
+	-- consulted, and its filetype sticks: its handler restores `syntax` but not
+	-- `filetype`, so gopls, treesitter and completion silently never attach.
+	-- Generated Go is routinely over the threshold (merpay's .pb.go run 1MB to 7MB)
+	-- and is the code most worth navigating, so it is exempt: the largest parses once
+	-- in ~350ms and is never edited. A priority above bigfile's ".*" default of 0
+	-- settles the filetype first. vim.filetype.add anchors patterns as `^..$` itself,
+	-- so a trailing `$` here would require a literal dollar sign and never match.
 	init = function()
 		vim.filetype.add({ pattern = { [".*%.go"] = { "go", { priority = 1 } } } })
 	end,
@@ -106,16 +104,14 @@ return {
 		},
 	},
 	opts = {
-		-- 512KB, not the 1.5MB default: this is the only thing keeping a treesitter
-		-- parser off large files now that folding starts one everywhere else. Go is
-		-- exempt from the threshold entirely; see the filetype pattern in init above.
+		-- 512KB, not the 1.5MB default: folding starts a treesitter parser everywhere
+		-- else, so this alone keeps one off large files. Go is exempt; see init above.
 		bigfile = { enabled = true, size = 512 * 1024 },
 		dashboard = { enabled = true },
 		explorer = { enabled = true },
 		image = { enabled = true, doc = { max_height = 60, max_width = 200 } },
 		indent = { enabled = true },
 		input = { enabled = true },
-		lazygit = { enabled = false },
 		notifier = { enabled = true },
 		picker = {
 			enabled = true,
@@ -137,10 +133,9 @@ return {
 					ignored = true,
 					exclude = exclude,
 				},
-				-- ignored is left at its default here, unlike the pickers above:
-				-- --no-ignore makes rg read the contents of build output and vendored
-				-- trees rather than just list their paths, which is what gets expensive
-				-- in a large workspace. <a-i> turns it on from inside the picker.
+				-- ignored stays at its default, unlike the pickers above: --no-ignore makes
+				-- rg read build output and vendored trees instead of just listing their
+				-- paths, which gets expensive in a large workspace. <a-i> toggles it.
 				grep = {
 					hidden = true,
 					exclude = exclude,
@@ -149,22 +144,18 @@ return {
 		},
 		quickfile = { enabled = true },
 		scope = { enabled = true },
-		scratch = { enabled = true },
 		statuscolumn = { enabled = true },
-		terminal = { enabled = true },
-		toggle = { enabled = true },
 		-- Each debounce window sends a documentHighlight request. Keep it long enough
 		-- that cursor movement does not queue work behind a busy server.
 		words = { enabled = true, debounce = 500 },
-		zen = { enabled = true },
 	},
 	config = function(_, opts)
 		if vim.env.HC_TERMINAL_ID then
 			herdr_app(opts)
 		end
 		require("snacks").setup(opts)
-		-- Guard against broken treesitter queries crashing the picker
-		-- (https://github.com/folke/snacks.nvim/issues/2694)
+		-- Broken treesitter queries crash the picker:
+		-- https://github.com/folke/snacks.nvim/issues/2694
 		local highlight = require("snacks.picker.util.highlight")
 		local get_highlights = highlight.get_highlights
 		highlight.get_highlights = function(...)

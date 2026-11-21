@@ -1,9 +1,8 @@
--- Used by root_dir below; the root_markers option is only consulted when root_dir is unset.
+-- A local, not the root_markers field: nvim ignores that field when root_dir is set.
 local root_markers = { ".git", "go.mod", "go.work" }
 
 local dep_dirs --- @type string[]?
 
---- GOMODCACHE and GOROOT, the read-only trees dependency sources live in.
 local function readonly_dep_dirs()
 	if dep_dirs then
 		return dep_dirs
@@ -15,7 +14,6 @@ local function readonly_dep_dirs()
 		gomodcache = vim.fs.joinpath(vim.env.GOPATH, "pkg", "mod")
 	end
 
-	-- Ask go only for what the environment did not already answer.
 	if not (gomodcache and goroot) then
 		local out = vim.system({ "go", "env", "GOMODCACHE", "GOROOT" }, { text = true }):wait()
 		if out.code == 0 then
@@ -40,7 +38,6 @@ local function readonly_dep_dirs()
 	return dirs
 end
 
---- The gopls owning the tree we are working in, preferring the one rooted at cwd.
 local function project_client()
 	local clients = vim.lsp.get_clients({ name = "gopls" })
 	local cwd = vim.fs.normalize(vim.uv.cwd() or "")
@@ -55,15 +52,13 @@ local function project_client()
 end
 
 return {
-	-- One server per nvim, deliberately not a shared -remote=auto daemon. fileWatcher
-	-- below is kqueue-backed on macOS, so every watched path costs a file descriptor:
-	-- one view of merpay-payment-service holds around 5.6k of them. A daemon outlives
-	-- the editors that connect to it, and an nvim killed without a clean shutdown
-	-- leaves its session -- and that session's watches -- behind. Sixteen stale watch
-	-- sets in, the daemon sat on kern.maxfilesperproc (122880) and every new view
-	-- failed with "too many open files", which reaches the editor as "no views" on
-	-- every request. Paying for an index per editor buys descriptors that come back
-	-- when nvim exits.
+	-- One server per nvim, not a shared -remote=auto daemon. fileWatcher below is
+	-- kqueue-backed on macOS, so each watched path holds a file descriptor, around
+	-- 5.6k for one view of merpay-payment-service. A daemon outlives its editors, and
+	-- an nvim killed uncleanly leaves its session's watches behind. Sixteen stale sets
+	-- in, the daemon hit kern.maxfilesperproc (122880) and every new view failed with
+	-- "too many open files", shown in the editor as "no views". A server per editor
+	-- gives its descriptors back when nvim exits.
 	cmd = { "gopls" },
 	filetypes = { "go", "gomod", "gotmpl", "gowork" },
 	root_dir = function(bufnr, on_dir)
@@ -72,9 +67,9 @@ return {
 		for _, dir in ipairs(readonly_dep_dirs()) do
 			if vim.startswith(fname, dir .. "/") then
 				-- Module cache dirs have their own go.mod, so marker resolution would root a
-				-- second gopls there on every jump into a dependency. That one sees only the
-				-- module it landed in, so references and implementations come back incomplete.
-				-- Passing the project client's root_dir is what makes nvim reuse it instead.
+				-- second gopls on every jump into a dependency, and that one sees only its own
+				-- module, so references and implementations come back incomplete. Passing the
+				-- project client's root_dir makes nvim reuse it instead.
 				local client = project_client()
 				if client then
 					on_dir(client.root_dir)
@@ -88,9 +83,8 @@ return {
 	end,
 	capabilities = {
 		-- Declining dynamic registration stops gopls from installing watchers in nvim,
-		-- where every filesystem event is matched against globs in Lua. A branch switch
-		-- or a build touches enough files to stall the UI doing that. fileWatcher below
-		-- moves the same job into gopls.
+		-- which matches every filesystem event against globs in Lua; a branch switch or
+		-- a build then stalls the UI. fileWatcher below moves the job into gopls.
 		workspace = { didChangeWatchedFiles = { dynamicRegistration = false } },
 	},
 	settings = {
@@ -102,16 +96,6 @@ return {
 			directoryFilters = { "-**/.wt", "-**/node_modules" },
 			-- Server-side watching, in place of the client watchers declined above.
 			fileWatcher = "fsnotify",
-			-- Inlay hints are unwanted; every kind is off.
-			hints = {
-				assignVariableTypes = false,
-				compositeLiteralFields = false,
-				compositeLiteralTypes = false,
-				constantValues = false,
-				functionTypeParameters = false,
-				parameterNames = false,
-				rangeVariableTypes = false,
-			},
 			-- Limits symbol search to workspace packages; the default searches dependencies too.
 			symbolScope = "workspace",
 		},
