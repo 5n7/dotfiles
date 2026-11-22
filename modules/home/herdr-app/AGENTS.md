@@ -22,5 +22,5 @@ The installed app documents itself, and those docs follow its version. Read them
 ## Checking a change
 
 1. A mod's code changes in herdr-extensions, whose AGENTS.md covers checking it. To build this flake against an unpushed checkout, add `--override-input herdr-extensions ~/src/github.com/5n7/herdr-extensions`.
-2. Build with `darwin-rebuild build --flake .#personal`. Applying needs `sudo darwin-rebuild switch --flake .#personal`, which the user runs.
+2. Build and apply as the root `AGENTS.md` describes.
 3. After the switch, run `herdr-app check ~/.config/herdr-app/mods/<name>` and `herdr-app status`, then `herdr-app shot` and look at the picture.
