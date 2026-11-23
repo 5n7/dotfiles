@@ -11,6 +11,7 @@
 - Follow Conventional Commits for commit messages.
 - Run `git push` only with my explicit approval.
 - Reuse the current worktree. For a new branch, use `herdr worktree create --branch <name>` in the Herdr TUI (`HERDR_ENV=1`); elsewhere, including the Herdr app, use [git-wt](https://github.com/k1LoW/git-wt): `git wt <branch>`.
+- When the work is done, remove the worktree and local branch it used, in every environment. This includes the current worktree unless it is the main checkout. The work is done once its commits are merged or pushed, or once I drop it. In the Herdr TUI, run `herdr worktree remove --workspace <ID>`; elsewhere, run `git wt -d <branch>`. Then delete any branch that remains. Make cleanup the last step. Never delete uncommitted or unpushed work. Report it and leave it in place.
 
 ## Pull requests
 
