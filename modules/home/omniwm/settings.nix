@@ -119,13 +119,7 @@ let
   ) (indices 9);
 in
 {
-  schemaVersion = 4;
-
-  monitorBarOverrides = [ ];
-  monitorDwindleOverrides = [ ];
-  monitorGapOverrides = [ ];
-  monitorNiriOverrides = [ ];
-  monitorOrientationOverrides = [ ];
+  schemaVersion = 5;
 
   appearance = {
     mode = "automatic";
@@ -162,7 +156,9 @@ in
 
   focus = {
     crossesMonitorAtEdge = true;
+    edgeNavigationInterval = 1.5;
     followsMouse = false;
+    followsMouseOnlyFullyVisible = false;
     followsWindowToMonitor = true;
     lockModifier = "off";
     moveCrossesMonitorAtEdge = true;
@@ -191,15 +187,21 @@ in
     preventSleepEnabled = false;
     systemHyperTrigger = "None";
     updateChecksEnabled = false;
+    workspaceAutoBackAndForth = false;
   };
 
   gestures = {
+    adoptNativeMoveAcrossDisplays = false;
+    adoptNativeResize = false;
+    dwindleGroupDragAcrossDisplays = "group";
     fingerCount = 3;
     invertDirection = true;
     mouseMoveModifierKey = "option";
     mouseResizeModifierKey = "option";
+    mouseWheelSensitivity = 1.0;
     overviewGestureEnabled = false;
     overviewGestureFingerCount = 4;
+    resizePreviewStyle = "live";
     scrollEnabled = true;
     scrollModifierKey = "optionShift";
     scrollSensitivity = 5.0;
@@ -210,6 +212,7 @@ in
     windowResizeEnabled = false;
     windowResizeFingerCount = 3;
     workspaceSwipeAxis = "vertical";
+    workspaceSwipeEdgeBehavior = "cycle";
     workspaceSwipeEnabled = false;
     workspaceSwipeFingerCount = 3;
   };
@@ -220,6 +223,19 @@ in
     rehideIntervalSeconds = 5.0;
   };
 
+  island.enabled = false;
+
+  keyboardModes = { };
+
+  launcher = {
+    appFolders = [ ];
+    cliFolders = [ ];
+    entries = [ ];
+    shell = "system";
+    shellExecutable = "";
+    terminal = "terminal";
+  };
+
   mouseWarp = {
     constrainToArrangement = false;
     enabled = true;
@@ -227,6 +243,7 @@ in
   };
 
   niri = {
+    allowOverscroll = false;
     alwaysCenterSingleColumn = false;
     centerFocusedColumn = "never";
     containerPrimarySpanPresets = [
@@ -237,6 +254,8 @@ in
     defaultContainerPrimarySpan = 0.5;
     edgeGaps = true;
     infiniteLoop = true;
+    moveWindowStacksIntoColumn = true;
+    overscrollVisibleStripPercent = 5;
     resizeStepPercent = 5;
     singleWindowFit = "fill";
     visibleContainerCount = 2;
@@ -286,6 +305,7 @@ in
     monitorMode = "focusedWindow";
     opacity = 1.0;
     position = "center";
+    provider = "ghostty";
     widthPercent = 50.0;
   };
 
@@ -314,11 +334,37 @@ in
 
   scratchpads.labels = { };
 
+  shellPermissions = {
+    programs = [ ];
+    widgets = [ ];
+    services = {
+      lyrics = true;
+      weather = true;
+    };
+  };
+
   statusBar = {
     showAppNames = false;
     showIcon = true;
     showWorkspaceName = false;
     useWorkspaceId = false;
+  };
+
+  statusMenu = {
+    hiddenControls = [ ];
+    hiddenMenuItems = [ ];
+    showControlHelp = true;
+    showControls = true;
+    showMenuItems = true;
+  };
+
+  windowSwitcher = {
+    commandTab = "activeWorkspace";
+    enabled = false;
+    optionTab = "allWorkspaces";
+    order = "omniLayout";
+    scope = "allWorkspaces";
+    showFooter = true;
   };
 
   workspaceBar = {
@@ -329,6 +375,8 @@ in
     deduplicateAppIcons = false;
     enabled = true;
     excludedBundleIDs = [ ];
+    fullWidth = false;
+    fullWidthNotchMode = "rightOfNotch";
     height = 22.0;
     hideEmptyWorkspaces = false;
     hideInNativeFullscreen = false;
@@ -441,12 +489,12 @@ in
       (hotkey "toggleContainerFullPrimarySpan" "Control+Option+Shift+F")
       (hotkey "expandContainerToAvailablePrimarySpan" "Control+Option+F")
       (hotkey "resetWindowSecondarySpan" "Control+Option+R")
-      (hotkey "setContainerPrimarySpan.decrease10Percent" "Control+Option+Minus")
-      (hotkey "setContainerPrimarySpan.increase10Percent" "Control+Option+Equal")
-      (unassigned "setWindowPrimarySpan.decrease10Percent")
-      (unassigned "setWindowPrimarySpan.increase10Percent")
-      (hotkey "setWindowSecondarySpan.decrease10Percent" "Option+Shift+Minus")
-      (hotkey "setWindowSecondarySpan.increase10Percent" "Option+Shift+Equal")
+      (hotkey "resizeContainerPrimarySpan.shrink" "Control+Option+Minus")
+      (hotkey "resizeContainerPrimarySpan.grow" "Control+Option+Equal")
+      (unassigned "resizeWindowPrimarySpan.shrink")
+      (unassigned "resizeWindowPrimarySpan.grow")
+      (hotkey "resizeWindowSecondarySpan.shrink" "Option+Shift+Minus")
+      (hotkey "resizeWindowSecondarySpan.grow" "Option+Shift+Equal")
       (hotkey "balanceSizes" "Control+Option+B")
       (unassigned "moveToRoot")
       (unassigned "toggleSplit")
@@ -462,7 +510,29 @@ in
       (unassigned "preselect.up")
       (unassigned "preselect.down")
       (unassigned "preselectClear")
+      (unassigned "volumeUp")
+      (unassigned "volumeDown")
+      (unassigned "volumeMute")
+      (unassigned "mediaPlayPause")
+      (unassigned "mediaNext")
+      (unassigned "mediaPrevious")
+      (unassigned "toggleShortcutPause")
+      (unassigned "beginPrefix")
+      (unassigned "toggleWindowMode")
+      (unassigned "exitKeyboardMode")
+      (unassigned "openShellApp.example")
+      (unassigned "newShellAppWindow.example")
       (hotkey "openCommandPalette" "Control+Option+Space")
+    ]
+    ++ map (mode: unassigned "openCommandPalette.${mode}") [
+      "windows"
+      "menu"
+      "clipboard"
+      "commands"
+      "applications"
+      "files"
+    ]
+    ++ [
       (hotkey "raiseAllFloatingWindows" "Option+Shift+R")
       (unassigned "toggleFloatingFocus")
       (unassigned "rescueOffscreenWindows")
@@ -477,6 +547,18 @@ in
       (hotkey "toggleWorkspaceLayout" "Option+Comma")
       (hotkey "toggleOverview" "Control+Option+O")
       (unassigned "toggleSystemStats")
+    ]
+    ++ map (widget: unassigned "toggleShellWidget.${widget}") [
+      "battery-details"
+      "clock"
+      "control-center"
+      "hidden-bar"
+      "media"
+      "notifications"
+      "system-stats"
+      "volume"
+      "wifi"
+      "workspaces"
     ];
 
   inherit workspaces;

@@ -6,11 +6,14 @@
   ...
 }:
 let
+  toml = pkgs.formats.toml { };
   settings = import ./omniwm/settings.nix;
   settingsDirectory = "${config.xdg.configHome}/omniwm";
-  settingsFile = (pkgs.formats.toml { }).generate "omniwm-settings.toml" settings;
+  settingsFile = toml.generate "omniwm-settings.toml" settings;
   settingsPath = "${settingsDirectory}/settings.toml";
   settingsSchema = settings.schemaVersion;
+  shellFile = toml.generate "omniwm-shell.toml" (import ./omniwm/shell.nix settings);
+  shellPath = "${settingsDirectory}/shell/shell.toml";
 in
 {
   launchd.agents.omniwm = {
@@ -28,8 +31,17 @@ in
   home.activation.omniWMSettings =
     lib.hm.dag.entryBetween [ "setupLaunchAgents" ] [ "writeBoundary" ]
       ''
+        # Copy rather than link: OmniWM saves Settings edits back into these files.
+        install_omniwm_file() {
+          if ! /usr/bin/cmp -s "$1" "$2"; then
+            run mkdir -p "$(dirname "$2")"
+            run cp -f "$1" "$2.home-manager-new"
+            run chmod u+w "$2.home-manager-new"
+            run mv -f "$2.home-manager-new" "$2"
+          fi
+        }
+
         settings=${lib.escapeShellArg settingsPath}
-        run mkdir -p ${lib.escapeShellArg settingsDirectory}
 
         live_schema=""
         if [ -f "$settings" ]; then
@@ -38,11 +50,10 @@ in
 
         if [ -n "$live_schema" ] && [ "$live_schema" -gt ${toString settingsSchema} ]; then
           echo "warning: refusing to replace OmniWM schema $live_schema with managed schema ${toString settingsSchema}" >&2
-        elif ! /usr/bin/cmp -s ${settingsFile} "$settings"; then
-          temporary="$settings.home-manager-new"
-          run cp -f ${settingsFile} "$temporary"
-          run chmod u+w "$temporary"
-          run mv -f "$temporary" "$settings"
+        else
+          install_omniwm_file ${settingsFile} "$settings"
         fi
+
+        install_omniwm_file ${shellFile} ${lib.escapeShellArg shellPath}
       '';
 }
