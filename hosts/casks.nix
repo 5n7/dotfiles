@@ -11,10 +11,7 @@ let
       "herdr-app"
       "karabiner-elements"
       "meetingbar"
-      {
-        name = "BarutSRB/tap/omniwm";
-        trusted = true;
-      }
+      "omniwm"
       "scroll-reverser"
       "slack"
       "spotify"
