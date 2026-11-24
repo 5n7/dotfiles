@@ -1,13 +1,13 @@
-# The app's main layout without the sidebar's brand and footer. An empty strip
-# under the window buttons, which drags the window, takes the brand's place, and
-# the usage mod, sized to fit, sits at the sidebar's foot.
+# The app's main layout without the sidebar's brand and footer, and with no
+# window drag areas since OmniWM places the window. The window buttons are moved
+# off screen, and the usage mod, sized to fit, sits at the sidebar's foot.
 {
   id = "root";
   type = "row";
   titlebar = "none";
   traffic_lights = [
-    12
-    16
+    (-100)
+    (-100)
   ];
   background = "canvas";
   terminal_padding = [
@@ -28,17 +28,13 @@
       background = "chrome";
       resizable = false;
       children = [
-        # A block needs content, so the strip is a row with none.
-        {
-          id = "titlebar";
-          type = "row";
-          size.px = 36;
-          window_drag = true;
-          children = [ ];
-        }
         {
           id = "sidebar-lists";
           type = "column";
+          padding = [
+            12
+            0
+          ];
           children = [
             {
               id = "spaces";
@@ -73,7 +69,6 @@
           id = "tabs";
           type = "block";
           size.px = 42;
-          window_drag = true;
           content.mod = "tabs";
         }
         {
@@ -99,12 +94,6 @@
                   focus = {
                     width = 1;
                     color = "accent";
-                  };
-                  header = {
-                    content.mod = "pane";
-                    height = 30;
-                    position = "top";
-                    reveal = "always";
                   };
                 };
               };
