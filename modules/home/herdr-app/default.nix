@@ -16,6 +16,7 @@ let
   prefix = extensions.mod-prefix.override { groups = import ./prefix-keys.nix { inherit lib; }; };
 
   mods = {
+    gcloud = extensions.mod-gcloud;
     pick = extensions.mod-pick;
     inherit prefix;
     usage = extensions.mod-usage;

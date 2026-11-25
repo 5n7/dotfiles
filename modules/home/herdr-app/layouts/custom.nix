@@ -1,6 +1,6 @@
 # The app's main layout without the sidebar's brand and footer, and with no
 # window drag areas since OmniWM places the window. The window buttons are moved
-# off screen, and the usage mod, sized to fit, sits at the sidebar's foot.
+# off screen.
 {
   id = "root";
   type = "row";
@@ -51,6 +51,12 @@
               content.mod = "agents";
             }
           ];
+        }
+        {
+          id = "gcloud";
+          type = "block";
+          size.px = 39;
+          content.mod = "gcloud";
         }
         {
           id = "usage";
