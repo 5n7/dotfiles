@@ -60,6 +60,7 @@ add_skill() { # <repo> <skill-path>
     spawn "$2 ($1)" "$1" "$2"
 }
 
+add_plugin anthropics/claude-plugins-official claude-security
 add_plugin anthropics/claude-plugins-official plugin-dev
 add_plugin cursor/plugins pstack
 
